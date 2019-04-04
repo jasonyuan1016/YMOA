@@ -98,8 +98,26 @@ namespace YMOA.Web.Controllers
                 strWhere += " and CreateTime < '" + adddateend.Trim() + "'";
 
             int totalCount;   //输出参数
-            string strJson = JsonHelper.ToJson(SqlPagerHelper.GetPager("tbUser", "ID,AccountName,[Password],RealName,MobilePhone,Email,IsAble,IfChangePwd,[Description],CreateTime,CreateBy,UpdateTime,UpdateBy", sort + " " + order, pagesize, pageindex, strWhere, out totalCount));
+            DataTable dt = SqlPagerHelper.GetPager("tbUser", "ID,AccountName,[Password],RealName,MobilePhone,Email,IsAble,IfChangePwd,[Description],CreateTime,CreateBy,UpdateTime,UpdateBy", sort + " " + order, pagesize, pageindex, strWhere, out totalCount);
+            dt.Columns.Add(new DataColumn("UserRoleId"));
+            dt.Columns.Add(new DataColumn("UserRole"));
+            dt.Columns.Add(new DataColumn("UserDepartmentId"));
+            dt.Columns.Add(new DataColumn("UserDepartment"));
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataTable dtrole = DALCore.GetRoleDAL().GetRoleByUserId(Convert.ToInt32(dt.Rows[i]["ID"]));
+                DataTable dtdepartment = DALCore.GetDepartmentDAL().GetDepartmentByUserId(Convert.ToInt32(dt.Rows[i]["ID"]));
+                dt.Rows[i]["UserRoleId"] = JsonHelper.ColumnToJson(dtrole, 0);
+                dt.Rows[i]["UserRole"] = JsonHelper.ColumnToJson(dtrole, 1);
+                dt.Rows[i]["UserDepartmentId"] = JsonHelper.ColumnToJson(dtdepartment, 0);
+                dt.Rows[i]["UserDepartment"] = JsonHelper.ColumnToJson(dtdepartment, 1);
+            }
+            #warning 待优化，通过视图关联角色，部门信息
+            string strJson = JsonHelper.ToJson(dt);
             var jsonResult = new { total = totalCount.ToString(), rows = strJson };
+
+            //string strJson = JsonHelper.ToJson(SqlPagerHelper.GetPager("tbUser", "ID,AccountName,[Password],RealName,MobilePhone,Email,IsAble,IfChangePwd,[Description],CreateTime,CreateBy,UpdateTime,UpdateBy", sort + " " + order, pagesize, pageindex, strWhere, out totalCount));
+            //var jsonResult = new { total = totalCount.ToString(), rows = strJson };
             return Content("{\"total\": " + totalCount.ToString() + ",\"rows\":" + strJson + "}");
         }
 
