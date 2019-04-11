@@ -12,142 +12,177 @@ namespace YMOA.DALFactory
     /// </summary>
     public class DALCore
     {
+        private static DALCore singleInstance;
+        #region public static DALCore LoadAssamblyType<T>()
         /// <summary>
-        /// 根据传入的类名获取实例对象
+        /// 
         /// </summary>
-        private static object GetInstance(string name)
+        /// <returns></returns>
+        public static DALCore GetInstance()
+        {
+            if (singleInstance == null)
+            {
+                singleInstance = new DALCore();
+            }
+            return singleInstance;
+        }
+        #endregion
+
+        #region internal static T LoadAssamblyType<T>(string _type)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="fullType"></param>
+        /// <returns></returns>
+        internal static T LoadAssamblyType<T>(string _type) where T : class
         {
             string configName = System.Configuration.ConfigurationManager.AppSettings["DataAccess"];
             if (string.IsNullOrEmpty(configName))
             {
                 throw new InvalidOperationException();    //抛错，代码不会向下执行了
             }
+            return LoadAssamblyType<T>(configName, _type);
 
-            string className = string.Format("{0}.{1}", configName, name);  //AchieveDAL.传入的类名name
-            //加载程序集
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.Load(configName);
-            //创建指定类型的对象实例
-            return assembly.CreateInstance(className);
+        }
+        #endregion
+
+        #region internal static T LoadAssamblyType<T>(string fullType)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="assemblyName"></param>
+        /// <param name="_type"></param>
+        /// <returns></returns>
+        internal static T LoadAssamblyType<T>(string assemblyName, string _type) where T : class
+        {
+
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.Load(assemblyName);
+
+            if (assembly != null)
+            {
+                Type loadType = assembly.GetType(assemblyName + "." + _type);
+
+                if (loadType != null)
+                {
+                    return (T)Activator.CreateInstance(loadType);
+                }
+            }
+
+            return default(T);
+        }
+        #endregion
+
+
+        public IAuthorityDAL Authority
+        {
+            get {  return LoadAssamblyType<IAuthorityDAL>("AuthorityDAL");}
         }
 
-        public static IAuthorityDAL GetAuthorityDAL()
+        public IMenuDAL Menu
         {
-            IAuthorityDAL dal = GetInstance("Authority") as IAuthorityDAL;
-            return dal;
-        }
-
-        public static IMenuDAL GetMenuDAL()
-        {
-            IMenuDAL dal = GetInstance("MenuDAL") as IMenuDAL;
-            return dal;
+            get { return LoadAssamblyType<IMenuDAL>("MenuDAL"); }
         }
 
 
-        public static IRoleDAL GetRoleDAL()
+        public IRoleDAL Role
         {
-            IRoleDAL dal = GetInstance("RoleDAL") as IRoleDAL;
-            return dal;
+            get { return LoadAssamblyType<IRoleDAL>("RoleDAL"); }
         }
 
-        public static IUserDAL GetUserDAL()
+        public IUserDAL User
         {
-            IUserDAL dal = GetInstance("UserDAL") as IUserDAL;
-            return dal;
+            get { return LoadAssamblyType<IUserDAL>("UserDAL"); }
         }
 
-        public static IUserRoleDAL GetUserRoleDAL()
+        public IUserRoleDAL UserRole
         {
-            IUserRoleDAL dal = GetInstance("UserRoleDAL") as IUserRoleDAL;
-            return dal;
+            get { return LoadAssamblyType<IUserRoleDAL>("UserRoleDAL"); }
         }
 
-        public static IRequestionTypeDAL GetRequestionTypeDAL()
+        public IRequestionTypeDAL RequestionType
         {
-            IRequestionTypeDAL dal = GetInstance("RequestionTypeDAL") as IRequestionTypeDAL;
-            return dal;
+            get { return LoadAssamblyType<IRequestionTypeDAL>("RequestionTypeDAL"); }
         }
 
-        public static IRequestionDAL GetRequestionDAL()
+        public IRequestionDAL Requestion
         {
-            IRequestionDAL dal = GetInstance("RequestionDAL") as IRequestionDAL;
-            return dal;
+            get { return LoadAssamblyType<IRequestionDAL>("RequestionDAL"); }
         }
 
-        public static IButtonDAL GetButtonDAL()
+        public IButtonDAL Button
         {
-            IButtonDAL button = GetInstance("ButtonDAL") as IButtonDAL;
-            return button;
+            get { return LoadAssamblyType<IButtonDAL>("ButtonDAL"); }
         }
 
-        public static IMenuButtonDAL GetMenuButtonDAL()
+        public IMenuButtonDAL MenuButton
         {
-            IMenuButtonDAL dal = GetInstance("MenuButtonDAL") as IMenuButtonDAL;
-            return dal;
+            get { return LoadAssamblyType<IMenuButtonDAL>("MenuButtonDAL"); }
         }
 
-        public static IRoleMenuButtonDAL GetRoleMenuButtonDAL()
+        public IRoleMenuButtonDAL RoleMenuButton
         {
-            IRoleMenuButtonDAL dal = GetInstance("RoleMenuButtonDAL") as IRoleMenuButtonDAL;
-            return dal;
+            get { return LoadAssamblyType<IRoleMenuButtonDAL>("RoleMenuButtonDAL"); }
         }
 
-        public static IDepartmentDAL GetDepartmentDAL()
+        public IDepartmentDAL Department
         {
-            IDepartmentDAL dal = GetInstance("DepartmentDAL") as IDepartmentDAL;
-            return dal;
+            get
+            { return LoadAssamblyType<IDepartmentDAL>("DepartmentDAL"); }
         }
 
-        public static IUserDepartmentDAL GetUserDepartmentDAL()
+        public IUserDepartmentDAL UserDepartment
         {
-            IUserDepartmentDAL dal = GetInstance("UserDepartmentDAL") as IUserDepartmentDAL;
-            return dal;
+            get
+            { return LoadAssamblyType<IUserDepartmentDAL>("UserDepartmentDAL"); }
         }
 
-        public static INewsTypeDAL GetNewsTypeDAL()
+        public INewsTypeDAL NewsType
         {
-            INewsTypeDAL dal = GetInstance("NewsTypeDAL") as INewsTypeDAL;
-            return dal;
+            get
+            { return LoadAssamblyType<INewsTypeDAL>("NewsTypeDAL"); }
         }
 
-        public static INewsDAL GetNewsDAL()
+        public INewsDAL News
         {
-            INewsDAL dal = GetInstance("NewsDAL") as INewsDAL;
-            return dal;
+            get
+            { return LoadAssamblyType<INewsDAL>("NewsDAL"); }
         }
 
-        public static IHtmlTypeDAL GetHtmlTypeDAL()
+        public IHtmlTypeDAL HtmlType
         {
-            IHtmlTypeDAL dal = GetInstance("HtmlTypeDAL") as IHtmlTypeDAL;
-            return dal;
+            get
+            { return LoadAssamblyType<IHtmlTypeDAL>("HtmlTypeDAL"); }
         }
 
-        public static IDataTypeDAL GetDataTypeDAL()
+        public IDataTypeDAL DataType
         {
-            IDataTypeDAL dal = GetInstance("DataTypeDAL") as IDataTypeDAL;
-            return dal;
+            get
+            { return LoadAssamblyType<IDataTypeDAL>("DataTypeDAL"); }
         }
 
-        public static ITableDAL GetTableDAL()
+        public ITableDAL Table
         {
-            ITableDAL dal = GetInstance("TableDAL") as ITableDAL;
-            return dal;
+            get
+            { return LoadAssamblyType<ITableDAL>("TableDAL"); }
         }
-        public static IFieldsDAL GetFieldsDAL()
+        public IFieldsDAL Fields
         {
-            IFieldsDAL dal = GetInstance("FieldsDAL") as IFieldsDAL;
-            return dal;
-        }
-
-        public static IIconsDAL GetIconsDAL()
-        {
-            IIconsDAL dal = GetInstance("IconsDAL") as IIconsDAL;
-            return dal;
+            get
+            { return LoadAssamblyType<IFieldsDAL>("FieldsDAL"); }
         }
 
-        public static ILoginIpLogDAL GetLoginIpLogDAL()
+        public IIconsDAL Icons
         {
-            ILoginIpLogDAL dal = GetInstance("LoginIpLogDAL") as ILoginIpLogDAL;
-            return dal;
+            get
+            { return LoadAssamblyType<IIconsDAL>("IconsDAL"); }
+        }
+
+        public ILoginIpLogDAL LoginIpLog
+        {
+            get
+            { return LoadAssamblyType<ILoginIpLogDAL>("LoginIpLogDAL"); }
         }
     }
 }

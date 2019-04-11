@@ -12,7 +12,7 @@ using System.Web.Mvc;
 namespace YMOA.Web.Controllers
 {
     [App_Start.JudgmentLogin]
-    public class IconsController : Controller
+    public class IconsController : BaseController
     {
         //
         // GET: /Icons/
@@ -65,14 +65,14 @@ namespace YMOA.Web.Controllers
                 typeAdd.CreateTime = DateTime.Now;
                 typeAdd.UpdateBy = uInfo.AccountName;
                 typeAdd.UpdateTime = DateTime.Now;
-                bool exists = DALCore.GetIconsDAL().ExistsIconName(typeAdd.IconName);
+                bool exists = DALUtility.Icons.ExistsIconName(typeAdd.IconName);
                 if (exists)
                 {
                     return Content("{\"msg\":\"添加失败,图标名称已存在！\",\"success\":false}");
                 }
                 else
                 {
-                    int typeId = DALCore.GetIconsDAL().Add(typeAdd);
+                    int typeId = DALUtility.Icons.Add(typeAdd);
                     if (typeId > 0)
                     {
                         return Content("{\"msg\":\"添加成功！\",\"success\":true}");
@@ -111,19 +111,19 @@ namespace YMOA.Web.Controllers
                 int id = Convert.ToInt32(Request["id"]);
                 string originalName = Request["originalName"];
 
-                IconsEntity typeEdit = DALCore.GetIconsDAL().GetModel(id);
+                IconsEntity typeEdit = DALUtility.Icons.GetModel(id);
                 typeEdit.IconName = Request["IconName"];
                 typeEdit.IconCssInfo = Request["IconCssInfo"];
                 typeEdit.UpdateBy = uInfo.AccountName;
                 typeEdit.UpdateTime = DateTime.Now;
-                bool exists = DALCore.GetIconsDAL().ExistsIconName(typeEdit.IconName);
+                bool exists = DALUtility.Icons.ExistsIconName(typeEdit.IconName);
                 if (typeEdit.IconName != originalName && exists)
                 {
                     return Content("{\"msg\":\"修改失败,图标名称已存在！\",\"success\":false}");
                 }
                 else
                 {
-                    int result = DALCore.GetIconsDAL().Update(typeEdit);
+                    int result = DALUtility.Icons.Update(typeEdit);
                     if (result > 0)
                     {
                         return Content("{\"msg\":\"修改成功！\",\"success\":true}");
@@ -147,7 +147,7 @@ namespace YMOA.Web.Controllers
                 string Ids = Request["IDs"] == null ? "" : Request["IDs"];
                 if (!string.IsNullOrEmpty(Ids))
                 {
-                    if (DALCore.GetIconsDAL().DeleteList(Ids))
+                    if (DALUtility.Icons.DeleteList(Ids))
                     {
                         return Content("{\"msg\":\"删除成功！\",\"success\":true}");
                     }
@@ -173,7 +173,7 @@ namespace YMOA.Web.Controllers
         /// <returns></returns>
         public ActionResult GetAllIconsTree()
         {
-            DataTable dt = DALCore.GetIconsDAL().GetList("1=1");
+            DataTable dt = DALUtility.Icons.GetList("1=1");
 
             string sb = "[";//[{\"id\":\"0\",\"text\":\"图标\",\"iconCls\":\"icon-application_view_icons\",\"children\": [
             foreach (DataRow dr in dt.Rows)

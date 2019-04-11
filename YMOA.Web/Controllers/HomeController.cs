@@ -54,7 +54,7 @@ namespace YMOA.Web.Controllers
         public ActionResult LoadMenuData()
         {
             UserEntity uInfo = ViewData["Account"] as UserEntity;
-            DataTable dt = DALCore.GetMenuDAL().GetUserMenu(uInfo.ID);
+            DataTable dt = DALUtility.Menu.GetUserMenu(uInfo.ID);
             StringBuilder sb = new StringBuilder();
             sb.Append("[");
             DataRow[] rows = dt.Select("menuparentid = 0");   //赋权限每个角色都必须有父节点的权限，否则一个都不输出了
@@ -134,7 +134,7 @@ namespace YMOA.Web.Controllers
                 UserEntity uInfo = ViewData["Account"] as UserEntity;
                 if (uInfo != null)
                 {
-                    DataTable dt = DALCore.GetMenuDAL().GetUserMenuData(uInfo.ID, int.Parse(id));
+                    DataTable dt = DALUtility.Menu.GetUserMenuData(uInfo.ID, int.Parse(id));
                     List<SysModuleNavModel> list = new List<SysModuleNavModel>();
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
@@ -143,7 +143,7 @@ namespace YMOA.Web.Controllers
                         model.text = dt.Rows[i]["menuname"].ToString();
                         model.attributes = dt.Rows[i]["linkaddress"].ToString();
                         model.iconCls = dt.Rows[i]["icon"].ToString();
-                        if (DALCore.GetMenuDAL().GetAllMenu(" AND ParentId= " + model.id).Rows.Count > 0)
+                        if (DALUtility.Menu.GetAllMenu(" AND ParentId= " + model.id).Rows.Count > 0)
                         {
                             model.state = "closed";
                         }

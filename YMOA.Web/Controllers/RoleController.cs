@@ -11,7 +11,7 @@ using System.Data;
 namespace YMOA.Web.Controllers
 {
     [App_Start.JudgmentLogin]
-    public class RoleController : Controller
+    public class RoleController : BaseController
     {
         //
         // GET: /Role/
@@ -57,33 +57,27 @@ namespace YMOA.Web.Controllers
         /// <returns></returns>
         public ActionResult AddRole()
         {
-            try
+
+            string rolename = Request["RoleName"];
+            string description = Request["Description"];
+
+            UserEntity uInfo = ViewData["Account"] as UserEntity;
+            RoleEntity roleAdd = new RoleEntity();
+            roleAdd.RoleName = rolename.Trim();
+            roleAdd.Description = description.Trim();
+            roleAdd.CreateBy = uInfo.AccountName;
+            roleAdd.CreateTime = DateTime.Now;
+            roleAdd.UpdateBy = uInfo.AccountName;
+            roleAdd.UpdateTime = DateTime.Now;
+
+            int roleId = DALUtility.Role.AddRole(roleAdd);
+            if (roleId > 0)
             {
-                string rolename = Request["RoleName"];
-                string description = Request["Description"];
-
-                UserEntity uInfo = ViewData["Account"] as UserEntity;
-                RoleEntity roleAdd = new RoleEntity();
-                roleAdd.RoleName = rolename.Trim();
-                roleAdd.Description = description.Trim();
-                roleAdd.CreateBy = uInfo.AccountName;
-                roleAdd.CreateTime = DateTime.Now;
-                roleAdd.UpdateBy = uInfo.AccountName;
-                roleAdd.UpdateTime = DateTime.Now;
-
-                int roleId = DALCore.GetRoleDAL().AddRole(roleAdd);
-                if (roleId > 0)
-                {
-                    return Content("{\"msg\":\"添加成功！\",\"success\":true}");
-                }
-                else
-                {
-                    return Content("{\"msg\":\"添加失败！\",\"success\":false}");
-                }
+                return Content("{\"msg\":\"添加成功！\",\"success\":true}");
             }
-            catch (Exception ex)
+            else
             {
-                return Content("{\"msg\":\"添加失败," + ex.Message + "\",\"success\":false}");
+                return Content("{\"msg\":\"添加失败！\",\"success\":false}");
             }
         }
 
@@ -115,11 +109,11 @@ namespace YMOA.Web.Controllers
                 roleEdit.Description = description.Trim();
                 roleEdit.UpdateBy = uInfo.AccountName;
                 roleEdit.UpdateTime = DateTime.Now;
-                if (roleEdit.RoleName != originalName && DALCore.GetRoleDAL().GetRoleByRoleName(roleEdit.RoleName) != null)
+                if (roleEdit.RoleName != originalName && DALUtility.Role.GetRoleByRoleName(roleEdit.RoleName) != null)
                 {
                     throw new Exception("已经存在此角色！");
                 }
-                if (DALCore.GetRoleDAL().EditRole(roleEdit))
+                if (DALUtility.Role.EditRole(roleEdit))
                 {
                     return Content("{\"msg\":\"修改成功！\",\"success\":true}");
                 }
@@ -141,7 +135,7 @@ namespace YMOA.Web.Controllers
                 string Ids = Request["IDs"] == null ? "" : Request["IDs"];
                 if (!string.IsNullOrEmpty(Ids))
                 {
-                    if (DALCore.GetRoleDAL().DeleteRole(int.Parse(Ids)))
+                    if (DALUtility.Role.DeleteRole(int.Parse(Ids)))
                     {
                         return Content("{\"msg\":\"删除成功！\",\"success\":true}");
                     }
@@ -180,7 +174,7 @@ namespace YMOA.Web.Controllers
             {
                 string menuIds = Request["menuIds"].Trim(',');
                 int roleId = Convert.ToInt32(Request["roleId"]);
-                if (DALCore.GetRoleDAL().SetRoleMenu(roleId, menuIds))
+                if (DALUtility.Role.SetRoleMenu(roleId, menuIds))
                 {
                     return Content("{\"msg\":\"授权成功！\",\"success\":true}");
                 }
@@ -206,7 +200,7 @@ namespace YMOA.Web.Controllers
             string orderRoleUser = Request["order"];  //排序方式 asc或者desc
             int pageindexRoleUser = int.Parse(Request["page"]);
             int pagesizeRoleUser = int.Parse(Request["rows"]);
-            var dal = DALCore.GetRoleDAL();
+            var dal = DALUtility.Role;
             int totalCount = dal.GetRoleUserCount(roleUserId);
             DataTable dt = dal.GetPagerRoleUser(roleUserId, sortRoleUser + " " + orderRoleUser, pagesizeRoleUser, pageindexRoleUser);
             string strJson = JsonHelper.ToJson(dt);
@@ -224,12 +218,12 @@ namespace YMOA.Web.Controllers
             {
                 string menuButtonId = Request["menuButtonId"].Trim(',');
                 int roleId = Convert.ToInt32(Request["roleId"]);
-                var dal = DALCore.GetRoleDAL();
-                bool res; //DALCore.GetRoleDAL().Authorize(roleId, menuButtonId); //DALCore.GetRoleDAL().Authorize(roleId, menuButtonId)
+                var dal = DALUtility.Role;
+                bool res; //DALUtility.Role.Authorize(roleId, menuButtonId); //DALUtility.Role.Authorize(roleId, menuButtonId)
                 try
                 {
                     //先删除所有权限 再重新批量插入
-                    DALCore.GetMenuButtonDAL().DelRoleMenuButtonByRoleId(roleId);
+                    DALUtility.MenuButton.DelRoleMenuButtonByRoleId(roleId);
                     List<RoleMenuButtonEntity> addlist = new List<RoleMenuButtonEntity>();
 
                     string[] menubuttonids = menuButtonId.Split(',');

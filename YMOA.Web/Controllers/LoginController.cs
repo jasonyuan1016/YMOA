@@ -29,7 +29,7 @@ namespace YMOA.Web.Controllers
         {
             try
             {
-                var iUserDal = DALCore.GetUserDAL();
+                var iUserDal = DALUtility.User;
                 var currentUser = iUserDal.UserLogin(userInfo.AccountName, Md5.GetMD5String(userInfo.Password));
                 if (currentUser != null)
                 {
@@ -54,7 +54,7 @@ namespace YMOA.Web.Controllers
                     logEntity.CreateTime = DateTime.Now;
                     logEntity.UpdateBy = currentUser.AccountName;
                     logEntity.UpdateTime = DateTime.Now;
-                    DALCore.GetLoginIpLogDAL().Add(logEntity);
+                    DALUtility.LoginIpLog.Add(logEntity);
 
                     return Content("OK");
                 }

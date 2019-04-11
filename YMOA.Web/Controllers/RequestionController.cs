@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace YMOA.Web.Controllers
 {
     [App_Start.JudgmentLogin]
-    public class RequestionController : Controller
+    public class RequestionController : BaseController
     {
         //
         // GET: /Requestion/
@@ -86,7 +86,7 @@ namespace YMOA.Web.Controllers
                 requestionAdd.UpdateBy = uInfo.AccountName;
                 requestionAdd.UpdateTime = DateTime.Now;
 
-                int id = DALCore.GetRequestionDAL().Add(requestionAdd);
+                int id = DALUtility.Requestion.Add(requestionAdd);
                 if (id > 0)
                 {
                     return Content("{\"msg\":\"添加成功！\",\"success\":true}");
@@ -112,7 +112,7 @@ namespace YMOA.Web.Controllers
             if (!string.IsNullOrEmpty(Request["id"]))
             {
                 id = int.Parse(Request["id"]);
-                RequestionEntity requestionEdit = DALCore.GetRequestionDAL().GetModel(id);
+                RequestionEntity requestionEdit = DALUtility.Requestion.GetModel(id);
                 return View(requestionEdit);
             }
             return new EmptyResult();
@@ -127,13 +127,13 @@ namespace YMOA.Web.Controllers
                 UserEntity uInfo = ViewData["Account"] as UserEntity;
 
                 int id = Convert.ToInt32(Request["id"]);
-                RequestionEntity requestionEdit = DALCore.GetRequestionDAL().GetModel(id);
+                RequestionEntity requestionEdit = DALUtility.Requestion.GetModel(id);
                 requestionEdit.ftitle = Request["FTitle"];
                 requestionEdit.ftypeid = int.Parse(Request["FTypeId"]);
                 requestionEdit.fcontent = Request["FContent"];
                 requestionEdit.UpdateBy = uInfo.AccountName;
                 requestionEdit.UpdateTime = DateTime.Now;
-                int result = DALCore.GetRequestionDAL().Update(requestionEdit);
+                int result = DALUtility.Requestion.Update(requestionEdit);
                 if (result > 0)
                 {
                     return Content("{\"msg\":\"修改成功！\",\"success\":true}");
@@ -156,7 +156,7 @@ namespace YMOA.Web.Controllers
                 string Ids = Request["IDs"] == null ? "" : Request["IDs"];
                 if (!string.IsNullOrEmpty(Ids))
                 {
-                    if (DALCore.GetRequestionDAL().DeleteList(Ids))
+                    if (DALUtility.Requestion.DeleteList(Ids))
                     {
                         return Content("{\"msg\":\"删除成功！\",\"success\":true}");
                     }

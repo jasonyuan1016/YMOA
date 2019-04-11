@@ -12,7 +12,7 @@ using System.Text;
 namespace YMOA.Web.Controllers
 {
     [App_Start.JudgmentLogin]
-    public class MenuController : Controller
+    public class MenuController : BaseController
     {
         //
         // GET: /Menu/
@@ -95,7 +95,7 @@ namespace YMOA.Web.Controllers
                 menuAdd.UpdateBy = uInfo.AccountName;
                 menuAdd.UpdateTime = DateTime.Now;
 
-                int menuId = DALCore.GetMenuDAL().AddMenu(menuAdd);
+                int menuId = DALUtility.Menu.AddMenu(menuAdd);
                 if (menuId > 0)
                 {
                     return Content("{\"msg\":\"添加成功！\",\"success\":true}");
@@ -151,11 +151,11 @@ namespace YMOA.Web.Controllers
                 menuEdit.UpdateBy = uInfo.AccountName;
                 menuEdit.UpdateTime = DateTime.Now;
 
-                if (menuEdit.Name != originalName && DALCore.GetMenuDAL().GetMenuByName(menuEdit.Name) != null)
+                if (menuEdit.Name != originalName && DALUtility.Menu.GetMenuByName(menuEdit.Name) != null)
                 {
                     throw new Exception("已经存在此菜单！");
                 }
-                bool result = DALCore.GetMenuDAL().EditMenu(menuEdit);
+                bool result = DALUtility.Menu.EditMenu(menuEdit);
                 if (result)
                 {
                     return Content("{\"msg\":\"修改成功！\",\"success\":true}");
@@ -178,7 +178,7 @@ namespace YMOA.Web.Controllers
                 string Ids = Request["IDs"] == null ? "" : Request["IDs"];
                 if (!string.IsNullOrEmpty(Ids))
                 {
-                    if (DALCore.GetMenuDAL().DeleteMenu(Ids))
+                    if (DALUtility.Menu.DeleteMenu(Ids))
                     {
                         return Content("{\"msg\":\"删除成功！\",\"success\":true}");
                     }
@@ -204,7 +204,7 @@ namespace YMOA.Web.Controllers
         /// <returns></returns>
         public ActionResult GetAllMenuTree()
         {
-            DataTable dt = DALCore.GetMenuDAL().GetAllMenu("");
+            DataTable dt = DALUtility.Menu.GetAllMenu("");
             StringBuilder sb = new StringBuilder();
             sb.Append("[");
             DataRow[] rows = dt.Select("parentid = 0");   //赋权限每个角色都必须有父节点的权限，否则一个都不输出了
@@ -261,7 +261,7 @@ namespace YMOA.Web.Controllers
         public ActionResult GetAllRoleMenuTree()
         {
             int roleid = Convert.ToInt32(Request["roleid"]);
-            string roleMenuJson = JsonHelper.ToJson(DALCore.GetMenuDAL().GetAllMenu(roleid));
+            string roleMenuJson = JsonHelper.ToJson(DALUtility.Menu.GetAllMenu(roleid));
             return Content(roleMenuJson);
         }
 
@@ -283,7 +283,7 @@ namespace YMOA.Web.Controllers
             string menuid = Request["menuid"];
             string buttonids = Request["buttonids"];
 
-            bool result = DALCore.GetMenuButtonDAL().SaveMenuButton(menuid, buttonids);
+            bool result = DALUtility.MenuButton.SaveMenuButton(menuid, buttonids);
             if (result)
             {
                 return Content("{\"msg\":\"分配按钮成功！\",\"success\":true}");
@@ -301,7 +301,7 @@ namespace YMOA.Web.Controllers
         public ActionResult GetMenuButtonByMenuID()
         {
             int mid = Convert.ToInt32(Request["menuid"]);  //菜单id
-            string jsonStr = JsonHelper.ToJson(DALCore.GetMenuButtonDAL().GetButtonByMenuId(mid));
+            string jsonStr = JsonHelper.ToJson(DALUtility.MenuButton.GetButtonByMenuId(mid));
             return Content(jsonStr);
         }
 
@@ -312,7 +312,7 @@ namespace YMOA.Web.Controllers
         public ActionResult GetAllRoleMenuButtonTree()
         {
             int roleid = Convert.ToInt32(Request["roleid"]);
-            DataTable dt = DALCore.GetMenuDAL().GetAllMenuButton(roleid);
+            DataTable dt = DALUtility.Menu.GetAllMenuButton(roleid);
             StringBuilder sb = new StringBuilder();
             sb.Append("[");
             DataRow[] rows = dt.Select("parentid = 0");

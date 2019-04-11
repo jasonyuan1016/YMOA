@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace YMOA.Web.Controllers
 {
     [App_Start.JudgmentLogin]
-    public class HtmlTypeController : Controller
+    public class HtmlTypeController : BaseController
     {
         public ActionResult Index()
         {
@@ -62,14 +62,14 @@ namespace YMOA.Web.Controllers
                 typeAdd.UpdateBy = uInfo.AccountName;
                 typeAdd.UpdateTime = DateTime.Now;
                 
-                bool exists = DALCore.GetHtmlTypeDAL().Exists(typeAdd.HtmlTypeName);
+                bool exists = DALUtility.HtmlType.Exists(typeAdd.HtmlTypeName);
                 if (exists)
                 {
                     return Content("{\"msg\":\"添加失败,类型名称已存在！\",\"success\":false}");
                 }
                 else
                 {
-                    int typeId = DALCore.GetHtmlTypeDAL().Add(typeAdd);
+                    int typeId = DALUtility.HtmlType.Add(typeAdd);
                     if (typeId > 0)
                     {
                         return Content("{\"msg\":\"添加成功！\",\"success\":true}");
@@ -108,19 +108,19 @@ namespace YMOA.Web.Controllers
                 int id = Convert.ToInt32(Request["id"]);
                 string originalName = Request["originalName"];
 
-                HtmlTypeEntity typeEdit = DALCore.GetHtmlTypeDAL().GetModel(id);
+                HtmlTypeEntity typeEdit = DALUtility.HtmlType.GetModel(id);
                 typeEdit.HtmlTypeName = Request["HtmlTypeName"];
                 typeEdit.Sort = int.Parse(Request["Sort"]);
                 typeEdit.UpdateBy = uInfo.AccountName;
                 typeEdit.UpdateTime = DateTime.Now;
-                bool exists = DALCore.GetHtmlTypeDAL().Exists(typeEdit.HtmlTypeName);
+                bool exists = DALUtility.HtmlType.Exists(typeEdit.HtmlTypeName);
                 if (typeEdit.HtmlTypeName != originalName && exists)
                 {
                     return Content("{\"msg\":\"修改失败,类型名称已存在！\",\"success\":false}");
                 }
                 else
                 {
-                    int result = DALCore.GetHtmlTypeDAL().Update(typeEdit);
+                    int result = DALUtility.HtmlType.Update(typeEdit);
                     if (result > 0)
                     {
                         return Content("{\"msg\":\"修改成功！\",\"success\":true}");
@@ -144,7 +144,7 @@ namespace YMOA.Web.Controllers
                 string Ids = Request["IDs"] == null ? "" : Request["IDs"];
                 if (!string.IsNullOrEmpty(Ids))
                 {
-                    if (DALCore.GetHtmlTypeDAL().DeleteList(Ids))
+                    if (DALUtility.HtmlType.DeleteList(Ids))
                     {
                         return Content("{\"msg\":\"删除成功！\",\"success\":true}");
                     }
@@ -166,7 +166,7 @@ namespace YMOA.Web.Controllers
 
         public ActionResult GetAllHtmlTypeDrop()
         {
-            string roleJson = JsonHelper.ToJson(DALCore.GetHtmlTypeDAL().GetList("1=1"));
+            string roleJson = JsonHelper.ToJson(DALUtility.HtmlType.GetList("1=1"));
             return Content(roleJson);
 
         }

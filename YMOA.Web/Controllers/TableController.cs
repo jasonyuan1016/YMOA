@@ -11,7 +11,7 @@ using System.Web.Mvc;
 namespace YMOA.Web.Controllers
 {
     [App_Start.JudgmentLogin]
-    public class TableController : Controller
+    public class TableController : BaseController
     {
         public ActionResult Index()
         {
@@ -67,8 +67,8 @@ namespace YMOA.Web.Controllers
                 typeAdd.UpdateBy = uInfo.AccountName;
                 typeAdd.UpdateTime = DateTime.Now;
 
-                bool ExistsTabName = DALCore.GetTableDAL().ExistsTabName(typeAdd.TabName);
-                bool ExistsTabViewName = DALCore.GetTableDAL().ExistsTabViewName(typeAdd.TabViewName);
+                bool ExistsTabName = DALUtility.Table.ExistsTabName(typeAdd.TabName);
+                bool ExistsTabViewName = DALUtility.Table.ExistsTabViewName(typeAdd.TabViewName);
                 if (ExistsTabName)
                 {
                     return Content("{\"msg\":\"添加失败,物理表名已存在！\",\"success\":false}");
@@ -79,7 +79,7 @@ namespace YMOA.Web.Controllers
                 }
                 else
                 {
-                    int typeId = DALCore.GetTableDAL().Add(typeAdd);
+                    int typeId = DALUtility.Table.Add(typeAdd);
                     if (typeId > 0)
                     {
                         //数据库-新建物理表
@@ -122,20 +122,20 @@ namespace YMOA.Web.Controllers
                 int id = Convert.ToInt32(Request["id"]);
                 string originalName = Request["originalName"];
                 string originalViewName = Request["originalViewName"];
-                TableEntity typeEdit = DALCore.GetTableDAL().GetModel(id);
+                TableEntity typeEdit = DALUtility.Table.GetModel(id);
                 typeEdit.TabName = Request["TabName"].Trim();
                 typeEdit.TabViewName = Request["TabViewName"].Trim();
                 typeEdit.IsActive = bool.Parse(Request["IsActive"]);
                 typeEdit.UpdateBy = uInfo.AccountName;
                 typeEdit.UpdateTime = DateTime.Now;
-                bool ExistsTabViewName = DALCore.GetTableDAL().ExistsTabViewName(typeEdit.TabViewName);
+                bool ExistsTabViewName = DALUtility.Table.ExistsTabViewName(typeEdit.TabViewName);
                 if (typeEdit.TabViewName != originalViewName && ExistsTabViewName)
                 {
                     return Content("{\"msg\":\"修改失败,表显示名已存在！\",\"success\":false}");
                 }
                 else
                 {
-                    int result = DALCore.GetTableDAL().Update(typeEdit);
+                    int result = DALUtility.Table.Update(typeEdit);
                     if (result > 0)
                     {
                         return Content("{\"msg\":\"修改成功！\",\"success\":true}");
@@ -163,7 +163,7 @@ namespace YMOA.Web.Controllers
                     int num = 0;
                     foreach (string id in idArr)
                     {
-                        TableEntity model = DALCore.GetTableDAL().GetModel(int.Parse(id));
+                        TableEntity model = DALUtility.Table.GetModel(int.Parse(id));
                         string dbTabName = "tb_" + model.TabName;
        
                             num = num + 1;
@@ -171,7 +171,7 @@ namespace YMOA.Web.Controllers
                     }
                     if (idArr.Length == num)
                     {
-                        if (DALCore.GetTableDAL().DeleteList(Ids))
+                        if (DALUtility.Table.DeleteList(Ids))
                         {
                             return Content("{\"msg\":\"删除成功！\",\"success\":true}");
                         }
@@ -254,9 +254,9 @@ namespace YMOA.Web.Controllers
             int pagesize = Request["rows"] == null ? 10 : Convert.ToInt32(Request["rows"]);
             int totalCount = 0;
 
-            TableEntity entity = DALCore.GetTableDAL().GetModel(TabId);
+            TableEntity entity = DALUtility.Table.GetModel(TabId);
             string dbTabName = "tb_" + entity.TabName;
-            string strJson = ""; //DALCore.GetFieldsDAL().GetPager(dbTabName, CommFunc.GetColumnsStr(TabId), sort + " " + order, pagesize, pageindex, " 1=1 ", out totalCount);
+            string strJson = ""; //DALUtility.Fields.GetPager(dbTabName, CommFunc.GetColumnsStr(TabId), sort + " " + order, pagesize, pageindex, " 1=1 ", out totalCount);
             return Content(strJson);
         }
     }

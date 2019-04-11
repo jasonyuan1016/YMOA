@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace YMOA.Web.Controllers
 {
     [App_Start.JudgmentLogin]
-    public class NewsTypeController : Controller
+    public class NewsTypeController : BaseController
     {
         public ActionResult Index()
         {
@@ -60,14 +60,14 @@ namespace YMOA.Web.Controllers
                 typeAdd.CreateTime = DateTime.Now;
                 typeAdd.UpdateBy = uInfo.AccountName;
                 typeAdd.UpdateTime = DateTime.Now;
-                bool exists = DALCore.GetNewsTypeDAL().Exists(typeAdd.ftypename);
+                bool exists = DALUtility.NewsType.Exists(typeAdd.ftypename);
                 if (exists)
                 {
                     return Content("{\"msg\":\"添加失败,类型名称已存在！\",\"success\":false}");
                 }
                 else
                 {
-                    int typeId = DALCore.GetNewsTypeDAL().Add(typeAdd);
+                    int typeId = DALUtility.NewsType.Add(typeAdd);
                     if (typeId > 0)
                     {
                         return Content("{\"msg\":\"添加成功！\",\"success\":true}");
@@ -106,19 +106,19 @@ namespace YMOA.Web.Controllers
                 int id = Convert.ToInt32(Request["id"]);
                 string originalName = Request["originalName"];
 
-                NewsTypeEntity typeEdit = DALCore.GetNewsTypeDAL().GetModel(id);
+                NewsTypeEntity typeEdit = DALUtility.NewsType.GetModel(id);
                 typeEdit.ftypename = Request["TypeName"];
                 typeEdit.fsort = int.Parse(Request["Sort"] == null ? "0" : Request["Sort"]);
                 typeEdit.UpdateBy = uInfo.AccountName;
                 typeEdit.UpdateTime = DateTime.Now;
-                bool exists = DALCore.GetNewsTypeDAL().Exists(typeEdit.ftypename);
+                bool exists = DALUtility.NewsType.Exists(typeEdit.ftypename);
                 if (typeEdit.ftypename != originalName && exists)
                 {
                     return Content("{\"msg\":\"修改失败,类型名称已存在！\",\"success\":false}");
                 }
                 else
                 {
-                    int result = DALCore.GetNewsTypeDAL().Update(typeEdit);
+                    int result = DALUtility.NewsType.Update(typeEdit);
                     if (result > 0)
                     {
                         return Content("{\"msg\":\"修改成功！\",\"success\":true}");
@@ -142,7 +142,7 @@ namespace YMOA.Web.Controllers
                 string Ids = Request["IDs"] == null ? "" : Request["IDs"];
                 if (!string.IsNullOrEmpty(Ids))
                 {
-                    if (DALCore.GetNewsTypeDAL().DeleteList(Ids))
+                    if (DALUtility.NewsType.DeleteList(Ids))
                     {
                         return Content("{\"msg\":\"删除成功！\",\"success\":true}");
                     }
@@ -164,7 +164,7 @@ namespace YMOA.Web.Controllers
 
         public ActionResult GetAllNewsTypeDrop()
         {
-            string roleJson = JsonHelper.ToJson(DALCore.GetNewsTypeDAL().GetList("1=1"));
+            string roleJson = JsonHelper.ToJson(DALUtility.NewsType.GetList("1=1"));
             return Content(roleJson);
 
         }

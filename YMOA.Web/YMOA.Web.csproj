@@ -1753,6 +1753,10 @@
     <Content Include="Content\themes\icon\zoom_in.png" />
     <Content Include="Content\themes\icon\zoom_out.png" />
     <Content Include="Content\themes\table.css" />
+    <Content Include="DBFiles\AchieveDB.mdf" />
+    <Content Include="DBFiles\AchieveDB_log.ldf">
+      <DependentUpon>AchieveDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="kindeditor-4.1.3\asp.net\bin\LitJSON.dll" />
     <Content Include="kindeditor-4.1.3\asp.net\demo.aspx" />
@@ -2819,6 +2823,10 @@
     <ProjectReference Include="..\YMOA.DALFactory\YMOA.DALFactory.csproj">
       <Project>{72499df5-b122-471b-bcbc-c6813aaef24f}</Project>
       <Name>YMOA.DALFactory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YMOA.DAL\YMOA.DAL.csproj">
+      <Project>{f4499e02-e9c1-44ec-ae40-b577a08d49c2}</Project>
+      <Name>YMOA.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\YMOA.IDAL\YMOA.IDAL.csproj">
       <Project>{CEA5F361-B03F-49C9-877E-F73F4AE1AF81}</Project>

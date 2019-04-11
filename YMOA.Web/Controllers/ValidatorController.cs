@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace YMOA.Web.Controllers
 {
-    public class ValidatorController : Controller
+    public class ValidatorController : BaseController
     {
         //
         // GET: /Validator/

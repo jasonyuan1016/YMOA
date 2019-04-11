@@ -11,7 +11,7 @@ using System.Data;
 namespace YMOA.Web.Controllers
 {
     [App_Start.JudgmentLogin]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         //
         // GET: /User/
@@ -41,7 +41,7 @@ namespace YMOA.Web.Controllers
 
                 if (Md5.GetMD5String(UserPwd) == uInfo.Password)
                 {
-                    if (DALCore.GetUserDAL().ChangePwd(userChangePwd))
+                    if (DALUtility.User.ChangePwd(userChangePwd))
                     {
                         result = "{\"msg\":\"修改成功，请重新登录！\",\"success\":true}";
                     }
@@ -105,14 +105,14 @@ namespace YMOA.Web.Controllers
             dt.Columns.Add(new DataColumn("UserDepartment"));
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                DataTable dtrole = DALCore.GetRoleDAL().GetRoleByUserId(Convert.ToInt32(dt.Rows[i]["ID"]));
-                DataTable dtdepartment = DALCore.GetDepartmentDAL().GetDepartmentByUserId(Convert.ToInt32(dt.Rows[i]["ID"]));
+                DataTable dtrole = DALUtility.Role.GetRoleByUserId(Convert.ToInt32(dt.Rows[i]["ID"]));
+                DataTable dtdepartment = DALUtility.Department.GetDepartmentByUserId(Convert.ToInt32(dt.Rows[i]["ID"]));
                 dt.Rows[i]["UserRoleId"] = JsonHelper.ColumnToJson(dtrole, 0);
                 dt.Rows[i]["UserRole"] = JsonHelper.ColumnToJson(dtrole, 1);
                 dt.Rows[i]["UserDepartmentId"] = JsonHelper.ColumnToJson(dtdepartment, 0);
                 dt.Rows[i]["UserDepartment"] = JsonHelper.ColumnToJson(dtdepartment, 1);
             }
-            #warning 待优化，通过视图关联角色，部门信息
+            #warning 待优化——先查询出当前集相关联的角色、部门数据；后续再对应复制
             string strJson = JsonHelper.ToJson(dt);
             var jsonResult = new { total = totalCount.ToString(), rows = strJson };
 
@@ -158,7 +158,7 @@ namespace YMOA.Web.Controllers
                 userAdd.CreateBy = uInfo.AccountName;
                 userAdd.UpdateTime = DateTime.Now;
                 userAdd.UpdateBy = uInfo.AccountName;
-                int userId = DALCore.GetUserDAL().AddUser(userAdd);
+                int userId = DALUtility.User.AddUser(userAdd);
                 if (userId > 0)
                 {
                     return Content("{\"msg\":\"添加成功！默认密码是【q123456】！\",\"success\":true}");
@@ -209,11 +209,11 @@ namespace YMOA.Web.Controllers
                 userEdit.MobilePhone = Request["MobilePhone"];
                 userEdit.Email = Request["Email"];
                 userEdit.UpdateTime = DateTime.Now;
-                if (userEdit.AccountName != originalName && DALCore.GetUserDAL().GetUserByUserId(userEdit.AccountName) != null)
+                if (userEdit.AccountName != originalName && DALUtility.User.GetUserByUserId(userEdit.AccountName) != null)
                 {
                     throw new Exception("已经存在此用户！");
                 }
-                if (DALCore.GetUserDAL().EditUser(userEdit))
+                if (DALUtility.User.EditUser(userEdit))
                 {
                     return Content("{\"msg\":\"修改成功！\",\"success\":true}");
                 }
@@ -236,7 +236,7 @@ namespace YMOA.Web.Controllers
                 string Ids = Request["IDs"] == null ? "" : Request["IDs"];
                 if (!string.IsNullOrEmpty(Ids))
                 {
-                    if (DALCore.GetUserDAL().DeleteUser(Ids))
+                    if (DALUtility.User.DeleteUser(Ids))
                     {
                         return Content("{\"msg\":\"删除成功！\",\"success\":true}");
                     }
@@ -313,7 +313,7 @@ namespace YMOA.Web.Controllers
         /// <param name="roleIds">角色id，多个逗号隔开</param>
         bool SetRoleSingle(int userId, string roleIds)
         {
-            DataTable dt_user_role_old = DALCore.GetRoleDAL().GetRoleByUserId(userId);  //用户之前拥有的角色
+            DataTable dt_user_role_old = DALUtility.Role.GetRoleByUserId(userId);  //用户之前拥有的角色
             List<UserRoleEntity> role_addList = new List<UserRoleEntity>();     //需要插入角色的sql语句集合
             List<UserRoleEntity> role_deleteList = new List<UserRoleEntity>();     //需要删除角色的sql语句集合
 
@@ -352,7 +352,7 @@ namespace YMOA.Web.Controllers
             if (role_addList.Count == 0 && role_deleteList.Count == 0)
                 return true;
             else
-                return DALCore.GetUserRoleDAL().SetRoleSingle(role_addList, role_deleteList);
+                return DALUtility.UserRole.SetRoleSingle(role_addList, role_deleteList);
         }
 
         /// <summary>
@@ -388,7 +388,7 @@ namespace YMOA.Web.Controllers
                     }
                 }
             }
-            return DALCore.GetUserRoleDAL().SetRoleBatch(role_addList, role_deleteList);
+            return DALUtility.UserRole.SetRoleBatch(role_addList, role_deleteList);
         }
 
         /// <summary>
@@ -397,7 +397,7 @@ namespace YMOA.Web.Controllers
         /// <returns></returns>
         public ActionResult GetAllRoleInfo()
         {
-            string roleJson = JsonHelper.ToJson(DALCore.GetRoleDAL().GetAllRole("1=1"));
+            string roleJson = JsonHelper.ToJson(DALUtility.Role.GetAllRole("1=1"));
             return Content(roleJson);
         }
 
@@ -443,7 +443,7 @@ namespace YMOA.Web.Controllers
         /// <param name="depIds">部门id，多个用逗号隔开</param>
         bool SetDepartmentSingle(int userId, string depIds)
         {
-            DataTable dt_user_dep_old = DALCore.GetDepartmentDAL().GetDepartmentByUserId(userId);  //用户之前拥有的部门
+            DataTable dt_user_dep_old = DALUtility.Department.GetDepartmentByUserId(userId);  //用户之前拥有的部门
             List<UserDepartmentEntity> dep_addList = new List<UserDepartmentEntity>();     //需要插入部门的sql语句集合
             List<UserDepartmentEntity> dep_deleteList = new List<UserDepartmentEntity>();     //需要删除部门的sql语句集合
 
@@ -480,7 +480,7 @@ namespace YMOA.Web.Controllers
             if (dep_addList.Count == 0 && dep_deleteList.Count == 0)
                 return true;
             else
-                return DALCore.GetUserDepartmentDAL().SetDepartmentSingle(dep_addList, dep_deleteList);
+                return DALUtility.UserDepartment.SetDepartmentSingle(dep_addList, dep_deleteList);
         }
 
         /// <summary>
@@ -516,7 +516,7 @@ namespace YMOA.Web.Controllers
                     }
                 }
             }
-            return DALCore.GetUserDepartmentDAL().SetDepartmentBatch(dep_addList, dep_deleteList);
+            return DALUtility.UserDepartment.SetDepartmentBatch(dep_addList, dep_deleteList);
         }
     }
 }

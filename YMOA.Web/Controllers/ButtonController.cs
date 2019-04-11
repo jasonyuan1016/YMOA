@@ -11,7 +11,7 @@ using System.Web.Mvc;
 namespace YMOA.Web.Controllers
 {
     [App_Start.JudgmentLogin]
-    public class ButtonController : Controller
+    public class ButtonController : BaseController
     {
         //
         // GET: /Button/
@@ -29,7 +29,7 @@ namespace YMOA.Web.Controllers
             UserEntity uInfo = ViewData["Account"] as UserEntity;
             string KeyName = Request["KeyName"];//页面名称关键字
             string KeyCode = Request["KeyCode"];//菜单标识码
-            DataTable dt = DALCore.GetButtonDAL().GetButtonByMenuCodeAndUserId(KeyCode, uInfo.ID);
+            DataTable dt = DALUtility.Button.GetButtonByMenuCodeAndUserId(KeyCode, uInfo.ID);
             return Content(CommFunc.GetToolBar(dt, KeyName));
         }
 
@@ -80,7 +80,7 @@ namespace YMOA.Web.Controllers
                 buttonAdd.CreateTime = DateTime.Now;
                 buttonAdd.UpdateBy = uInfo.AccountName;
                 buttonAdd.UpdateTime = DateTime.Now;
-                int buttonId = DALCore.GetButtonDAL().AddButton(buttonAdd);
+                int buttonId = DALUtility.Button.AddButton(buttonAdd);
                 if (buttonId > 0)
                 {
                     return Content("{\"msg\":\"添加成功！\",\"success\":true}");
@@ -125,11 +125,11 @@ namespace YMOA.Web.Controllers
                 buttonEdit.Description = Request["Description"];
                 buttonEdit.UpdateBy = uInfo.AccountName;
                 buttonEdit.UpdateTime = DateTime.Now;
-                if (buttonEdit.Name != originalName && DALCore.GetButtonDAL().GetButtonByButtonName(buttonEdit.Name) != null)
+                if (buttonEdit.Name != originalName && DALUtility.Button.GetButtonByButtonName(buttonEdit.Name) != null)
                 {
                     throw new Exception("已经存在此按钮！");
                 }
-                bool result = DALCore.GetButtonDAL().EditButton(buttonEdit);
+                bool result = DALUtility.Button.EditButton(buttonEdit);
                 if (result)
                 {
                     return Content("{\"msg\":\"修改成功！\",\"success\":true}");
@@ -152,7 +152,7 @@ namespace YMOA.Web.Controllers
                 string Ids = Request["IDs"] == null ? "" : Request["IDs"];
                 if (!string.IsNullOrEmpty(Ids))
                 {
-                    if (DALCore.GetButtonDAL().DeleteButton(Ids))
+                    if (DALUtility.Button.DeleteButton(Ids))
                     {
                         return Content("{\"msg\":\"删除成功！\",\"success\":true}");
                     }
@@ -178,7 +178,7 @@ namespace YMOA.Web.Controllers
         /// <returns></returns>
         public ActionResult GetAllButtonTree()
         {
-            DataTable dt = DALCore.GetButtonDAL().GetAllButton("1=1");
+            DataTable dt = DALUtility.Button.GetAllButton("1=1");
 
             string sb = "[{\"id\":\"0\",\"text\":\"全选\",\"children\": [";
             foreach (DataRow dr in dt.Rows)

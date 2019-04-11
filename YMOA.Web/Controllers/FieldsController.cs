@@ -11,7 +11,7 @@ using System.Data;
 namespace YMOA.Web.Controllers
 {
     [App_Start.JudgmentLogin]
-    public class FieldsController : Controller
+    public class FieldsController : BaseController
     {
         //
         // GET: /Fields/
@@ -97,8 +97,8 @@ namespace YMOA.Web.Controllers
                 entityAdd.UpdateBy = uInfo.AccountName;
                 entityAdd.UpdateTime = DateTime.Now;
                 entityAdd.Sort = int.Parse(Request["Sort"]);
-                bool ExistsFieldName = DALCore.GetFieldsDAL().ExistsFieldName(entityAdd.FieldName, entityAdd.TabId);
-                bool ExistsFieldViewName = DALCore.GetFieldsDAL().ExistsFieldViewName(entityAdd.FieldViewName, entityAdd.TabId);
+                bool ExistsFieldName = DALUtility.Fields.ExistsFieldName(entityAdd.FieldName, entityAdd.TabId);
+                bool ExistsFieldViewName = DALUtility.Fields.ExistsFieldViewName(entityAdd.FieldViewName, entityAdd.TabId);
                 if (ExistsFieldName)
                 {
                     return Content("{\"msg\":\"添加失败,字段名已存在！\",\"success\":false}");
@@ -109,12 +109,12 @@ namespace YMOA.Web.Controllers
                 }
                 else
                 {
-                    int entityId = DALCore.GetFieldsDAL().Add(entityAdd);
+                    int entityId = DALUtility.Fields.Add(entityAdd);
                     if (entityId > 0)
                     {
                         //新增数据库表字段 获取表信息
-                        TableEntity tabEntity = DALCore.GetTableDAL().GetModel(entityAdd.TabId);
-                        DataTypeEntity dataTypeEntity = DALCore.GetDataTypeDAL().GetModel(entityAdd.FieldDataTypeId);
+                        TableEntity tabEntity = DALUtility.Table.GetModel(entityAdd.TabId);
+                        DataTypeEntity dataTypeEntity = DALUtility.DataType.GetModel(entityAdd.FieldDataTypeId);
                         string dbTabName = "tb_" + tabEntity.TabName;
    
                             return Content("{\"msg\":\"添加成功！\",\"success\":true}");
@@ -155,7 +155,7 @@ namespace YMOA.Web.Controllers
                 string originalName = Request["originalName"];
                 string originalViewName = Request["originalViewName"];
 
-                FieldsEntity entityEdit = DALCore.GetFieldsDAL().GetModel(id);
+                FieldsEntity entityEdit = DALUtility.Fields.GetModel(id);
                 entityEdit.FieldName = Request["FieldName"].Trim();
                 entityEdit.FieldViewName = Request["FieldViewName"].Trim();
                 entityEdit.FieldDataTypeId = int.Parse(Request["FieldDataTypeId"]);
@@ -164,19 +164,19 @@ namespace YMOA.Web.Controllers
                 entityEdit.Sort = int.Parse(Request["Sort"]);
                 entityEdit.UpdateBy = uInfo.AccountName;
                 entityEdit.UpdateTime = DateTime.Now;
-                bool ExistsFieldViewName = DALCore.GetFieldsDAL().ExistsFieldViewName(entityEdit.FieldViewName, entityEdit.TabId);
+                bool ExistsFieldViewName = DALUtility.Fields.ExistsFieldViewName(entityEdit.FieldViewName, entityEdit.TabId);
                 if (entityEdit.FieldViewName != originalViewName && ExistsFieldViewName)
                 {
                     return Content("{\"msg\":\"修改失败,字段显示名已存在！\",\"success\":false}");
                 }
                 else
                 {
-                    int result = DALCore.GetFieldsDAL().Update(entityEdit);
+                    int result = DALUtility.Fields.Update(entityEdit);
                     if (result > 0)
                     {
                         //新增数据库表字段 获取表信息
-                        TableEntity tabEntity = DALCore.GetTableDAL().GetModel(entityEdit.TabId);
-                        DataTypeEntity dataTypeEntity = DALCore.GetDataTypeDAL().GetModel(entityEdit.FieldDataTypeId);
+                        TableEntity tabEntity = DALUtility.Table.GetModel(entityEdit.TabId);
+                        DataTypeEntity dataTypeEntity = DALUtility.DataType.GetModel(entityEdit.FieldDataTypeId);
                         string dbTabName = "tb_" + tabEntity.TabName;
 
                         return Content("{\"msg\":\"修改成功！\",\"success\":true}");
@@ -205,8 +205,8 @@ namespace YMOA.Web.Controllers
                     int num = 0;
                     foreach (string id in idArr)
                     {
-                        FieldsEntity model = DALCore.GetFieldsDAL().GetModel(int.Parse(id));
-                        TableEntity tabEntity = DALCore.GetTableDAL().GetModel(model.TabId);
+                        FieldsEntity model = DALUtility.Fields.GetModel(int.Parse(id));
+                        TableEntity tabEntity = DALUtility.Table.GetModel(model.TabId);
                         string dbTabName = "tb_" + tabEntity.TabName;
              
                             num = num + 1;
@@ -214,7 +214,7 @@ namespace YMOA.Web.Controllers
                     }
                     if (idArr.Length == num)
                     {
-                        if (DALCore.GetFieldsDAL().DeleteList(Ids))
+                        if (DALUtility.Fields.DeleteList(Ids))
                         {
                             return Content("{\"msg\":\"删除成功！\",\"success\":true}");
                         }

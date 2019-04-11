@@ -26,7 +26,7 @@ namespace YMOA.Web.App_Start
             if (int.TryParse(s_accountId, out i_accountId))
             {
                 
-                YMOA.Model.UserEntity m_account = DALFactory.DALCore.GetUserDAL().GetUserById(i_accountId.ToString());
+                YMOA.Model.UserEntity m_account = DALFactory.DALCore.GetInstance().User.GetUserById(i_accountId.ToString());
                 if (m_account != null)
                 {
                     accountmodelJudgment = m_account;

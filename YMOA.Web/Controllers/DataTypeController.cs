@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace YMOA.Web.Controllers
 {
     [App_Start.JudgmentLogin]
-    public class DataTypeController : Controller
+    public class DataTypeController : BaseController
     {
         public ActionResult Index()
         {
@@ -61,14 +61,14 @@ namespace YMOA.Web.Controllers
                 typeAdd.CreateTime = DateTime.Now;
                 typeAdd.UpdateBy = uInfo.AccountName;
                 typeAdd.UpdateTime = DateTime.Now;
-                bool exists = DALCore.GetDataTypeDAL().Exists(typeAdd.DataTypeName);
+                bool exists = DALUtility.DataType.Exists(typeAdd.DataTypeName);
                 if (exists)
                 {
                     return Content("{\"msg\":\"添加失败,类型名称已存在！\",\"success\":false}");
                 }
                 else
                 {
-                    int typeId = DALCore.GetDataTypeDAL().Add(typeAdd);
+                    int typeId = DALUtility.DataType.Add(typeAdd);
                     if (typeId > 0)
                     {
                         return Content("{\"msg\":\"添加成功！\",\"success\":true}");
@@ -107,20 +107,20 @@ namespace YMOA.Web.Controllers
                 int id = Convert.ToInt32(Request["id"]);
                 string originalName = Request["originalName"];
 
-                DataTypeEntity typeEdit = DALCore.GetDataTypeDAL().GetModel(id);
+                DataTypeEntity typeEdit = DALUtility.DataType.GetModel(id);
                 typeEdit.DataType = Request["DataType"];
                 typeEdit.DataTypeName = Request["DataTypeName"];
                 typeEdit.Sort = int.Parse(Request["Sort"] == null ? "0" : Request["Sort"]);
                 typeEdit.UpdateBy = uInfo.AccountName;
                 typeEdit.UpdateTime = DateTime.Now;
-                bool exists = DALCore.GetDataTypeDAL().Exists(typeEdit.DataTypeName);
+                bool exists = DALUtility.DataType.Exists(typeEdit.DataTypeName);
                 if (typeEdit.DataTypeName != originalName && exists)
                 {
                     return Content("{\"msg\":\"修改失败,类型名称已存在！\",\"success\":false}");
                 }
                 else
                 {
-                    int result = DALCore.GetDataTypeDAL().Update(typeEdit);
+                    int result = DALUtility.DataType.Update(typeEdit);
                     if (result > 0)
                     {
                         return Content("{\"msg\":\"修改成功！\",\"success\":true}");
@@ -144,7 +144,7 @@ namespace YMOA.Web.Controllers
                 string Ids = Request["IDs"] == null ? "" : Request["IDs"];
                 if (!string.IsNullOrEmpty(Ids))
                 {
-                    if (DALCore.GetDataTypeDAL().DeleteList(Ids))
+                    if (DALUtility.DataType.DeleteList(Ids))
                     {
                         return Content("{\"msg\":\"删除成功！\",\"success\":true}");
                     }
@@ -166,7 +166,7 @@ namespace YMOA.Web.Controllers
 
         public ActionResult GetAllDataTypeDrop()
         {
-            string roleJson = JsonHelper.ToJson(DALCore.GetDataTypeDAL().GetList("1=1"));
+            string roleJson = JsonHelper.ToJson(DALUtility.DataType.GetList("1=1"));
             return Content(roleJson);
 
         }

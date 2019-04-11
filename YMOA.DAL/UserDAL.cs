@@ -7,6 +7,8 @@ using System.Collections;
 using YMOA.IDAL;
 using YMOA.Model;
 using Dapper;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace YMOA.DAL
 {
@@ -21,11 +23,7 @@ namespace YMOA.DAL
         public UserEntity GetUserByUserId(string userId)
         {
             const string sql = "select top 1 ID,AccountName,[Password],RealName,MobilePhone,Email,IsAble,IfChangePwd,[Description],CreateTime,CreateBy,UpdateTime,UpdateBy from tbUser where AccountName = @UserId";
-            UserEntity user = null;
-            using (IDbConnection conn = GetConnection())
-            {
-                return conn.QuerySingle<UserEntity>(sql, new { UserId = userId });
-            }
+            return QuerySingle<UserEntity>(sql, new { UserId = userId });
         }
 
         /// <summary>
@@ -34,16 +32,7 @@ namespace YMOA.DAL
         public UserEntity GetUserById(string id)
         {
             string sql = "select ID,AccountName,[Password],RealName,MobilePhone,Email,IsAble,IfChangePwd,[Description],CreateTime,CreateBy,UpdateTime,UpdateBy from tbUser where ID = @ID";
-            UserEntity user = null;
-            DataTable dt = SqlHelper.GetDataTable(SqlHelper.connStr, CommandType.Text, sql, new SqlParameter("@ID", id));
-            if (dt.Rows.Count > 0)
-            {
-                user = new UserEntity();
-                DataRowToModel(user, dt.Rows[0]);
-                return user;
-            }
-            else
-                return null;
+            return QuerySingle<UserEntity>(sql, new { ID = id });
         }
 
         /// <summary>
@@ -52,16 +41,7 @@ namespace YMOA.DAL
         public bool InitUserPwd(UserEntity user)
         {
             string sql = "update tbUser set [Password] = @UserPwd,IfChangePwd = @IfChangePwd where ID = @ID";
-            SqlParameter[] paras = { 
-                                   new SqlParameter("@UserPwd",user.Password),
-                                   new SqlParameter("@IfChangePwd",true),
-                                   new SqlParameter("@ID",user.ID)
-                                   };
-            object obj = SqlHelper.ExecuteNonQuery(SqlHelper.connStr, CommandType.Text, sql, paras);
-            if (Convert.ToInt32(obj) > 0)
-                return true;
-            else
-                return false;
+            return Execute(sql, new { UserPwd = user.Password, IfChangePwd = true, ID = user.ID }) > 0;
         }
 
         /// <summary>
@@ -230,6 +210,49 @@ namespace YMOA.DAL
             return SqlHelper.GetDataTable(SqlHelper.connStr, CommandType.Text, strSql.ToString(), new SqlParameter("@userId", userId));
         }
 
+        public string QryUserList(Dictionary<string, object> paras)
+        {
+
+            int iCount = 0;
+            WhereBuilder builder = new WhereBuilder();
+            builder.FromSql = "tbUser";
+            GridData grid = new GridData()
+            {
+                PageIndex = Convert.ToInt32(paras["pi"]),
+                PageSize = Convert.ToInt32(paras["pageSize"]),
+                SortField = "ID"
+            };
+            builder.AddWhereAndParameter(paras, "userid", "AccountName", "LIKE", "'%'+@userid+'%'");
+            builder.AddWhereAndParameter(paras, "username", "RealName", "LIKE", "'%'+@username+'%'");
+            builder.AddWhereAndParameter(paras, "IsAble");
+            builder.AddWhereAndParameter(paras, "IfChangePwd");
+            builder.AddWhereAndParameter(paras, "adddatestart", "CreateTime", ">");
+            builder.AddWhereAndParameter(paras, "adddateend", "CreateTime", "<");
+            var s = SortAndPage(builder, grid, out iCount);
+            string retData = JsonConvert.SerializeObject(new { total = iCount, rows = s });
+            return retData;
+        }
+
+        public IEnumerable<T> QryUsers<T>(Dictionary<string, object> paras, out int iCount)
+        {
+            iCount = 0;
+            WhereBuilder builder = new WhereBuilder();
+            builder.FromSql = "tbUser";
+            GridData grid = new GridData()
+            {
+                PageIndex = Convert.ToInt32(paras["pi"]),
+                PageSize = Convert.ToInt32(paras["pageSize"]),
+                SortField = "ID"
+            };
+            builder.AddWhereAndParameter(paras, "userid", "AccountName", "LIKE", "'%'+@userid+'%'");
+            builder.AddWhereAndParameter(paras, "username", "RealName", "LIKE", "'%'+@username+'%'");
+            builder.AddWhereAndParameter(paras, "IsAble");
+            builder.AddWhereAndParameter(paras, "IfChangePwd");
+            builder.AddWhereAndParameter(paras, "adddatestart", "CreateTime", ">");
+            builder.AddWhereAndParameter(paras, "adddateend", "CreateTime", "<");
+            return SortAndPage<T>(builder, grid, out iCount);
+        }
+
         /// <summary>
         /// 把DataRow行转成实体类对象
         /// </summary>
@@ -276,6 +299,5 @@ namespace YMOA.DAL
 
 
         }
-
     }
 }

@@ -12,7 +12,7 @@ using YMOA.Comm;
 namespace YMOA.Web.Controllers
 {
     [App_Start.JudgmentLogin]
-    public class DepartmentController : Controller
+    public class DepartmentController : BaseController
     {
         public ActionResult Index()
         {
@@ -21,7 +21,7 @@ namespace YMOA.Web.Controllers
 
         public ActionResult GetAllDepartmentInfo()
         {
-            DataTable dt = DALCore.GetDepartmentDAL().GetAllDepartment(null);
+            DataTable dt = DALUtility.Department.GetAllDepartment(null);
             StringBuilder str = new StringBuilder();
             if (dt.Rows.Count > 0)
             {
@@ -63,7 +63,7 @@ namespace YMOA.Web.Controllers
             string orderDepartmentUser = Request["order"];  //排序方式 asc或者desc
             int pageindexDepartmentUser = int.Parse(Request["page"]);
             int pagesizeDepartmentUser = int.Parse(Request["rows"]);
-            var iDal = DALCore.GetDepartmentDAL();
+            var iDal = DALUtility.Department;
             DataTable dt = iDal.GetPagerDepartmentUser(userDepartmentIds, sortDepartmentUser + " " + orderDepartmentUser, pagesizeDepartmentUser, pageindexDepartmentUser);
             int totalCount = iDal.GetDepartmentUserCount(userDepartmentIds);
             string strJsonDepartmentUser = "{\"total\": " + totalCount.ToString() + ",\"rows\":" + JsonHelper.ToJson(dt) + "}";
@@ -103,7 +103,7 @@ namespace YMOA.Web.Controllers
                 departmentAdd.CreateTime = DateTime.Now;
                 departmentAdd.UpdateBy = uInfo.AccountName;
                 departmentAdd.UpdateTime = DateTime.Now;
-                int departmentId = DALCore.GetDepartmentDAL().AddDepartment(departmentAdd);
+                int departmentId = DALUtility.Department.AddDepartment(departmentAdd);
                 if (departmentId > 0)
                 {
                     return Content("{\"msg\":\"添加成功！\",\"success\":true}");
@@ -144,7 +144,7 @@ namespace YMOA.Web.Controllers
                 departmentEdit.Sort = Convert.ToInt32(Request["Sort"]);
                 departmentEdit.UpdateBy = uInfo.AccountName;
                 departmentEdit.UpdateTime = DateTime.Now;
-                bool result = DALCore.GetDepartmentDAL().EditDepartment(departmentEdit);
+                bool result = DALUtility.Department.EditDepartment(departmentEdit);
                 if (result)
                 {
                     return Content("{\"msg\":\"修改成功！\",\"success\":true}");
@@ -167,7 +167,7 @@ namespace YMOA.Web.Controllers
                 string Ids = Request["IDs"] == null ? "" : Request["IDs"];
                 if (!string.IsNullOrEmpty(Ids))
                 {
-                    if (DALCore.GetDepartmentDAL().DeleteDepartment(Ids))
+                    if (DALUtility.Department.DeleteDepartment(Ids))
                     {
                         return Content("{\"msg\":\"删除成功！\",\"success\":true}");
                     }
@@ -189,7 +189,7 @@ namespace YMOA.Web.Controllers
 
         public ActionResult GetAllDepartmentTree()
         {
-            DataTable dt = DALCore.GetDepartmentDAL().GetAllDepartment("1=1");
+            DataTable dt = DALUtility.Department.GetAllDepartment("1=1");
             StringBuilder str = new StringBuilder();
             if (dt.Rows.Count > 0)
             {

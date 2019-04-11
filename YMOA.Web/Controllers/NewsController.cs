@@ -11,7 +11,7 @@ using System.Web.Mvc;
 namespace YMOA.Web.Controllers
 {
     [App_Start.JudgmentLogin]
-    public class NewsController : Controller
+    public class NewsController : BaseController
     {
         public ActionResult Index()
         {
@@ -83,7 +83,7 @@ namespace YMOA.Web.Controllers
                 NewsAdd.CreateTime = DateTime.Now;
                 NewsAdd.UpdateBy = uInfo.AccountName;
                 NewsAdd.UpdateTime = DateTime.Now;
-                int id = DALCore.GetNewsDAL().Add(NewsAdd);
+                int id = DALUtility.News.Add(NewsAdd);
                 if (id > 0)
                 {
                     return Content("{\"msg\":\"添加成功！\",\"success\":true}");
@@ -109,7 +109,7 @@ namespace YMOA.Web.Controllers
             if (!string.IsNullOrEmpty(Request["id"]))
             {
                 id = int.Parse(Request["id"]);
-                NewsEntity NewsEdit = DALCore.GetNewsDAL().GetModel(id);
+                NewsEntity NewsEdit = DALUtility.News.GetModel(id);
                 return View(NewsEdit);
             }
             return new EmptyResult();
@@ -124,13 +124,13 @@ namespace YMOA.Web.Controllers
                 UserEntity uInfo = ViewData["Account"] as UserEntity;
 
                 int id = Convert.ToInt32(Request["id"]);
-                NewsEntity NewsEdit = DALCore.GetNewsDAL().GetModel(id);
+                NewsEntity NewsEdit = DALUtility.News.GetModel(id);
                 NewsEdit.ftitle = Request["FTitle"];
                 NewsEdit.ftypeid = int.Parse(Request["FTypeId"]);
                 NewsEdit.fcontent = Request["FContent"];
                 NewsEdit.UpdateBy = uInfo.AccountName;
                 NewsEdit.UpdateTime = DateTime.Now;
-                int result = DALCore.GetNewsDAL().Update(NewsEdit);
+                int result = DALUtility.News.Update(NewsEdit);
                 if (result > 0)
                 {
                     return Content("{\"msg\":\"修改成功！\",\"success\":true}");
@@ -153,7 +153,7 @@ namespace YMOA.Web.Controllers
                 string Ids = Request["IDs"] == null ? "" : Request["IDs"];
                 if (!string.IsNullOrEmpty(Ids))
                 {
-                    if (DALCore.GetNewsDAL().DeleteList(Ids))
+                    if (DALUtility.News.DeleteList(Ids))
                     {
                         return Content("{\"msg\":\"删除成功！\",\"success\":true}");
                     }
@@ -181,7 +181,7 @@ namespace YMOA.Web.Controllers
         {
             int newstypeid = int.Parse(Request["newstype"] ?? "0");
             string strWhere = " 1=1 and ftypeid =" + newstypeid;
-            DataTable dt = DALCore.GetNewsDAL().GetList(10, strWhere, " id desc ");
+            DataTable dt = DALUtility.News.GetList(10, strWhere, " id desc ");
             string strJson = "[";
             foreach (DataRow dr in dt.Rows)
             {

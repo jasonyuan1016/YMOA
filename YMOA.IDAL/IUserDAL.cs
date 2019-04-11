@@ -59,5 +59,9 @@ namespace YMOA.IDAL
         /// </summary>
         DataTable GetUserInfo(int userId);
 
+        string QryUserList(Dictionary<string, object> paras);
+
+
+        IEnumerable<T> QryUsers<T>(Dictionary<string, object> paras, out int iCount);
     }
 }

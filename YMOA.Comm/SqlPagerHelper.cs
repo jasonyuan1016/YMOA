@@ -13,7 +13,7 @@ namespace YMOA.Comm
         /// <summary>
         /// 获取分页数据（单表分页）
         /// </summary>
-        /// <param name="tableName">表名</param>
+        /// <param name="tableName">表名[/视图]</param>
         /// <param name="columns">要取的列名（逗号分开）</param>
         /// <param name="order">排序</param>
         /// <param name="pageSize">每页大小</param>
@@ -22,7 +22,7 @@ namespace YMOA.Comm
         /// <param name="totalCount">总记录数</param>
         public static DataTable GetPager(string tableName, string columns, string order, int pageSize, int pageIndex, string where, out int totalCount)
         {
-            SqlParameter[] paras = { 
+            SqlParameter[] paras = {
                                    new SqlParameter("@tablename",SqlDbType.VarChar,100),
                                    new SqlParameter("@columns",SqlDbType.VarChar,500),
                                    new SqlParameter("@order",SqlDbType.VarChar,100),
