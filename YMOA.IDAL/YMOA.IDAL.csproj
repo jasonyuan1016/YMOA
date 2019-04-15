@@ -43,10 +43,7 @@
   <ItemGroup>
     <Compile Include="IAuthorityDAL.cs" />
     <Compile Include="IButtonDAL.cs" />
-    <Compile Include="IDataTypeDAL.cs" />
     <Compile Include="IDepartmentDAL.cs" />
-    <Compile Include="IFieldsDAL.cs" />
-    <Compile Include="IHtmlTypeDAL.cs" />
     <Compile Include="IIconsDAL.cs" />
     <Compile Include="ILoginIpLogDAL.cs" />
     <Compile Include="IMenuButtonDAL.cs" />
@@ -57,7 +54,6 @@
     <Compile Include="IRequestionTypeDAL.cs" />
     <Compile Include="IRoleDAL.cs" />
     <Compile Include="IRoleMenuButtonDAL.cs" />
-    <Compile Include="ITableDAL.cs" />
     <Compile Include="IUserDAL.cs" />
     <Compile Include="IUserDepartmentDAL.cs" />
     <Compile Include="IUserRoleDAL.cs" />

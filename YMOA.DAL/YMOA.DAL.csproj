@@ -57,10 +57,7 @@
     <Compile Include="Common\BaseDal.cs" />
     <Compile Include="Common\DapperExtendItems.cs" />
     <Compile Include="Common\SqlHelper.cs" />
-    <Compile Include="DataTypeDAL.cs" />
     <Compile Include="DepartmentDAL.cs" />
-    <Compile Include="FieldsDAL.cs" />
-    <Compile Include="HtmlTypeDAL.cs" />
     <Compile Include="IconsDAL.cs" />
     <Compile Include="LoginIpLogDAL.cs" />
     <Compile Include="MenuButtonDAL.cs" />
@@ -71,7 +68,6 @@
     <Compile Include="RequestionDAL.cs" />
     <Compile Include="RequestionTypeDAL.cs" />
     <Compile Include="RoleDAL.cs" />
-    <Compile Include="TableDAL.cs" />
     <Compile Include="UserDAL.cs" />
     <Compile Include="UserDepartmentDAL.cs" />
     <Compile Include="UserRoleDAL.cs" />

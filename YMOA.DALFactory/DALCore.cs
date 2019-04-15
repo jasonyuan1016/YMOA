@@ -150,29 +150,6 @@ namespace YMOA.DALFactory
             { return LoadAssamblyType<INewsDAL>("NewsDAL"); }
         }
 
-        public IHtmlTypeDAL HtmlType
-        {
-            get
-            { return LoadAssamblyType<IHtmlTypeDAL>("HtmlTypeDAL"); }
-        }
-
-        public IDataTypeDAL DataType
-        {
-            get
-            { return LoadAssamblyType<IDataTypeDAL>("DataTypeDAL"); }
-        }
-
-        public ITableDAL Table
-        {
-            get
-            { return LoadAssamblyType<ITableDAL>("TableDAL"); }
-        }
-        public IFieldsDAL Fields
-        {
-            get
-            { return LoadAssamblyType<IFieldsDAL>("FieldsDAL"); }
-        }
-
         public IIconsDAL Icons
         {
             get
