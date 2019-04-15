@@ -30,7 +30,7 @@ namespace YMOA.Web.Controllers
         /// <returns></returns>
         public ActionResult UpdatePwd(string UserPwd, string NewPwd, string ConfirmPwd)
         {
-            string result = "";
+            //string result = "";
             UserEntity uInfo = ViewData["Account"] as UserEntity;
 
             UserEntity userChangePwd = new UserEntity();
@@ -41,18 +41,18 @@ namespace YMOA.Web.Controllers
             {
                 if (DALUtility.User.ChangePwd(userChangePwd))
                 {
-                    result = "{\"msg\":\"修改成功，请重新登录！\",\"success\":true}";
+                    return OperationReturn(true, "修改成功，请重新登录！");
                 }
                 else
                 {
-                    result = "{\"msg\":\"修改失败！\",\"success\":false}";
+                    return OperationReturn(false, "修改失败！");
                 }
             }
             else
             {
-                result = "{\"msg\":\"原密码不正确！\",\"success\":false}";
+                return OperationReturn(false, "原密码不正确！");
             }
-            return Content(result);
+            //return Content(result);
         }
 
         public ActionResult ChangePwd()
@@ -175,40 +175,27 @@ namespace YMOA.Web.Controllers
                 paras["CreateBy"] = paras["UpdateBy"];
                 paras["CreateTime"] = paras["UpdateTime"];
             }
-            if (DALUtility.User.Save(paras) > 0)
+            int iCheck = DALUtility.User.CheckUseridAndEmail(paras);
+            if (iCheck > 0)
             {
-                return Content("{\"msg\":\"操作成功！\",\"success\":true}");
+                return OperationReturn(false, iCheck == 1 ? "用户名重复" : "邮箱重复");
             }
             else
             {
-                return Content("{\"msg\":\"操作失败！\",\"success\":true}");
+                return OperationReturn(DALUtility.User.Save(paras) > 0);
             }
         }
 
         public ActionResult DelUserByIDs()
         {
-            try
+            string Ids = Request["IDs"] == null ? "" : Request["IDs"];
+            if (!string.IsNullOrEmpty(Ids))
             {
-                string Ids = Request["IDs"] == null ? "" : Request["IDs"];
-                if (!string.IsNullOrEmpty(Ids))
-                {
-                    if (DALUtility.User.DeleteUser(Ids))
-                    {
-                        return Content("{\"msg\":\"删除成功！\",\"success\":true}");
-                    }
-                    else
-                    {
-                        return Content("{\"msg\":\"删除失败！\",\"success\":false}");
-                    }
-                }
-                else
-                {
-                    return Content("{\"msg\":\"删除失败！\",\"success\":false}");
-                }
+                return OperationReturn(DALUtility.User.DeleteUser(Ids));
             }
-            catch (Exception ex)
+            else
             {
-                return Content("{\"msg\":\"删除失败," + ex.Message + "\",\"success\":false}");
+                return OperationReturn(false);
             }
         }
 
@@ -219,132 +206,6 @@ namespace YMOA.Web.Controllers
         public ActionResult UserRole()
         {
             return View();
-        }
-
-        /// <summary>
-        /// 新增 用户角色权限
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult SetUserRole()
-        {
-            try
-            {
-                string UserIDs = Request["UserIDs"] ?? "";  //用户id，可能是多个 
-                string RoleIDs = Request["RoleIDs"] ?? "";  //角色id，可能是多个
-
-                if (UserIDs.IndexOf(",") == -1)  //单个用户分配角色
-                {
-                    if (UserIDs != "" && SetRoleSingle(Convert.ToInt32(UserIDs), RoleIDs))
-                    {
-                        return Content("{\"msg\":\"设置成功！\",\"success\":true}");
-                    }
-                    else
-                    {
-                        return Content("{\"msg\":\"设置失败！\",\"success\":true}");
-                    }
-                }
-                else   //批量设置用户角色
-                {
-                    if (UserIDs != "" && SetRoleBatch(UserIDs, RoleIDs))
-                    {
-                        return Content("{\"msg\":\"设置成功！\",\"success\":true}");
-                    }
-                    else
-                    {
-                        return Content("{\"msg\":\"设置失败！\",\"success\":true}");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return Content("{\"msg\":\"设置失败," + ex.Message + "\",\"success\":false}");
-            }
-        }
-        
-
-        /// <summary>
-        /// 设置用户角色（单个用户）
-        /// </summary>
-        /// <param name="userId">用户主键</param>
-        /// <param name="roleIds">角色id，多个逗号隔开</param>
-        bool SetRoleSingle(int userId, string roleIds)
-        {
-            DataTable dt_user_role_old = DALUtility.Role.GetRoleByUserId(userId);  //用户之前拥有的角色
-            List<UserRoleEntity> role_addList = new List<UserRoleEntity>();     //需要插入角色的sql语句集合
-            List<UserRoleEntity> role_deleteList = new List<UserRoleEntity>();     //需要删除角色的sql语句集合
-
-            string[] str_role = roleIds.Trim(',').Split(',');    //传过来用户勾选的角色（有去勾的也有新勾选的）
-
-            UserRoleEntity userroledelete = null;
-            UserRoleEntity userroleadd = null;
-            //用户去掉勾选的角色（要删除本用户的角色）
-            for (int i = 0; i < dt_user_role_old.Rows.Count; i++)
-            {
-                //等于-1说明用户去掉勾选了某个角色 需要删除
-                if (Array.IndexOf(str_role, dt_user_role_old.Rows[i]["roleid"].ToString()) == -1)
-                {
-                    userroledelete = new UserRoleEntity();
-                    userroledelete.RoleId = Convert.ToInt32(dt_user_role_old.Rows[i]["roleid"].ToString());
-                    userroledelete.UserId = userId;
-                    role_deleteList.Add(userroledelete);
-                }
-            }
-
-            //用户新勾选的角色（要添加本用户的角色）
-            if (!string.IsNullOrEmpty(roleIds))
-            {
-                for (int j = 0; j < str_role.Length; j++)
-                {
-                    //等于0那么原来的角色没有 是用户新勾选的
-                    if (dt_user_role_old.Select("roleid = '" + str_role[j] + "'").Length == 0)
-                    {
-                        userroleadd = new UserRoleEntity();
-                        userroleadd.UserId = userId;
-                        userroleadd.RoleId = Convert.ToInt32(str_role[j]);
-                        role_addList.Add(userroleadd);
-                    }
-                }
-            }
-            if (role_addList.Count == 0 && role_deleteList.Count == 0)
-                return true;
-            else
-                return DALUtility.UserRole.SetRoleSingle(role_addList, role_deleteList);
-        }
-
-        /// <summary>
-        /// 设置用户角色（批量设置）
-        /// </summary>
-        /// <param name="userIds">用户主键，多个逗号隔开</param>
-        /// <param name="roleIds">角色id，多个逗号隔开</param>
-        bool SetRoleBatch(string userIds, string roleIds)
-        {
-            List<UserRoleEntity> role_addList = new List<UserRoleEntity>();     //需要插入角色的sql语句集合
-            List<UserRoleEntity> role_deleteList = new List<UserRoleEntity>();     //需要删除角色的sql语句集合
-            string[] str_userid = userIds.Trim(',').Split(',');
-            string[] str_role = roleIds.Trim(',').Split(',');
-
-            UserRoleEntity userroledelete = null;
-            UserRoleEntity userroleadd = null;
-            for (int i = 0; i < str_userid.Length; i++)
-            {
-                //批量设置先删除当前用户的所有角色
-                userroledelete = new UserRoleEntity();
-                userroledelete.UserId = Convert.ToInt32(str_userid[i]);
-                role_deleteList.Add(userroledelete);
-
-                if (!string.IsNullOrEmpty(roleIds))
-                {
-                    //再添加设置的角色
-                    for (int j = 0; j < str_role.Length; j++)
-                    {
-                        userroleadd = new UserRoleEntity();
-                        userroleadd.UserId = Convert.ToInt32(str_userid[i]);
-                        userroleadd.RoleId = Convert.ToInt32(str_role[j]);
-                        role_addList.Add(userroleadd);
-                    }
-                }
-            }
-            return DALUtility.UserRole.SetRoleBatch(role_addList, role_deleteList);
         }
 
         /// <summary>
