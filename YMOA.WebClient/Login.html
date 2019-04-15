@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-1.10.2.min.js"></script>
+    <script src="Scripts/Comm.js"></script>
+    <script type="text/javascript">
+        function _login() {
+            //{ UserAccount: $("#txtAccount").val(), Pwd: $("#txtPassword").val() }
+            //var retData = doPost("login", { UserAccount: $("#txtAccount").val(), Pwd: $("#txtPassword").val() });
+            invokeService("login", { UserAccount: $("#txtAccount").val(), Pwd: $("#txtPassword").val() }, function (r) {
+                if (r == 0) {
+                    window.location.href = "Index.html";
+                } else {
+                    alert("登入失败");
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <input id="txtAccount" type="text" placeholder="UserId" />
+    <input id="txtPassword" type="password" placeholder="Passwrod" />
+    <input id="btnLogin" type="button" value="Login" onclick="_login();" />
+</body>
+</html>
