@@ -210,49 +210,6 @@ namespace YMOA.DAL
             return SqlHelper.GetDataTable(SqlHelper.connStr, CommandType.Text, strSql.ToString(), new SqlParameter("@userId", userId));
         }
 
-        public string QryUserList(Dictionary<string, object> paras)
-        {
-
-            int iCount = 0;
-            WhereBuilder builder = new WhereBuilder();
-            builder.FromSql = "tbUser";
-            GridData grid = new GridData()
-            {
-                PageIndex = Convert.ToInt32(paras["pi"]),
-                PageSize = Convert.ToInt32(paras["pageSize"]),
-                SortField = "ID"
-            };
-            builder.AddWhereAndParameter(paras, "userid", "AccountName", "LIKE", "'%'+@userid+'%'");
-            builder.AddWhereAndParameter(paras, "username", "RealName", "LIKE", "'%'+@username+'%'");
-            builder.AddWhereAndParameter(paras, "IsAble");
-            builder.AddWhereAndParameter(paras, "IfChangePwd");
-            builder.AddWhereAndParameter(paras, "adddatestart", "CreateTime", ">");
-            builder.AddWhereAndParameter(paras, "adddateend", "CreateTime", "<");
-            var s = SortAndPage(builder, grid, out iCount);
-            string retData = JsonConvert.SerializeObject(new { total = iCount, rows = s });
-            return retData;
-        }
-
-        public IEnumerable<T> QryUsers<T>(Dictionary<string, object> paras, out int iCount)
-        {
-            iCount = 0;
-            WhereBuilder builder = new WhereBuilder();
-            builder.FromSql = "tbUser";
-            GridData grid = new GridData()
-            {
-                PageIndex = Convert.ToInt32(paras["pi"]),
-                PageSize = Convert.ToInt32(paras["pageSize"]),
-                SortField = "ID"
-            };
-            builder.AddWhereAndParameter(paras, "userid", "AccountName", "LIKE", "'%'+@userid+'%'");
-            builder.AddWhereAndParameter(paras, "username", "RealName", "LIKE", "'%'+@username+'%'");
-            builder.AddWhereAndParameter(paras, "IsAble");
-            builder.AddWhereAndParameter(paras, "IfChangePwd");
-            builder.AddWhereAndParameter(paras, "adddatestart", "CreateTime", ">");
-            builder.AddWhereAndParameter(paras, "adddateend", "CreateTime", "<");
-            return SortAndPage<T>(builder, grid, out iCount);
-        }
-
         /// <summary>
         /// 把DataRow行转成实体类对象
         /// </summary>
@@ -298,6 +255,59 @@ namespace YMOA.DAL
                 model.UpdateBy = dr["UpdateBy"].ToString();
 
 
+        }
+
+        public IEnumerable<T> QryUsers<T>(Dictionary<string, object> paras, out int iCount)
+        {
+            iCount = 0;
+            WhereBuilder builder = new WhereBuilder();
+            builder.FromSql = "v_user_list";
+            GridData grid = new GridData()
+            {
+                PageIndex = Convert.ToInt32(paras["pi"]),
+                PageSize = Convert.ToInt32(paras["pageSize"]),
+                SortField = paras["sort"].ToString(),
+                SortDirection = paras["order"].ToString()
+            };
+            builder.AddWhereAndParameter(paras, "userid", "AccountName", "LIKE", "'%'+@userid+'%'");
+            builder.AddWhereAndParameter(paras, "username", "RealName", "LIKE", "'%'+@username+'%'");
+            builder.AddWhereAndParameter(paras, "IsAble");
+            builder.AddWhereAndParameter(paras, "IfChangePwd");
+            builder.AddWhereAndParameter(paras, "RoleID");
+            builder.AddWhereAndParameter(paras, "adddatestart", "CreateTime", ">");
+            builder.AddWhereAndParameter(paras, "adddateend", "CreateTime", "<");
+            return SortAndPage<T>(builder, grid, out iCount);
+        }
+
+        /// <summary>
+        /// 查询用户资料
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        public T QryUserInfo<T>(Dictionary<string, object> paras)
+        {
+            return QuerySingle<T>("SELECT * FROM v_user_info WHERE ID=@ID", paras, CommandType.Text);
+        }
+
+        /// <summary>
+        /// 检查账号、邮箱是否存在重复
+        /// </summary>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        public int CheckUseridAndEmail(Dictionary<string, object> paras)
+        {
+            return QuerySingle<int>("P_User_CheckUseridAndEmail", paras, CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 新增/修改用户
+        /// </summary>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        public int Save(Dictionary<string, object> paras)
+        {
+            return StandardInsertOrUpdate("tbUser", paras);
         }
     }
 }

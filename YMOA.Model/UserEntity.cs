@@ -31,6 +31,11 @@ namespace YMOA.Model
         public string RealName { get; set; }
 
         /// <summary>
+        /// 权限ID
+        /// </summary>
+        public int RoleID { get; set; }
+
+        /// <summary>
         /// 联系人手机号码 
         /// </summary>
         public string MobilePhone { get; set; }

@@ -64,7 +64,7 @@ namespace YMOA.DAL
         /// <param name="addParameter"></param>
         public void AddWhereAndParameter(Dictionary<string, object> paras, string key, string dbField = "", string operatorTag = "=", string obj = "", bool addParameter = true)
         {
-            if (paras.ContainsKey(key))
+            if (paras.ContainsKey(key) && !string.IsNullOrEmpty(paras[key].ToString()))
             {
                 if (string.IsNullOrEmpty(dbField))
                 {

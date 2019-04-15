@@ -30,36 +30,29 @@ namespace YMOA.Web.Controllers
         /// <returns></returns>
         public ActionResult UpdatePwd(string UserPwd, string NewPwd, string ConfirmPwd)
         {
-            try
+            string result = "";
+            UserEntity uInfo = ViewData["Account"] as UserEntity;
+
+            UserEntity userChangePwd = new UserEntity();
+            userChangePwd.ID = uInfo.ID;
+            userChangePwd.Password = Md5.GetMD5String(NewPwd);   //md5加密
+
+            if (Md5.GetMD5String(UserPwd) == uInfo.Password)
             {
-                string result = "";
-                UserEntity uInfo = ViewData["Account"] as UserEntity;
-
-                UserEntity userChangePwd = new UserEntity();
-                userChangePwd.ID = uInfo.ID;
-                userChangePwd.Password = Md5.GetMD5String(NewPwd);   //md5加密
-
-                if (Md5.GetMD5String(UserPwd) == uInfo.Password)
+                if (DALUtility.User.ChangePwd(userChangePwd))
                 {
-                    if (DALUtility.User.ChangePwd(userChangePwd))
-                    {
-                        result = "{\"msg\":\"修改成功，请重新登录！\",\"success\":true}";
-                    }
-                    else
-                    {
-                        result = "{\"msg\":\"修改失败！\",\"success\":false}";
-                    }
+                    result = "{\"msg\":\"修改成功，请重新登录！\",\"success\":true}";
                 }
                 else
                 {
-                    result = "{\"msg\":\"原密码不正确！\",\"success\":false}";
+                    result = "{\"msg\":\"修改失败！\",\"success\":false}";
                 }
-                return Content(result);
             }
-            catch (Exception ex)
+            else
             {
-                return Content("{\"msg\":\"修改失败," + ex.Message + "\",\"success\":false}");
+                result = "{\"msg\":\"原密码不正确！\",\"success\":false}";
             }
+            return Content(result);
         }
 
         public ActionResult ChangePwd()
@@ -69,7 +62,6 @@ namespace YMOA.Web.Controllers
 
         public ActionResult GetAllUserInfo()
         {
-            string strWhere = "1=1";
             string sort = Request["sort"] == null ? "ID" : Request["sort"];
             string order = Request["order"] == null ? "asc" : Request["order"];
 
@@ -83,42 +75,26 @@ namespace YMOA.Web.Controllers
             string userperson = Request["userperson"] == null ? "" : Request["userperson"];
             string adddatestart = Request["adddatestart"] == null ? "" : Request["adddatestart"];
             string adddateend = Request["adddateend"] == null ? "" : Request["adddateend"];
-
-            if (userid.Trim() != "" && !SqlInjection.GetString(userid))   //防止sql注入
-                strWhere += string.Format(" and AccountName like '%{0}%'", userid.Trim());
-            if (username.Trim() != "" && !SqlInjection.GetString(username))
-                strWhere += string.Format(" and RealName like '%{0}%'", username.Trim());
-            if (isable.Trim() != "select" && isable.Trim() != "")
-                strWhere += " and IsAble = '" + isable.Trim() + "'";
-            if (ifchangepwd.Trim() != "select" && ifchangepwd.Trim() != "")
-                strWhere += " and IfChangePwd = '" + ifchangepwd.Trim() + "'";
-            if (adddatestart.Trim() != "")
-                strWhere += " and CreateTime > '" + adddatestart.Trim() + "'";
-            if (adddateend.Trim() != "")
-                strWhere += " and CreateTime < '" + adddateend.Trim() + "'";
-
+            int roleid = Request["roleid"] == null ? 0 :int.Parse(Request["roleid"]);
+            
             int totalCount;   //输出参数
-            DataTable dt = SqlPagerHelper.GetPager("tbUser", "ID,AccountName,[Password],RealName,MobilePhone,Email,IsAble,IfChangePwd,[Description],CreateTime,CreateBy,UpdateTime,UpdateBy", sort + " " + order, pagesize, pageindex, strWhere, out totalCount);
-            dt.Columns.Add(new DataColumn("UserRoleId"));
-            dt.Columns.Add(new DataColumn("UserRole"));
-            dt.Columns.Add(new DataColumn("UserDepartmentId"));
-            dt.Columns.Add(new DataColumn("UserDepartment"));
-            for (int i = 0; i < dt.Rows.Count; i++)
+            Dictionary<string, object> paras = new Dictionary<string, object>();
+            paras["pi"] = pageindex;
+            paras["pageSize"] = pagesize;
+            paras["userid"] = userid;
+            paras["username"] = username;
+            paras["IsAble"] = true;
+            paras["IfChangePwd"] = true;
+            paras["adddatestart"] = adddatestart;
+            paras["adddateend"] = adddateend;
+            paras["sort"] = sort;
+            paras["order"] = order;
+            if (roleid > 0)
             {
-                DataTable dtrole = DALUtility.Role.GetRoleByUserId(Convert.ToInt32(dt.Rows[i]["ID"]));
-                DataTable dtdepartment = DALUtility.Department.GetDepartmentByUserId(Convert.ToInt32(dt.Rows[i]["ID"]));
-                dt.Rows[i]["UserRoleId"] = JsonHelper.ColumnToJson(dtrole, 0);
-                dt.Rows[i]["UserRole"] = JsonHelper.ColumnToJson(dtrole, 1);
-                dt.Rows[i]["UserDepartmentId"] = JsonHelper.ColumnToJson(dtdepartment, 0);
-                dt.Rows[i]["UserDepartment"] = JsonHelper.ColumnToJson(dtdepartment, 1);
+                paras["RoleID"] = roleid;
             }
-            #warning 待优化——先查询出当前集相关联的角色、部门数据；后续再对应复制
-            string strJson = JsonHelper.ToJson(dt);
-            var jsonResult = new { total = totalCount.ToString(), rows = strJson };
-
-            //string strJson = JsonHelper.ToJson(SqlPagerHelper.GetPager("tbUser", "ID,AccountName,[Password],RealName,MobilePhone,Email,IsAble,IfChangePwd,[Description],CreateTime,CreateBy,UpdateTime,UpdateBy", sort + " " + order, pagesize, pageindex, strWhere, out totalCount));
-            //var jsonResult = new { total = totalCount.ToString(), rows = strJson };
-            return Content("{\"total\": " + totalCount.ToString() + ",\"rows\":" + strJson + "}");
+            var users = DALUtility.User.QryUsers<UserEntity>(paras, out totalCount);
+            return PagerData(totalCount, users);
         }
 
         /// <summary>
@@ -136,51 +112,29 @@ namespace YMOA.Web.Controllers
         /// <returns></returns>
         public ActionResult AddUser()
         {
-            try
-            {
-                UserEntity uInfo = ViewData["Account"] as UserEntity;
-                string userid = Request["UserID"];
-                string username = Request["UserName"];
-                bool isable = bool.Parse(Request["Isable"]);
-                bool ifchangepwd = bool.Parse(Request["IfChangepwd"]);
-                string description = Request["Description"];
+            return SaveUser();
 
-                UserEntity userAdd = new UserEntity();
-                userAdd.AccountName = userid.Trim();
-                userAdd.RealName = username.Trim();
-                userAdd.Password = Md5.GetMD5String("q123456");   //md5加密
-                userAdd.IsAble = isable;
-                userAdd.IfChangePwd = ifchangepwd;
-                userAdd.Description = description.Trim();
-                userAdd.MobilePhone = Request["MobilePhone"];
-                userAdd.Email = Request["Email"];
-                userAdd.CreateTime = DateTime.Now;
-                userAdd.CreateBy = uInfo.AccountName;
-                userAdd.UpdateTime = DateTime.Now;
-                userAdd.UpdateBy = uInfo.AccountName;
-                int userId = DALUtility.User.AddUser(userAdd);
-                if (userId > 0)
-                {
-                    return Content("{\"msg\":\"添加成功！默认密码是【q123456】！\",\"success\":true}");
-                }
-                else
-                {
-                    return Content("{\"msg\":\"添加失败！\",\"success\":false}");
-                }
-            }
-            catch (Exception ex)
-            {
-                return Content("{\"msg\":\"添加失败," + ex.Message + "\",\"success\":false}");
-            }
         }
 
         /// <summary>
         /// 编辑页面展示
         /// </summary>
         /// <returns></returns>
-        public ActionResult UserEdit()
+        public ActionResult UserEdit(int ID = 0)
         {
-            return View();
+            var userInfo = new UserEntity();
+            if (ID > 0)
+            {
+                Dictionary<string, object> paras = new Dictionary<string, object>();
+                paras["ID"] = ID;
+                userInfo = DALUtility.User.QryUserInfo<UserEntity>(paras);
+            }
+            else
+            {
+                userInfo.IfChangePwd = true;
+                userInfo.IsAble = true;
+            }
+            return PartialView("_UserEdit", userInfo);
         }
 
         /// <summary>
@@ -189,43 +143,45 @@ namespace YMOA.Web.Controllers
         /// <returns></returns>
         public ActionResult EditUser()
         {
-            try
+            
+            return SaveUser();
+        }
+
+        private ActionResult SaveUser()
+        {
+            int id = Convert.ToInt32(Request["id"]);
+            string userid = Request["UserID"];
+            string username = Request["UserName"];
+            bool isable = bool.Parse(Request["Isable"]);
+            bool ifchangepwd = bool.Parse(Request["IfChangepwd"]);
+            string description = Request["Description"];
+
+            Dictionary<string, object> paras = new Dictionary<string, object>();
+            paras["ID"] = id;
+            paras["AccountName"] = userid;
+            paras["RealName"] = username;
+            paras["RoleID"] = Convert.ToInt32(Request["RoleID"]);
+            paras["MobilePhone"] = Request["MobilePhone"];
+            paras["Email"] = Request["Email"];
+            paras["IsAble"] = isable;
+            paras["IfChangePwd"] = ifchangepwd;
+            paras["Description"] = description.Trim();
+            paras["UpdateBy"] = "admin";
+#warning 获取当前用户名
+            paras["UpdateTime"] = DateTime.Now;
+            if (id == 0)
             {
-                int id = Convert.ToInt32(Request["id"]);
-                string originalName = Request["originalName"];
-                string userid = Request["UserID"];
-                string username = Request["UserName"];
-                bool isable = bool.Parse(Request["Isable"]);
-                bool ifchangepwd = bool.Parse(Request["IfChangepwd"]);
-                string description = Request["Description"];
-
-                UserEntity userEdit = new UserEntity();
-                userEdit.ID = id;
-                userEdit.AccountName = userid.Trim();
-                userEdit.RealName = username.Trim();
-                userEdit.IsAble = isable;
-                userEdit.IfChangePwd = ifchangepwd;
-                userEdit.Description = description.Trim();
-                userEdit.MobilePhone = Request["MobilePhone"];
-                userEdit.Email = Request["Email"];
-                userEdit.UpdateTime = DateTime.Now;
-                if (userEdit.AccountName != originalName && DALUtility.User.GetUserByUserId(userEdit.AccountName) != null)
-                {
-                    throw new Exception("已经存在此用户！");
-                }
-                if (DALUtility.User.EditUser(userEdit))
-                {
-                    return Content("{\"msg\":\"修改成功！\",\"success\":true}");
-                }
-                else
-                {
-                    return Content("{\"msg\":\"修改失败！\",\"success\":true}");
-                }
-
+                paras["Password"] = Md5.GetMD5String("q123456");   //md5加密
+                paras["CreateBy"] = paras["UpdateBy"];
+                paras["CreateTime"] = paras["UpdateTime"];
             }
-            catch (Exception ex)
+            if (DALUtility.User.Save(paras) > 0)
             {
-                return Content("{\"msg\":\"修改失败," + ex.Message + "\",\"success\":false}");
+                return Content("{\"msg\":\"操作成功！\",\"success\":true}");
+            }
+            else
+            {
+                return Content("{\"msg\":\"操作失败！\",\"success\":true}");
             }
         }
 

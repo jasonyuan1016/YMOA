@@ -15,7 +15,7 @@ namespace YMOA.UnitTest
             var paras = new Dictionary<string, object>();
             paras["pi"] = 1;
             paras["pageSize"] = 20;
-            paras["userid"] = "test_";
+            paras["userid"] = "admin";
             int iCount = 0;
             var userList = DALCore.GetInstance().User.QryUsers<UserEntity>(paras, out iCount);
             Assert.AreNotEqual(iCount, 0);

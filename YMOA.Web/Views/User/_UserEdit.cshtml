@@ -1,0 +1,94 @@
+﻿@model YMOA.Model.UserEntity
+<form id="UserEditForm" method="post" action="">
+    <table class="tableForm" width="100%">
+        <tr>
+            <th>
+                登录账号：
+            </th>
+            <td>
+                <input type="hidden" name="hidid" id="hidid" value="@Model.ID" />
+                @{
+                    string strReadOnly = string.Empty;
+                    if (Model.ID > 0)
+                    {
+                        strReadOnly = "readonly=\"readonly\" disabled=\"disabled\"";
+                    }
+                }
+                <input type="text" name="txtUserIDEdit" id="txtUserIDEdit" @strReadOnly class="easyui-validatebox textbox"
+                       data-options="required:true,validType:'username'" style="width:170px;height:22px;" value="@Model.AccountName" />
+                <span style="color:gray;">字母开头，允许6-16位，允许字母数字下划线</span>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                用户名称：
+            </th>
+            <td>
+                <input type="text" name="txtUserNameEdit" id="txtUserNameEdit" class="easyui-validatebox textbox"
+                       data-options="required:true,validType:'length[2,20]'" style="width:170px;height:22px;" value="@Model.RealName" />
+            </td>
+        </tr>
+        <tr>
+            <th>角色：</th>
+            <td>
+                <input id="hidRole" type="hidden" value="@Model.RoleID" />
+                <select id="sltRole"></select>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                联系人手机：
+            </th>
+            <td>
+                <input type="text" name="txtMobilePhone" id="txtMobilePhone" class="easyui-validatebox textbox" data-options="required:false,validType:'mobile'" style="width:170px;height:22px;" value="@Model.MobilePhone" />
+            </td>
+        </tr>
+        <tr>
+            <th>
+                联系人邮箱：
+            </th>
+            <td>
+                <input type="text" name="txtEmail" id="txtEmail" class="easyui-validatebox textbox" data-options="required:false,validType:'email'" style="width:170px;height:22px;" value="@Model.Email" />
+            </td>
+        </tr>
+        <tr>
+            <th>
+                是否启用：
+            </th>
+            <td>
+                @{
+                    string strCheck = string.Empty;
+                    if (Model.IsAble)
+                    {
+                        strCheck = "checked=\"checked\"";
+                    }
+                }
+                <input type="checkbox" name="selUserIsableEdit" id="selUserIsableEdit" @strCheck />
+            </td>
+        </tr>
+        <tr>
+            <th>
+                已经改密：
+            </th>
+            <td>
+                @{
+                    strCheck = string.Empty;
+                    if (Model.IfChangePwd)
+                    {
+                        strCheck = "checked=\"checked\"";
+                    }
+                }
+                <input type="checkbox" name="selIfChangepwdEdit" id="selIfChangepwdEdit" @strCheck />
+            </td>
+        </tr>
+        <tr>
+            <th>
+                简介：
+            </th>
+            <td>
+                <input id="hidDescription" type="hidden" value="@Model.Description" />
+                <textarea rows="3" cols="50" name="txtUserDescriptionEdit" id="txtUserDescriptionEdit" class="easyui-validatebox textbox" data-options="required:false,validType:'length[1,100]'"></textarea>
+            </td>
+        </tr>
+    </table>
+</form>

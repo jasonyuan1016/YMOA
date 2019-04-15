@@ -59,9 +59,35 @@ namespace YMOA.IDAL
         /// </summary>
         DataTable GetUserInfo(int userId);
 
-        string QryUserList(Dictionary<string, object> paras);
-
-
+        /// <summary>
+        /// 查询用户列表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <param name="iCount"></param>
+        /// <returns></returns>
         IEnumerable<T> QryUsers<T>(Dictionary<string, object> paras, out int iCount);
+
+        /// <summary>
+        /// 查询用户资料
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        T QryUserInfo<T>(Dictionary<string, object> paras);
+
+        /// <summary>
+        /// 检查账号、邮箱是否存在重复
+        /// </summary>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        int CheckUseridAndEmail(Dictionary<string, object> paras);
+
+        /// <summary>
+        /// 新增/修改用户
+        /// </summary>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        int Save(Dictionary<string, object> paras);
     }
 }
