@@ -22,6 +22,7 @@ namespace YMOA.WebClient
                     //context.Request.Form.AllKeys      //请求参数
                     retData.result = 0;
                     break;
+
             }
 
             context.Response.Write(JsonConvert.SerializeObject(retData));

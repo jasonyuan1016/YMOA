@@ -159,10 +159,11 @@ namespace YMOA.Web.Controllers
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["ID"] = id;
             paras["AccountName"] = userid;
+            paras["Email"] = Request["Email"];
+            int iCheck = DALUtility.User.CheckUseridAndEmail(paras);
             paras["RealName"] = username;
             paras["RoleID"] = Convert.ToInt32(Request["RoleID"]);
             paras["MobilePhone"] = Request["MobilePhone"];
-            paras["Email"] = Request["Email"];
             paras["IsAble"] = isable;
             paras["IfChangePwd"] = ifchangepwd;
             paras["Description"] = description.Trim();
@@ -175,7 +176,7 @@ namespace YMOA.Web.Controllers
                 paras["CreateBy"] = paras["UpdateBy"];
                 paras["CreateTime"] = paras["UpdateTime"];
             }
-            int iCheck = DALUtility.User.CheckUseridAndEmail(paras);
+            
             if (iCheck > 0)
             {
                 return OperationReturn(false, iCheck == 1 ? "用户名重复" : "邮箱重复");
