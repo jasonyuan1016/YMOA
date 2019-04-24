@@ -24,7 +24,7 @@ namespace YMOA.DAL
                 }
 
                 return 30;
-            }
+            } 
         }
 
         protected string ConnString { get; set; } = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
