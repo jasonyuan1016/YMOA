@@ -54,25 +54,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArticleEntity.cs" />
-    <Compile Include="ButtonEntity.cs" />
-    <Compile Include="DataTypeEntity.cs" />
     <Compile Include="DepartmentEntity.cs" />
-    <Compile Include="FieldsEntity.cs" />
-    <Compile Include="HtmlTypeEntity.cs" />
-    <Compile Include="IconsEntity.cs" />
+    <Compile Include="MenuPermission.cs" />
     <Compile Include="LoginIpLogEntity.cs" />
-    <Compile Include="MenuButtonEntity.cs" />
     <Compile Include="MenuEntity.cs" />
-    <Compile Include="NewsEntity.cs" />
-    <Compile Include="NewsTypeEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestionEntity.cs" />
-    <Compile Include="RequestionTypeEntity.cs" />
     <Compile Include="RoleEntity.cs" />
-    <Compile Include="RoleMenuButtonEntity.cs" />
     <Compile Include="RoleMenuEntity.cs" />
-    <Compile Include="TableEntity.cs" />
     <Compile Include="UserDepartmentEntity.cs" />
     <Compile Include="UserEntity.cs" />
     <Compile Include="UserRoleEntity.cs" />

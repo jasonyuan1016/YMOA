@@ -75,16 +75,6 @@ namespace YMOA.DALFactory
         #endregion
 
 
-        public IAuthorityDAL Authority
-        {
-            get {  return LoadAssamblyType<IAuthorityDAL>("AuthorityDAL");}
-        }
-
-        public IMenuDAL Menu
-        {
-            get { return LoadAssamblyType<IMenuDAL>("MenuDAL"); }
-        }
-
 
         public IRoleDAL Role
         {
@@ -101,31 +91,6 @@ namespace YMOA.DALFactory
             get { return LoadAssamblyType<IUserRoleDAL>("UserRoleDAL"); }
         }
 
-        public IRequestionTypeDAL RequestionType
-        {
-            get { return LoadAssamblyType<IRequestionTypeDAL>("RequestionTypeDAL"); }
-        }
-
-        public IRequestionDAL Requestion
-        {
-            get { return LoadAssamblyType<IRequestionDAL>("RequestionDAL"); }
-        }
-
-        public IButtonDAL Button
-        {
-            get { return LoadAssamblyType<IButtonDAL>("ButtonDAL"); }
-        }
-
-        public IMenuButtonDAL MenuButton
-        {
-            get { return LoadAssamblyType<IMenuButtonDAL>("MenuButtonDAL"); }
-        }
-
-        public IRoleMenuButtonDAL RoleMenuButton
-        {
-            get { return LoadAssamblyType<IRoleMenuButtonDAL>("RoleMenuButtonDAL"); }
-        }
-
         public IDepartmentDAL Department
         {
             get
@@ -136,30 +101,6 @@ namespace YMOA.DALFactory
         {
             get
             { return LoadAssamblyType<IUserDepartmentDAL>("UserDepartmentDAL"); }
-        }
-
-        public INewsTypeDAL NewsType
-        {
-            get
-            { return LoadAssamblyType<INewsTypeDAL>("NewsTypeDAL"); }
-        }
-
-        public INewsDAL News
-        {
-            get
-            { return LoadAssamblyType<INewsDAL>("NewsDAL"); }
-        }
-
-        public IIconsDAL Icons
-        {
-            get
-            { return LoadAssamblyType<IIconsDAL>("IconsDAL"); }
-        }
-
-        public ILoginIpLogDAL LoginIpLog
-        {
-            get
-            { return LoadAssamblyType<ILoginIpLogDAL>("LoginIpLogDAL"); }
         }
     }
 }

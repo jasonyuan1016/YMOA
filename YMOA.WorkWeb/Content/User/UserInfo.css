@@ -1,0 +1,17 @@
+﻿.user-info .header {
+    border-bottom: 1px solid #dedede;
+}
+
+.user-info .main {
+    width: 260px;
+    margin: 15px auto;
+}
+
+.user-info .alter_but {
+    width: 90px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ca141d;
+    color: #fff;
+}

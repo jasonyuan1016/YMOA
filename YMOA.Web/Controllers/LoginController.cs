@@ -30,7 +30,7 @@ namespace YMOA.Web.Controllers
             try
             {
                 var iUserDal = DALUtility.User;
-                var currentUser = iUserDal.UserLogin(userInfo.AccountName, Md5.GetMD5String(userInfo.Password));
+                var currentUser = iUserDal.UserLogin(userInfo.AccountName, Md5.md5(userInfo.Password));
                 if (currentUser != null)
                 {
                     if (currentUser.IsAble == false)

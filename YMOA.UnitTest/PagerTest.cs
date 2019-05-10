@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using YMOA.Comm;
 using YMOA.DALFactory;
 using YMOA.Model;
 
@@ -12,13 +13,22 @@ namespace YMOA.UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            var paras = new Dictionary<string, object>();
-            paras["pi"] = 1;
-            paras["pageSize"] = 20;
-            paras["userid"] = "admin";
-            int iCount = 0;
-            var userList = DALCore.GetInstance().User.QryUsers<UserEntity>(paras, out iCount);
-            Assert.AreNotEqual(iCount, 0);
+            Dictionary<string, object> pars = new Dictionary<string, object>();
+            pars["keyword"] = "Test_";
+            Pagination pagination = new Pagination();
+            pagination.sidx = "ID";
+            pagination.sord = "DESC";
+            pagination.rows = 10;
+            pagination.page = 1;
+            
+            var data = new
+            {
+                rows = DALCore.GetInstance().User.QryUsers<UserEntity>(pagination, pars),
+                total = pagination.total,
+                page = pagination.page,
+                records = pagination.records
+            };
+            Assert.AreNotEqual(pagination.records, 0);
         }
     }
 }

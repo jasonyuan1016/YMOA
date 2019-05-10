@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using YMOA.Comm;
 using YMOA.Model;
 
 namespace YMOA.IDAL
@@ -32,7 +33,7 @@ namespace YMOA.IDAL
         /// <summary>
         /// 用户登录
         /// </summary>
-        UserEntity UserLogin(string loginId, string loginPwd);
+        UserEntity UserLogin(Dictionary<string, object> paras);
 
         /// <summary>
         /// 根据用户id判断用户是否可用
@@ -69,6 +70,15 @@ namespace YMOA.IDAL
         IEnumerable<T> QryUsers<T>(Dictionary<string, object> paras, out int iCount);
 
         /// <summary>
+        /// 查询用户列表
+        /// </summary>
+        /// <typeparam name="T">数据集</typeparam>
+        /// <param name="pagination">分页信息</param>
+        /// <param name="paras">查询条件参数</param>
+        /// <returns></returns>
+        IEnumerable<T> QryUsers<T>(Pagination pagination, Dictionary<string, object> paras);
+
+        /// <summary>
         /// 查询用户资料
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -89,5 +99,8 @@ namespace YMOA.IDAL
         /// <param name="paras"></param>
         /// <returns></returns>
         int Save(Dictionary<string, object> paras);
+
+
+        void GetClientData<T1, T2, T3>(int GroupId, ref List<T1> groups, ref List<T2> departments, ref List<T3> menuPermissions);
     }
 }

@@ -9,6 +9,7 @@ using YMOA.Model;
 using Dapper;
 using Newtonsoft.Json;
 using System.Linq;
+using YMOA.Comm;
 
 namespace YMOA.DAL
 {
@@ -64,36 +65,14 @@ namespace YMOA.DAL
         /// <summary>
         /// 用户登录
         /// </summary>
-        public UserEntity UserLogin(string loginId, string loginPwd)
+        public UserEntity UserLogin(Dictionary<string, object> paras)
         {
             StringBuilder sbSql = new StringBuilder();
-            sbSql.Append("select top 1 ID,AccountName,[Password],RealName,MobilePhone,Email,IsAble,IfChangePwd,[Description],CreateTime,CreateBy,UpdateTime,UpdateBy from tbUser ");
+            sbSql.Append("select top 1 ID, AccountName, RealName, RoleId, MobilePhone, Email, IsAble, DepartmentId, DutyId from tbUser ");
             sbSql.Append("where AccountName=@UserId and Password=@UserPwd");
-            SqlParameter[] paras = { 
-                                       new SqlParameter("@UserId",loginId),
-                                       new SqlParameter("@UserPwd",loginPwd)
-                                       };
-            UserEntity user = null;
-            DataTable dt = SqlHelper.GetDataTable(SqlHelper.connStr, CommandType.Text, sbSql.ToString(), paras);
-            if (dt.Rows.Count > 0)
-            {
-                user = new UserEntity();
-
-                if (!DBNull.Value.Equals(dt.Rows[0]["ID"]))
-                    user.ID = int.Parse(dt.Rows[0]["ID"].ToString());
-                if (!DBNull.Value.Equals(dt.Rows[0]["AccountName"]))
-                    user.AccountName = dt.Rows[0]["AccountName"].ToString();
-                if (!DBNull.Value.Equals(dt.Rows[0]["RealName"]))
-                    user.RealName = dt.Rows[0]["RealName"].ToString();
-                if (!DBNull.Value.Equals(dt.Rows[0]["Password"]))
-                    user.Password = dt.Rows[0]["Password"].ToString();
-                if (!DBNull.Value.Equals(dt.Rows[0]["IsAble"]))
-                    user.IsAble = bool.Parse(dt.Rows[0]["IsAble"].ToString());
-                if (!DBNull.Value.Equals(dt.Rows[0]["IfChangePwd"]))
-                    user.IfChangePwd = bool.Parse(dt.Rows[0]["IfChangePwd"].ToString());
-                return user;
-            }
-            return user;
+        
+            return QuerySingle<UserEntity>(sbSql.ToString(), paras);
+            
         }
 
         /// <summary>
@@ -280,6 +259,27 @@ namespace YMOA.DAL
         }
 
         /// <summary>
+        /// 查询用户列表
+        /// </summary>
+        /// <typeparam name="T">数据集</typeparam>
+        /// <param name="pagination">分页信息</param>
+        /// <param name="paras">查询条件参数</param>
+        /// <returns></returns>
+        public IEnumerable<T> QryUsers<T>(Pagination pagination, Dictionary<string, object> paras)
+        {
+            WhereBuilder builder = new WhereBuilder();
+            builder.FromSql = "v_user_list";
+            if (paras.ContainsKey("keyword"))
+            {
+                builder.AddWhere(" (AccountName Like '%'+@keyword+'%' OR RealName Like '%'+@keyword+'%')");
+                builder.AddParameter("keyword", paras["keyword"]);
+            }
+            
+            var rows = SortAndPage<T>(builder, pagination);
+            return rows;
+        }
+
+        /// <summary>
         /// 查询用户资料
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -309,5 +309,20 @@ namespace YMOA.DAL
         {
             return StandardInsertOrUpdate("tbUser", paras);
         }
+
+        public void GetClientData<T1,T2,T3>(int GroupId,ref List<T1> groups, ref List<T2> departments, ref List<T3> menuPermissions)
+        {
+            using (var connection = GetConnection())
+            {
+                using (var multi = connection.QueryMultiple("P_Data_Init", new { GroupId = GroupId }, null, null, CommandType.StoredProcedure))
+                {
+                    groups = multi.Read<T1>().ToList();
+                    departments = multi.Read<T2>().ToList();
+                    menuPermissions = multi.Read<T3>().ToList();
+                }
+            }
+        }
+            
+        
     }
 }

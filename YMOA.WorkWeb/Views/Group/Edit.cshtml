@@ -1,0 +1,169 @@
+﻿@model YMOA.Model.RoleMenuEntity
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<form id="GroupEdit">
+    <div class="widget-body">
+        <div id="wizard" class="wizard" data-target="#wizard-steps" style="border-left: none; border-top: none; border-right: none;">
+            <ul class="steps">
+                <li data-target="#step-1" class="active"><span class="step">1</span>角色信息<span class="chevron"></span></li>
+                <li data-target="#step-2"><span class="step">2</span>功能权限<span class="chevron"></span></li>
+            </ul>
+        </div>
+        <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
+            <div class="step-pane active" id="step-1" style="margin: 10px; margin-bottom: 0px;">
+                <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+                    <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+                    请填写角色信息，用于创建或修改角色信息！
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">表单信息</h3>
+                        <input id="hidid" type="hidden" value="@Model.roleEntity.id" />
+                    </div>
+                    <div class="panel-body" style="width: 98%;">
+                        <table class="form" id="tabBasicInfo">
+                            <tr>
+                                <th class="formTitle">角色名称</th>
+                                <td class="formValue">
+                                    <input id="txtname" type="text" class="form-control required" placeholder="请输入角色名称" value="@Model.roleEntity.name" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="formTitle">角色编号</th>
+                                <td class="formValue">
+                                    <input id="txtcode" type="text" class="form-control required" placeholder="请输入角色编号" value="@Model.roleEntity.code" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="formTitle">状态</th>
+                                <td class="formValue">
+                                    <select id="sltstate">
+                                        <option value="1">启用</option>
+                                        <option value="0">停用</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="step-pane" id="step-2">
+                <div id="permissionTree">
+                    <table id="tbPermission">
+                        <thead>
+                            <tr>
+                                <th>开放</th>
+                                <th>选单名称</th>
+                                <th>新增</th>
+                                <th>修改</th>
+                                <th>删除</th>
+                                <th>其他</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var menus = ViewData["MenuEntity"] as List<YMOA.Model.MenuEntity>;
+                                var mainMenu = menus.FindAll(x => x.parentid == 0);
+                                bool cbxCheckTag ;
+                                bool cbxCheckTag_Add ;
+                                bool cbxCheckTag_Update ;
+                                bool cbxCheckTag_Delete ;
+                                bool cbxCheckTag_Other ;
+
+                                foreach (var m in mainMenu)
+                                {
+                                    YMOA.Model.AllowOperation cbx = Model.roleEntity.id > 0 ? Model.allowOperations.Find(x => x.id == m.id) : null;
+                                    if (cbx != null)
+                                    {
+                                        cbxCheckTag = true;
+                                        cbxCheckTag_Add = cbx.add;
+                                        cbxCheckTag_Update = cbx.update;
+                                        cbxCheckTag_Delete = cbx.delete;
+                                        cbxCheckTag_Other = cbx.other;
+                                    }
+                                    else
+                                    {
+                                        cbxCheckTag = false;
+                                        cbxCheckTag_Add = false;
+                                        cbxCheckTag_Update = false;
+                                        cbxCheckTag_Delete = false;
+                                        cbxCheckTag_Other = false;
+                                    }
+                                    <tr style="font-weight:bolder">
+                                        <td>
+                                            <input id="cbx_@m.id" type="checkbox" onclick="checkChange('cbx_',@m.id)" value="@m.id" @(cbxCheckTag ? "checked" : "") />
+                                        </td>
+                                        <td>
+                                            @m.name
+                                        </td>
+                                        <td>
+                                            <input id="cbxAdd_@m.id" type="checkbox" onclick="checkChange('cbxAdd_',@m.id)" @(cbxCheckTag_Add ? "checked" : "") />
+                                        </td>
+                                        <td>
+                                            <input id="cbxUpdate_@m.id" type="checkbox" onclick="checkChange('cbxUpdate_',@m.id)" @(cbxCheckTag_Update ? "checked" : "") />
+                                        </td>
+                                        <td>
+                                            <input id="cbxDelete_@m.id" type="checkbox" onclick="checkChange('cbxDelete_',@m.id)" @(cbxCheckTag_Delete ? "checked" : "") />
+                                        </td>
+                                        <td>
+                                            <input id="cbxOther_@m.id" type="checkbox" onclick="checkChange('cbxOther_',@m.id)" @(cbxCheckTag_Other ? "checked" : "") />
+                                        </td>
+                                    </tr>
+                                    var subMenu = menus.FindAll(x => x.parentid == m.id);
+                                    foreach (var s in subMenu)
+                                    {
+                                        cbx = Model.roleEntity.id > 0 ? Model.allowOperations.Find(x => x.id == s.id) : null;
+                                        if (cbx != null)
+                                        {
+                                            cbxCheckTag = true;
+                                            cbxCheckTag_Add = cbx.add;
+                                            cbxCheckTag_Update = cbx.update;
+                                            cbxCheckTag_Delete = cbx.delete;
+                                            cbxCheckTag_Other = cbx.other;
+                                        }
+                                        else
+                                        {
+                                            cbxCheckTag = false;
+                                            cbxCheckTag_Add = false;
+                                            cbxCheckTag_Update = false;
+                                            cbxCheckTag_Delete = false;
+                                            cbxCheckTag_Other = false;
+                                        }
+                                        <tr name="trSubMenuFrom_@m.id">
+                                            <td>
+                                                <input id="cbx_@s.id" type="checkbox" value="@s.id" @(cbxCheckTag ? "checked" : "")/>
+                                            </td>
+                                            <td>
+                                                @s.name
+                                            </td>
+                                            <td>
+                                                <input id="cbxAdd_@s.id" type="checkbox" value="@s.id" @(cbxCheckTag_Add ? "checked" : "") />
+                                            </td>
+                                            <td>
+                                                <input id="cbxUpdate_@s.id" type="checkbox" value="@s.id" @(cbxCheckTag_Update ? "checked" : "") />
+                                            </td>
+                                            <td>
+                                                <input id="cbxDelete_@s.id" type="checkbox" value="@s.id" @(cbxCheckTag_Delete ? "checked" : "") />
+                                            </td>
+                                            <td>
+                                                <input id="cbxOther_@s.id" type="checkbox" value="@s.id" @(cbxCheckTag_Other ? "checked" : "") />
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="form-button" id="wizard-actions">
+            <a id="btn_last" disabled class="btn btn-default btn-prev">上一步</a>
+            <a id="btn_next" class="btn btn-default btn-next">下一步</a>
+            <a id="btn_finish" class="btn btn-default" style="display: none;" onclick="submitForm()">完成</a>
+        </div>
+    </div>
+</form>
+

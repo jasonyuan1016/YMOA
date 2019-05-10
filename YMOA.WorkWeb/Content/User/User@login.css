@@ -1,0 +1,11 @@
+﻿.back-pwd {
+    top: 44px;
+    right: 6px;
+    z-index: 99;
+    position: absolute;
+    text-decoration: none;
+    color: #59d2b5
+}
+.back-pwd:hover {
+    text-decoration: underline;
+}

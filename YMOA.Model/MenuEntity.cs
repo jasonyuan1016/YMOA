@@ -13,57 +13,42 @@ namespace YMOA.Model
         /// <summary>
         /// 主键
         /// </summary>
-        public int Id { get; set; }
+        public int id { get; set; }
 
         /// <summary>
         /// 导航菜单名称
         /// </summary>
-        public string Name { get; set; }
+        public string name { get; set; }
 
-        /// <summary>
-        /// 父级节点id
-        /// </summary>
-        public int ParentId { get; set; }
 
         /// <summary>
         /// 菜单标识码
         /// </summary>
-        public string Code { get; set; }
+        public string code { get; set; }
 
         /// <summary>
-        /// 链接地址
+        /// controller
         /// </summary>
-        public string LinkAddress { get; set; }
+        public string controller { get; set; }
 
         /// <summary>
-        /// 导航菜单图标
+        /// action
         /// </summary>
-        public string Icon { get; set; }
+        public string action { get; set; }
+
+        /// <summary>
+        /// 父级ID
+        /// </summary>
+        public int parentid { get; set; }
+
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public int state { get; set; }
 
         /// <summary>
         /// 导航菜单排序
         /// </summary>
-        public int Sort { get; set; }
-
-        /// <summary>
-        /// 添加时间
-        /// </summary>
-        public DateTime CreateTime { get; set; }
-
-        /// <summary>
-        /// 修改时间
-        /// </summary>
-        public DateTime UpdateTime { get; set; }
-
-        /// <summary>
-        /// 添加人
-        /// </summary>
-        public string CreateBy { get; set; }
-
-        /// <summary>
-        /// 修改人
-        /// </summary>
-        public string UpdateBy { get; set; } 
-
+        public int sortvalue { get; set; }
     }
 }

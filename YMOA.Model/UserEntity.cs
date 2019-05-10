@@ -33,7 +33,27 @@ namespace YMOA.Model
         /// <summary>
         /// 权限ID
         /// </summary>
-        public int RoleID { get; set; }
+        public int RoleId { get; set; }
+
+        /// <summary>
+        /// 部门编号
+        /// </summary>
+        public int DepartmentId { get; set; }
+
+        /// <summary>
+        /// 职务编号
+        /// </summary>
+        public int DutyId { get; set; }
+
+        /// <summary>
+        /// 生日
+        /// </summary>
+        public DateTime Birthday { get; set; }
+
+        /// <summary>
+        /// 入职日期
+        /// </summary>
+        public DateTime Entrydate { get; set; }
 
         /// <summary>
         /// 联系人手机号码 

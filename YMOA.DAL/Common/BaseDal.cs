@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
+using YMOA.Comm;
 
 namespace YMOA.DAL
 {
@@ -39,6 +40,23 @@ namespace YMOA.DAL
             using (IDbConnection conn = GetConnection())
             {
                 return conn.QuerySingle<T>(sql, param, null, CommandTimeout, commandType);
+            }
+        }
+
+        /// <summary>
+        /// 列表查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="param"></param>
+        /// <param name="commandType"></param>
+        /// <param name="buffered">是否将查询结果存放到内存中</param>
+        /// <returns></returns>
+        protected IEnumerable<T> QueryList<T>(string sql, object param = null, CommandType commandType = CommandType.Text, bool buffered = true)
+        {
+            using (IDbConnection conn = GetConnection())
+            {
+                return conn.Query<T>(sql, param, null, buffered, CommandTimeout, commandType);
             }
         }
 
@@ -94,6 +112,28 @@ namespace YMOA.DAL
                 return retObj;
             }
         }
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="connectionString"></param>
+        /// <param name="builder"></param>
+        /// <param name="pagination"></param>
+        /// <returns></returns>
+        protected IEnumerable<T> SortAndPage<T>(WhereBuilder builder, Pagination pagination)
+        {
+            var sql = "";
+            var countSql = "";
+            FormartSqlToSortAndPage(pagination, ref sql, ref countSql, ref builder);
+            using (IDbConnection dbConnection = GetConnection())
+            {
+                var retObj = dbConnection.Query<T>(sql, builder.Parameters);
+                pagination.records = dbConnection.QuerySingleOrDefault<int>(countSql, builder.Parameters);
+                return retObj;
+            }
+        }
+
 
         /// <summary>
         /// 执行标准单表Insert&Update操作
@@ -159,6 +199,33 @@ namespace YMOA.DAL
             sql += " OFFSET @PageStartIndex ROWS FETCH NEXT @PageSize ROWS ONLY";
             builder.Parameters.Add("PageSize", grid.PageSize);
             builder.Parameters.Add("PageStartIndex", grid.PageSize * (grid.PageIndex - 1));
+            #endregion
+            //builder.Parameters.Add("PageSize", grid.PageSize * grid.PageIndex);
+            //builder.Parameters.Add("PageStartIndex", grid.PageSize * (grid.PageIndex - 1) + 1);
+        }
+
+        void FormartSqlToSortAndPage(Pagination pagination, ref string sql, ref string countSql, ref WhereBuilder builder)
+        {
+            sql = "";
+            countSql = "";
+            if (!sql.StartsWith("select", StringComparison.CurrentCultureIgnoreCase))
+            {
+                //sql = string.Format("SELECT * FROM(SELECT row=ROW_NUMBER() OVER(ORDER BY {0} {1}),* FROM {2}", grid.SortField, grid.SortDirection, builder.FromSql); //
+                sql = "select * from " + builder.FromSql;                       //仅支持SQL Server 2012及以上
+                countSql = "select count(*) from " + builder.FromSql;
+            }
+            if (builder.Wheres.Count > 0)
+            {
+                string strWhere = " where " + String.Join(" and ", builder.Wheres);
+                sql += strWhere;
+                countSql += strWhere;
+            }
+            //sql += ") AS A WHERE row between @PageStartIndex AND @PageSize";
+            #region 仅支持SQL Server 2012及以上
+            sql += " order by " + pagination.sidx + " " + pagination.sord;
+            sql += " OFFSET @PageStartIndex ROWS FETCH NEXT @PageSize ROWS ONLY";
+            builder.Parameters.Add("PageSize", pagination.rows);
+            builder.Parameters.Add("PageStartIndex", pagination.rows * (pagination.page - 1));
             #endregion
             //builder.Parameters.Add("PageSize", grid.PageSize * grid.PageIndex);
             //builder.Parameters.Add("PageStartIndex", grid.PageSize * (grid.PageIndex - 1) + 1);

@@ -10,20 +10,20 @@ namespace YMOA.Model
     /// </summary>
     public class RoleMenuEntity
     {
-        /// <summary>
-        /// id
-        /// </summary>
-        public int Id { get; set; } 
+        public RoleEntity roleEntity { get; set; }
+        public List<AllowOperation> allowOperations { get; set; }
+    }
 
+    public class AllowOperation
+    {
         /// <summary>
-        /// 角色id
+        /// 选单ID
         /// </summary>
-        public int RoleId { get; set; }
+        public int id { get; set; }
 
-        /// <summary>
-        /// 导航菜单id
-        /// </summary>
-        public int MenuId { get; set; }
-
+        public bool add { get; set; }
+        public bool update { get; set; }
+        public bool delete { get; set; }
+        public bool other { get; set; }
     }
 }

@@ -35,9 +35,9 @@ namespace YMOA.Web.Controllers
 
             UserEntity userChangePwd = new UserEntity();
             userChangePwd.ID = uInfo.ID;
-            userChangePwd.Password = Md5.GetMD5String(NewPwd);   //md5加密
+            userChangePwd.Password = Md5.md5(NewPwd);   //md5加密
 
-            if (Md5.GetMD5String(UserPwd) == uInfo.Password)
+            if (Md5.md5(UserPwd) == uInfo.Password)
             {
                 if (DALUtility.User.ChangePwd(userChangePwd))
                 {
@@ -172,7 +172,7 @@ namespace YMOA.Web.Controllers
             paras["UpdateTime"] = DateTime.Now;
             if (id == 0)
             {
-                paras["Password"] = Md5.GetMD5String("q123456");   //md5加密
+                paras["Password"] = Md5.md5("q123456");   //md5加密
                 paras["CreateBy"] = paras["UpdateBy"];
                 paras["CreateTime"] = paras["UpdateTime"];
             }

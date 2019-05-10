@@ -41,25 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IAuthorityDAL.cs" />
-    <Compile Include="IButtonDAL.cs" />
     <Compile Include="IDepartmentDAL.cs" />
-    <Compile Include="IIconsDAL.cs" />
-    <Compile Include="ILoginIpLogDAL.cs" />
-    <Compile Include="IMenuButtonDAL.cs" />
-    <Compile Include="IMenuDAL.cs" />
-    <Compile Include="INewsDAL.cs" />
-    <Compile Include="INewsTypeDAL.cs" />
-    <Compile Include="IRequestionDAL.cs" />
-    <Compile Include="IRequestionTypeDAL.cs" />
     <Compile Include="IRoleDAL.cs" />
-    <Compile Include="IRoleMenuButtonDAL.cs" />
     <Compile Include="IUserDAL.cs" />
     <Compile Include="IUserDepartmentDAL.cs" />
     <Compile Include="IUserRoleDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\YMOA.Comm\YMOA.Comm.csproj">
+      <Project>{1D5C9EAE-2405-4376-BB0D-95E8ED778AB4}</Project>
+      <Name>YMOA.Comm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YMOA.Model\YMOA.Model.csproj">
       <Project>{45414ed5-57ad-497d-be4c-7a6b76831c61}</Project>
       <Name>YMOA.Model</Name>

@@ -1,0 +1,81 @@
+﻿@model YMOA.Model.UserEntity
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<form id="UserEidt">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#">基本信息</a></li>
+            <input id="hidID" type="hidden" value="@Model.ID" />
+            @*<li ><a href="#">扩展信息</a></li>*@
+        </ul>
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle">账户</th>
+                    <td class="formValue">
+                        <input id="txtAccountName" type="text" class="form-control required" placeholder="请输入账户" value="@Model.AccountName" />
+                    </td>
+                    <th class="formTitle">密码</th>
+                    <td class="formValue">
+                        <input id="txtPassword" type="password" class="form-control required" placeholder="请输入密码" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">姓名</th>
+                    <td class="formValue">
+                        <input id="txtRealName" type="text" class="form-control required" placeholder="请输入姓名" value="@Model.RealName" />
+                    </td>
+                    <th class="formTitle">部门</th>
+                    <td class="formValue">
+                        <select id="sltDepartmentId" class="form-control required">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">角色</th>
+                    <td class="formValue">
+                        <select id="sltRoleId" class="form-control required"></select>
+                    </td>
+                    <th class="formTitle">允许登录</th>
+                    <td class="formValue">
+                        <select id="sltIsAble" class="form-control">
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">手机</th>
+                    <td class="formValue">
+                        <input id="txtMobilePhone" type="text" class="form-control" />
+                    </td>
+                    <th class="formTitle">生日</th>
+                    <td class="formValue">
+                        <input id="txtBirthday" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
+                    </td>
+                </tr>
+                <tr>
+
+                    <th class="formTitle">邮箱</th>
+                    <td class="formValue">
+                        <input id="txtEmail" type="text" class="form-control email" />
+                    </td>
+                    <th class="formTitle">入职日期</th>
+                    <td class="formValue">
+                        <input id="txtEntrydate" type="text" class="form-control input-wdatepicker" onfocus="WdatePicker()" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle" valign="top" style="padding-top: 5px;">
+                        备注
+                    </th>
+                    <td class="formValue" colspan="3">
+                        <textarea id="F_Description" name="F_Description" class="form-control" style="height: 60px;"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>
