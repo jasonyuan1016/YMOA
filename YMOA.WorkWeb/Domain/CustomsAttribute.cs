@@ -109,7 +109,7 @@ namespace YMOA.WorkWeb.Domain
             {
                 //判断重复登入
                 Hashtable htOnline = (Hashtable)System.Web.HttpContext.Current.Application["CurrentOnline"];
-                if (htOnline != null && htOnline[filterContext.HttpContext.Session["User"].ToString()] != filterContext.HttpContext.Session["LoginTime"])
+                if (htOnline != null && htOnline[filterContext.HttpContext.Session["UserId"].ToString()] != filterContext.HttpContext.Session["LoginTime"])
                 {
                     filterContext.HttpContext.Session.Clear();
                     if (isViewPage)

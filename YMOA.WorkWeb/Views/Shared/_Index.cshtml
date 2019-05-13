@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using YMOA.WorkWeb.Resources
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -21,6 +22,8 @@
     @RenderBody()
     @*引入当页脚本*@
     @RenderSection("scripts", required: false)
+    <script src="@Url.Content(string.Format("~/Scripts/resx/{0}/{1}.js", Resource._culture, fileName))"></script>
+    <script src="@Url.Content(string.Format("~/Scripts/resx/{0}/GlobalResx.js", Resource._culture))"></script>
     <script src="@Url.Content(string.Format("~/Scripts/{0}.js", fileName))"></script>
 </body>
 </html>

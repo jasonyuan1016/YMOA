@@ -63,6 +63,7 @@ $(function ($) {
     }
 });
 $(function ($) {
+   
     $("#content-wrapper").find('.mainContent').height($(window).height() - 100);
     $(window).resize(function (e) {
         $("#content-wrapper").find('.mainContent').height($(window).height() - 100);

@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using YMOA.WorkWeb.App_Start;
 
 namespace YMOA.WorkWeb
 {
@@ -7,7 +8,7 @@ namespace YMOA.WorkWeb
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            filters.Add(new HandlerErrorAttribute());
         }
     }
 }

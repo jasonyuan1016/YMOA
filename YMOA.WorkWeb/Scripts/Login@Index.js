@@ -10,15 +10,15 @@
             var $code = $("#txt_code");
             if ($username.val() == "") {
                 $username.focus();
-                $.login.formMessage('请输入登录名');
+                $.login.formMessage(PageResx.inputusername);
                 return false;
             } else if ($password.val() == "") {
                 $password.focus();
-                $.login.formMessage('请输入登录密码。');
+                $.login.formMessage(PageResx.inputupwd);
                 return false;
             } else if ($code.val() == "") {
                 $code.focus();
-                $.login.formMessage('请输入验证码。');
+                $.login.formMessage(PageResx.inputcode);
                 return false;
             } else {
                 $("#login_button").attr('disabled', 'disabled').find('span').html("loading...");
@@ -29,12 +29,12 @@
                     dataType: "json",
                     success: function (data) {
                         if (data.state == "success") {
-                            $("#login_button").find('span').html("登录成功，正在跳转...");
+                            $("#login_button").find('span').html(PageResx.loginsuccessmsg);
                             window.setTimeout(function () {
                                 window.location.href = "/Home/Index";
                             }, 500);
                         } else {
-                            $("#login_button").removeAttr('disabled').find('span').html("登录");
+                            $("#login_button").removeAttr('disabled').find('span').html(PageResx.loginfaildmsg);
                             $("#switchCode").trigger("click");
                             $code.val('');
                             $.login.formMessage(data.message);
@@ -57,13 +57,13 @@
             if (login_error != null) {
                 switch (login_error) {
                     case "overdue":
-                        $.login.formMessage("系统登录已超时,请重新登录");
+                        $.login.formMessage(PageResx.login_error_overdue);
                         break;
                     case "OnLine":
-                        $.login.formMessage("您的帐号已在其它地方登录,请重新登录");
+                        $.login.formMessage(PageResx.login_error_online);
                         break;
                     case "-1":
-                        $.login.formMessage("系统未知错误,请重新登录");
+                        $.login.formMessage(PageResx.login_error_unknow);
                         break;
                 }
                 top.$.cookie('nfine_login_error', '', { path: "/", expires: -1 });
@@ -78,6 +78,16 @@
                     document.getElementById("login_button").click();
                 }
             }
+            $("#sltLanguage").change(function () {
+                $.ajax({
+                    url: "/Login/SetCulture",
+                    data: { culture: $(this).val() },
+                    success: function (result) {
+                        window.location.reload(true);
+                    }
+                });
+            });
+            $("#sltLanguage").val($("#hidCulture").val());
         }
     };
     $(function () {

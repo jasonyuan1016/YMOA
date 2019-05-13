@@ -47,40 +47,23 @@ namespace YMOA.WorkWeb.Controllers
                 {
                     throw new Exception("用户已被禁用，请您联系管理员");
                 }
-                OperatorModel operatorModel = new OperatorModel();
-                operatorModel.UserId = currentUser.AccountName;
-                operatorModel.UserName = currentUser.RealName;
-                operatorModel.RoleId = currentUser.RoleId;
-                operatorModel.LoginIPAddress = Net.Ip;
-                operatorModel.LoginIPAddressName = Net.GetLocation(operatorModel.LoginIPAddress);
-                operatorModel.LoginTime = DateTime.Now;
-                operatorModel.LoginToken = DESEncrypt.Encrypt(Guid.NewGuid().ToString());
-                if (currentUser.AccountName == "admin")
-                {
-                    operatorModel.IsSystem = true;
-                }
-                else
-                {
-                    operatorModel.IsSystem = false;
-                }
-                OperatorProvider.Provider.AddCurrent(operatorModel);
-
-                //CookiesHelper.SetCookie("UserID", AES.EncryptStr(currentUser.ID.ToString()));
-                //FormsAuthentication.SetAuthCookie(currentUser.AccountName.ToUpper(), false);
-                //Session["User"] = currentUser.AccountName;
-                //Session["LoginTime"] = DateTime.Now;
-                //Session["RoleID"] = currentUser.RoleID;
+                
+                Session["UserId"] = currentUser.AccountName;
+                Session["RealName"] = currentUser.RealName;
+                DateTime dateTime = DateTime.Now;
+                Session["LoginTime"] = dateTime;
+                Session["RoleId"] = currentUser.RoleId;
 
                 var CurrentOnline = System.Web.HttpContext.Current.Application["CurrentOnline"];
                 if (CurrentOnline != null)
                 {
                     Hashtable htOnline = (Hashtable)CurrentOnline;
-                    htOnline[currentUser.AccountName] = DateTime.Now;
+                    htOnline[currentUser.AccountName] = dateTime;
                 }
                 else
                 {
                     Hashtable htOnline = new Hashtable();
-                    htOnline[currentUser.AccountName] = DateTime.Now;
+                    htOnline[currentUser.AccountName] = dateTime;
                     System.Web.HttpContext.Current.Application["CurrentOnline"] = htOnline;
                 }
                 return Content(new AjaxResult { state = ResultType.success.ToString(), message = "登录成功" }.ToJson());
@@ -109,7 +92,7 @@ namespace YMOA.WorkWeb.Controllers
             //string user = Request["user_AN"];
             //var iUserDal = DALUtility.User;
             //var currentUser = iUserDal.GetUserByAccountName(user);
-            //Session["User"] = currentUser;
+            //Session["UserId"] = currentUser;
             ////链接地址必须是绝对地址
             //string mailContent = "<a href='http://172.16.31.234:6666/User/PwdUpdate'>修改密码</a>";
             //if (currentUser != null)
@@ -122,12 +105,32 @@ namespace YMOA.WorkWeb.Controllers
         /// 安全退出
         /// </summary>
         /// <returns></returns>
-        public ActionResult UserLoginOut()
+        [HttpGet]
+        public ActionResult OutLogin()
         {
-            //清空cookie
-            CookiesHelper.AddCookie("UserID", System.DateTime.Now.AddDays(-1));
+            Session.Abandon();
             Session.Clear();
-            return OperationReturn(true,"退出成功！");
+            return RedirectToAction("Index", "Login");
+        }
+
+
+        public ActionResult SetCulture(string culture)
+        {
+            culture = CultureHelper.GetImplementedCulture(culture);
+            HttpCookie cookie = Request.Cookies["_culture"];
+            if (cookie != null)
+            {
+                cookie.Value = culture;
+            }
+            else
+            {
+                cookie = new HttpCookie("_culture");
+                cookie.Value = culture;
+                cookie.Expires = DateTime.Now.AddDays(1);
+            }
+            Response.Cookies.Add(cookie);
+            ClientCulture = culture;
+            return Content("1");
         }
     }
 }
