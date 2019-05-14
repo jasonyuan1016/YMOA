@@ -74,8 +74,6 @@
     <Compile Include="ImgHelper.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="JsonHelper.cs" />
-    <Compile Include="Log\Log.cs" />
-    <Compile Include="Log\LogFactory.cs" />
     <Compile Include="Mail\MailHelper.cs" />
     <Compile Include="ModelUtil.cs" />
     <Compile Include="Net\HttpMethods.cs" />
