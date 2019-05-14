@@ -41,11 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IDepartmentDAL.cs" />
-    <Compile Include="IRoleDAL.cs" />
+    <Compile Include="ISystemDAL.cs" />
     <Compile Include="IUserDAL.cs" />
-    <Compile Include="IUserDepartmentDAL.cs" />
-    <Compile Include="IUserRoleDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

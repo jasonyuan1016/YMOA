@@ -56,8 +56,6 @@
     <Compile Include="Cache\ICache.cs" />
     <Compile Include="CommFunc.cs" />
     <Compile Include="Common.cs" />
-    <Compile Include="Configs\Configs.cs" />
-    <Compile Include="Configs\DBConnection.cs" />
     <Compile Include="ConvertUtil.cs" />
     <Compile Include="CookiesHelper.cs" />
     <Compile Include="CultureHelper.cs" />
@@ -76,7 +74,6 @@
     <Compile Include="ImgHelper.cs" />
     <Compile Include="Json.cs" />
     <Compile Include="JsonHelper.cs" />
-    <Compile Include="Licence.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogFactory.cs" />
     <Compile Include="Mail\MailHelper.cs" />
@@ -84,7 +81,6 @@
     <Compile Include="Net\HttpMethods.cs" />
     <Compile Include="Net\Net.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\DESEncrypt.cs" />
     <Compile Include="Security\Md5.cs" />
     <Compile Include="Serialize.cs" />
     <Compile Include="SqlHelper.cs" />

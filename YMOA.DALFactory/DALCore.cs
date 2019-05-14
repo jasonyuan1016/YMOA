@@ -76,31 +76,14 @@ namespace YMOA.DALFactory
 
 
 
-        public IRoleDAL Role
+        public ISystemDAL SystemCore
         {
-            get { return LoadAssamblyType<IRoleDAL>("RoleDAL"); }
+            get { return LoadAssamblyType<ISystemDAL>("SystemDAL"); }
         }
 
-        public IUserDAL User
+        public IUserDAL UserCore
         {
             get { return LoadAssamblyType<IUserDAL>("UserDAL"); }
-        }
-
-        public IUserRoleDAL UserRole
-        {
-            get { return LoadAssamblyType<IUserRoleDAL>("UserRoleDAL"); }
-        }
-
-        public IDepartmentDAL Department
-        {
-            get
-            { return LoadAssamblyType<IDepartmentDAL>("DepartmentDAL"); }
-        }
-
-        public IUserDepartmentDAL UserDepartment
-        {
-            get
-            { return LoadAssamblyType<IUserDepartmentDAL>("UserDepartmentDAL"); }
         }
     }
 }

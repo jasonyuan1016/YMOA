@@ -23,7 +23,7 @@ namespace YMOA.UnitTest
             
             var data = new
             {
-                rows = DALCore.GetInstance().User.QryUsers<UserEntity>(pagination, pars),
+                rows = DALCore.GetInstance().UserCore.QryUsers<UserEntity>(pagination, pars),
                 total = pagination.total,
                 page = pagination.page,
                 records = pagination.records

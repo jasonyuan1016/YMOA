@@ -25,7 +25,7 @@ namespace YMOA.WorkWeb.Controllers
             }
             var data = new
             {
-                rows = DALUtility.User.QryUsers<UserEntity>(pagination, pars),
+                rows = DALUtility.UserCore.QryUsers<UserEntity>(pagination, pars),
                 total = pagination.total,
                 page = pagination.page,
                 records = pagination.records
@@ -40,7 +40,7 @@ namespace YMOA.WorkWeb.Controllers
             {
                 Dictionary<string, object> paras = new Dictionary<string, object>();
                 paras["ID"] = ID;
-                userInfo = DALUtility.User.QryUserInfo<UserEntity>(paras);
+                userInfo = DALUtility.UserCore.QryUserInfo<UserEntity>(paras);
             }
             return View(userInfo);
         }
@@ -77,7 +77,7 @@ namespace YMOA.WorkWeb.Controllers
             paras["MobilePhone"] = userEntity.MobilePhone;
             paras["IsAble"] = userEntity.IsAble;
             //……待补充
-            return OperationReturn(DALUtility.User.Save(paras) > 0);
+            return OperationReturn(DALUtility.UserCore.Save(paras) > 0);
         }
     }
 }

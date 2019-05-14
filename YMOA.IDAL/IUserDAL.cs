@@ -99,8 +99,6 @@ namespace YMOA.IDAL
         /// <param name="paras"></param>
         /// <returns></returns>
         int Save(Dictionary<string, object> paras);
-
-
-        void GetClientData<T1, T2, T3>(int GroupId, ref List<T1> groups, ref List<T2> departments, ref List<T3> menuPermissions);
+        
     }
 }

@@ -30,7 +30,7 @@ namespace YMOA.Comm
                 chkCode += character[rnd.Next(character.Length)];
             }
             //写入Session、验证码加密
-            WebHelper.WriteSession("nfine_session_verifycode", Md5.md5(chkCode.ToLower(), 16));
+            WebHelper.WriteSession("session_verifycode", Md5.md5(chkCode.ToLower(), 16));
             //创建画布
             Bitmap bmp = new Bitmap(codeW, codeH);
             Graphics g = Graphics.FromImage(bmp);

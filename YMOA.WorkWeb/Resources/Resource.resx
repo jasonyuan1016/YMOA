@@ -213,4 +213,32 @@
     <value>用户管理</value>
     <comment>用户管理</comment>
   </data>
+  <data name="dp_as" xml:space="preserve">
+    <value>行政</value>
+    <comment>行政</comment>
+  </data>
+  <data name="dp_cs" xml:space="preserve">
+    <value>客服</value>
+    <comment>客服</comment>
+  </data>
+  <data name="dp_rd" xml:space="preserve">
+    <value>研发</value>
+    <comment>研发</comment>
+  </data>
+  <data name="role_admin" xml:space="preserve">
+    <value>管理员</value>
+    <comment>测试</comment>
+  </data>
+  <data name="role_emp" xml:space="preserve">
+    <value>员工</value>
+    <comment>员工</comment>
+  </data>
+  <data name="role_manager" xml:space="preserve">
+    <value>主管</value>
+    <comment>主管</comment>
+  </data>
+  <data name="role_test" xml:space="preserve">
+    <value>测试</value>
+    <comment>测试</comment>
+  </data>
 </root>

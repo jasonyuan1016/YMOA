@@ -19,7 +19,7 @@ namespace YMOA.WorkWeb.Controllers
 
         public ActionResult GetGridJson()
         {
-            var roles = DALUtility.Role.GetRoles<RoleEntity>(null);
+            var roles = DALUtility.SystemCore.RoleGetList<RoleEntity>(null);
             var data = new { rows = roles };
             return Content(data.ToJson());
         }
@@ -30,16 +30,16 @@ namespace YMOA.WorkWeb.Controllers
             if (ID > 0)
             {
                 Dictionary<string, object> paras = new Dictionary<string, object>();
-                paras["GroupId"] = ID;
-                roleMenuEntity.roleEntity = DALUtility.Role.GetRoles<RoleEntity>(paras).FirstOrDefault();
-                roleMenuEntity.allowOperations = DALUtility.Role.GetMenuPermissionByGroupID<AllowOperation>(paras).ToList();
+                paras["id"] = ID;
+                roleMenuEntity.roleEntity = DALUtility.SystemCore.RoleGetList<RoleEntity>(paras).FirstOrDefault();
+                roleMenuEntity.allowOperations = DALUtility.SystemCore.RoleMenuGetListByRoleId<AllowOperation>(paras).ToList();
             }
             else
             {
                 roleMenuEntity.roleEntity = new RoleEntity();
                 roleMenuEntity.allowOperations = new List<AllowOperation>();
             }
-            ViewData["MenuEntity"] = DALUtility.Role.GetMenus<MenuEntity>(null).ToList();
+            ViewData["MenuEntity"] = DALUtility.SystemCore.MenuGetList<MenuEntity>(null).ToList();
             return View(roleMenuEntity);
         }
 
@@ -76,7 +76,7 @@ namespace YMOA.WorkWeb.Controllers
                 dtCheckInfo.Rows.Add(row);
             }
             paras["rolemenu"] = dtCheckInfo;
-            return OperationReturn(DALUtility.Role.Save(paras) > 0);
+            return OperationReturn(DALUtility.SystemCore.RoleSave(paras) > 0);
         }
     }
 }

@@ -7,6 +7,7 @@ using YMOA.Comm;
 using YMOA.DALFactory;
 using YMOA.Model;
 using YMOA.WorkWeb.Models;
+using YMOA.WorkWeb.Resources;
 
 namespace YMOA.WorkWeb.Controllers
 {
@@ -18,23 +19,25 @@ namespace YMOA.WorkWeb.Controllers
         {
             var data = new ClientData();
             var groups = new List<group>();
-            var departments = new List<department>();
+            var departments = new List<LibraryEntity>();
             var menuPermissions = new List<MenuPermission>();
-            DALCore.GetInstance().User.GetClientData<group, department, MenuPermission>(RoleId, ref groups, ref departments, ref menuPermissions);
+            DALCore.GetInstance().SystemCore.SystemDataInit<group, LibraryEntity, MenuPermission>(RoleId, ref groups, ref departments, ref menuPermissions);
             foreach (var m in menuPermissions)
             {
-                m.name = Resources.Resource.ResourceManager.GetString("menu_" + m.code);
-            }
+                m.name = Resource.ResourceManager.GetString("menu_" + m.code);
+            } 
             Dictionary<string, object> dictionaryItem = new Dictionary<string, object>();
             foreach (var itm in groups)
             {
+                itm.name = Resource.ResourceManager.GetString("role_" + itm.code);
                 dictionaryItem.Add(itm.id.ToString(), itm.name);
             }
             data.groups = dictionaryItem;
             dictionaryItem = new Dictionary<string, object>();
             foreach (var itm in departments)
             {
-                dictionaryItem.Add(itm.id.ToString(), itm.DepartmentName);
+                itm.name = Resource.ResourceManager.GetString("dp_" + itm.code); 
+                dictionaryItem.Add(itm.id.ToString(), itm.name);
             }
             data.departments = dictionaryItem;
             data.menuPermissions = menuPermissions;

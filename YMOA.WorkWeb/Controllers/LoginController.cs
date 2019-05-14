@@ -33,14 +33,14 @@ namespace YMOA.WorkWeb.Controllers
         [HandlerAjaxOnly]
         public ActionResult CheckLogin(string username, string password, string code)
         {
-            if (Session["nfine_session_verifycode"].IsEmpty() || Md5.md5(code.ToLower(), 16) != Session["nfine_session_verifycode"].ToString())
+            if (Session["session_verifycode"].IsEmpty() || Md5.md5(code.ToLower(), 16) != Session["session_verifycode"].ToString())
             {
                 throw new Exception("验证码错误，请重新输入");
             }
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["UserId"] = username;
             paras["UserPwd"] = password;
-            var currentUser = DALUtility.User.UserLogin(paras);
+            var currentUser = DALUtility.UserCore.UserLogin(paras);
             if (currentUser != null)
             {
                 if (currentUser.IsAble == false)

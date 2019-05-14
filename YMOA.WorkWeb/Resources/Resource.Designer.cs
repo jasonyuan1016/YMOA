@@ -151,6 +151,33 @@ namespace YMOA.WorkWeb.Resources {
         }
         
         /// <summary>
+        ///   查找类似 行政 的本地化字符串。
+        /// </summary>
+        public static string dp_as {
+            get {
+                return ResourceManager.GetString("dp_as", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 客服 的本地化字符串。
+        /// </summary>
+        public static string dp_cs {
+            get {
+                return ResourceManager.GetString("dp_cs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 研发 的本地化字符串。
+        /// </summary>
+        public static string dp_rd {
+            get {
+                return ResourceManager.GetString("dp_rd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 登入 的本地化字符串。
         /// </summary>
         public static string login {
@@ -273,6 +300,42 @@ namespace YMOA.WorkWeb.Resources {
         public static string passwrod {
             get {
                 return ResourceManager.GetString("passwrod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 管理员 的本地化字符串。
+        /// </summary>
+        public static string role_admin {
+            get {
+                return ResourceManager.GetString("role_admin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 员工 的本地化字符串。
+        /// </summary>
+        public static string role_emp {
+            get {
+                return ResourceManager.GetString("role_emp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 主管 的本地化字符串。
+        /// </summary>
+        public static string role_manager {
+            get {
+                return ResourceManager.GetString("role_manager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 测试 的本地化字符串。
+        /// </summary>
+        public static string role_test {
+            get {
+                return ResourceManager.GetString("role_test", resourceCulture);
             }
         }
     }

@@ -310,19 +310,6 @@ namespace YMOA.DAL
             return StandardInsertOrUpdate("tbUser", paras);
         }
 
-        public void GetClientData<T1,T2,T3>(int GroupId,ref List<T1> groups, ref List<T2> departments, ref List<T3> menuPermissions)
-        {
-            using (var connection = GetConnection())
-            {
-                using (var multi = connection.QueryMultiple("P_Data_Init", new { GroupId = GroupId }, null, null, CommandType.StoredProcedure))
-                {
-                    groups = multi.Read<T1>().ToList();
-                    departments = multi.Read<T2>().ToList();
-                    menuPermissions = multi.Read<T3>().ToList();
-                }
-            }
-        }
-            
         
     }
 }
