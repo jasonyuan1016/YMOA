@@ -7,5 +7,6 @@
     col_entrydate: '入职日期',
     resetpwd: '重置密码',
     confirm4disable: '注：您确定要【禁用】该项账户吗？',
-    confirm4enable:'注：您确定要【启用】该项账户吗？'
+    confirm4enable: '注：您确定要【启用】该项账户吗？',
+    col_isAble: "状态"
 }

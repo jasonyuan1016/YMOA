@@ -1,6 +1,9 @@
 ﻿var keyValue = $.request("ID");
 $(function () {
     initControl();
+    if (!!keyValue) {
+        $("#sltstate").val($("#sltstate").attr("value"));
+    }
 })
 function initControl() {
     $('#wizard').wizard().on('change', function (e, data) {
@@ -43,16 +46,13 @@ function submitForm() {
     }
     _roleEntity.id = $("#hidid").val();
     var doUrl = _roleEntity.id > 0 ? "Add" : "Update";
-    $.ajax({
-        type: "POST",
+    $.submitForm({
         url: doUrl,
-        data: roleMenuEntity,
-        cache: false,
-        dataType: "json",
-        success: function (result) {
+        param: roleMenuEntity,
+        success: function (data) {
             $.currentWindow().$("#gridList").trigger("reloadGrid");
         }
-    });
+    })
 }
 
 function checkChange(cbxPrefix, pid) {

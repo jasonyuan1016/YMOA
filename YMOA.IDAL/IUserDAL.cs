@@ -51,6 +51,13 @@ namespace YMOA.IDAL
         bool DeleteUser(string idList);
 
         /// <summary>
+        /// 删除用户（可批量删除）
+        /// </summary>
+        /// <param name="idList"></param>
+        /// <returns></returns>
+        bool OnlyDeleteUser(string idList);
+
+        /// <summary>
         /// 修改用户
         /// </summary>
         bool EditUser(UserEntity user);

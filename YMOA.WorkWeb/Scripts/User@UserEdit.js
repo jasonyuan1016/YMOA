@@ -3,6 +3,10 @@ $(function () {
     initControl();
     if (!!ID) {
         $("#txtPassword").val("******").attr('disabled', 'disabled');
+        $("#txtAccountName").attr('disabled', 'disabled');
+        $("#sltDepartmentId").val($("#sltDepartmentId").attr("value"));
+        $("#sltRoleId").val($("#sltRoleId").attr("value"));
+        $("#sltIsAble").val($("#sltIsAble").attr("value") == true ? 1 : 0);
     }
 });
 function initControl() {

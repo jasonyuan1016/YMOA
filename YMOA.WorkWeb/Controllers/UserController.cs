@@ -58,26 +58,58 @@ namespace YMOA.WorkWeb.Controllers
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["ID"] = userEntity.ID;
-            if (userEntity.ID == 0)
+            paras["AccountName"] = userEntity.AccountName;
+            paras["Email"] = userEntity.Email;
+            //验证账号、邮箱是否重复
+            int verify = DALUtility.UserCore.CheckUseridAndEmail(paras);
+            if (verify != 0)
             {
-                //验证账号是否重复
-                paras["AccountName"] = userEntity.AccountName;
+                return OperationReturn(false, verify==1?"账号重复":"邮箱重复");
             }
             if (userEntity.Password != "******")
             {
                 paras["Password"] = userEntity.Password;
             }
-            //验证手机号、邮箱是否重复
+            // 用户是否修改密码
+            if (userEntity.ID == 0)
+            {
+                paras["IfChangePwd"] = false;
+            }
+            // 职务编号
+            paras["DutyId"] = 1;
             paras["RealName"] = userEntity.RealName;
             paras["RoleId"] = userEntity.RoleId;
             paras["DepartmentId"] = userEntity.DepartmentId;
-            paras["DutyId"] = userEntity.DutyId;
+            paras["MobilePhone"] = userEntity.MobilePhone;
             paras["Birthday"] = userEntity.Birthday;
             paras["Entrydate"] = userEntity.Entrydate;
-            paras["MobilePhone"] = userEntity.MobilePhone;
             paras["IsAble"] = userEntity.IsAble;
-            //……待补充
+            paras["Description"] = userEntity.Description;
             return OperationReturn(DALUtility.UserCore.Save(paras) > 0);
+        }
+
+        /// <summary>
+        ///  修改用户是否启用
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="IsAble"></param>
+        /// <returns></returns>
+        public ActionResult UpdateIsAble(int ID, bool IsAble)
+        {
+            Dictionary<string, object> paras = new Dictionary<string, object>();
+            paras["ID"] = ID;
+            paras["IsAble"] = IsAble;
+            return OperationReturn(DALUtility.UserCore.Save(paras) > 0);
+        }
+
+        /// <summary>
+        ///  用户删除
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public ActionResult Delete(int ID)
+        {
+            return OperationReturn(DALUtility.UserCore.OnlyDeleteUser(ID.ToString()));
         }
     }
 }

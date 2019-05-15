@@ -148,6 +148,33 @@ namespace YMOA.DAL
         }
 
         /// <summary>
+        ///  仅删除用户(可批量删除)
+        ///  创建人: zxy
+        ///  创建时间: 2019年5月15日
+        /// </summary>
+        public bool OnlyDeleteUser(string idList)
+        {
+            List<string> list = new List<string>();
+            list.Add("delete from tbUser where ID in (" + idList + ")");
+            try
+            {
+                int count = SqlHelper.ExecuteNonQuery(SqlHelper.connStr, list);
+                if (count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// 修改用户
         /// </summary>
         public bool EditUser(UserEntity user)

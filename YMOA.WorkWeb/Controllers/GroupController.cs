@@ -76,7 +76,7 @@ namespace YMOA.WorkWeb.Controllers
                 dtCheckInfo.Rows.Add(row);
             }
             paras["rolemenu"] = dtCheckInfo;
-            return OperationReturn(DALUtility.SystemCore.RoleSave(paras) > 0);
+            return OperationReturn(DALUtility.SystemCore.RoleSave(paras) == 0);
         }
     }
 }
