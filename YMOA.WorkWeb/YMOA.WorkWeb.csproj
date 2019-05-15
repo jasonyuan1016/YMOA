@@ -237,6 +237,8 @@
     <Content Include="Content\js\echarts\echarts.js" />
     <Content Include="Content\js\echarts\echarts.min.js" />
     <Content Include="Content\js\echarts\infographic.js" />
+    <Content Include="Content\js\jqgrid\grid.locale.en-us.js" />
+    <Content Include="Content\js\jqgrid\grid.locale.zh-cn.js" />
     <Content Include="HtmlPage1.html" />
     <Content Include="Scripts\Comm.js" />
     <Content Include="Scripts\framework-clientdata.js" />
