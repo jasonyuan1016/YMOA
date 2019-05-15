@@ -8,16 +8,25 @@ function gridList() {
         height: $(window).height() - 128,
         colModel: [
             { label: '主键', name: 'id', hidden: true },
-            { label: '角色名称', name: 'name', width: 80, align: 'left' },
-            { label: 'Code', name: 'code', width: 80, align: 'left' },
-            { label: '状态', name: 'state', width: 80, align: 'left' }
+            { label: PageResx.col_groupName, name: 'name', width: 80, align: 'left' },
+            { label: PageResx.col_code, name: 'code', width: 80, align: 'left' },
+            {
+                label: PageResx.col_state, name: "state", width: 80, align: "left",
+                formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == true) {
+                        return '<span class=\"label label-success\">启用</span>';
+                    } else if (cellvalue == false) {
+                        return '<span class=\"label label-default\">禁用</span>';
+                    }
+                }
+            }
         ]
     });
 }
 function btn_add() {
     $.modalOpen({
         id: "GroupEdit",
-        title: "新增",
+        title: GlobalResx.add,
         url: "/Group/Edit",
         width: "700px",
         height: "510px",
@@ -28,7 +37,7 @@ function btn_edit() {
     var keyValue = $("#gridList").jqGridRowValue().id;
     $.modalOpen({
         id: "GroupEdit",
-        title: "修改",
+        title: GlobalResx.edit,
         url: "/Group/Edit?ID=" + keyValue,
         width: "700px",
         height: "510px",
@@ -37,7 +46,7 @@ function btn_edit() {
 }
 function btn_delete() {
     $.deleteForm({
-        url: "/Group/Delete",
+        url: "Delete",
         param: { keyValue: $("#gridList").jqGridRowValue().id },
         success: function () {
             $.currentWindow().$("#gridList").trigger("reloadGrid");

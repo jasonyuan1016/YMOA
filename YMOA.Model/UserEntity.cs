@@ -48,12 +48,12 @@ namespace YMOA.Model
         /// <summary>
         /// 生日
         /// </summary>
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
 
         /// <summary>
         /// 入职日期
         /// </summary>
-        public DateTime Entrydate { get; set; }
+        public DateTime? Entrydate { get; set; }
 
         /// <summary>
         /// 联系人手机号码 

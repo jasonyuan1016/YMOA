@@ -11,7 +11,7 @@ function gridList() {
             { label: PageResx.col_account, name: 'AccountName', width: 80, align: 'left' },
             { label: PageResx.col_realname, name: 'RealName', width: 80, align: 'left' },
             { label: PageResx.col_cellphone, name: 'MobilePhone', width: 80, align: 'left' },
-            { label: 'Email', name: 'Email', width: 80, align: 'left' },
+            { label: 'Email', name: 'Email', width: 140, align: 'left' },
             {
                 label: PageResx.col_role, name: 'RoleId', width: 80, align: 'left',
                 formatter: function (cellvalue, options, rowObject) {
@@ -27,10 +27,23 @@ function gridList() {
             {
                 label: PageResx.col_entrydate, name: 'Entrydate', width: 80, align: 'left',
                 formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+            },
+            {
+                label: PageResx.col_isAble, name: "IsAble", width: 80, align: "left",
+                formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == true) {
+                        return '<span class=\"label label-success\">启用</span>';
+                    } else if (cellvalue == false) {
+                        return '<span class=\"label label-default\">禁用</span>';
+                    }
+                }
             }
         ],
         pager: "#gridPager",
         sortname: 'ID',
+        //sortorder: "desc", // 倒叙
+        rowNum: 20,
+        rowList: [10, 20, 30, 40, 50],
         viewrecords: true
     });
     $("#btn_search").click(function () {
@@ -67,34 +80,19 @@ function btn_edit() {
 function btn_delete() {
     $.deleteForm({
         url: "Delete",
-        param: { keyValue: $("#gridList").jqGridRowValue().ID },
+        param: { ID: $("#gridList").jqGridRowValue().ID },
         success: function () {
             $.currentWindow().$("#gridList").trigger("reloadGrid");
         }
     })
-}
-function btn_revisepassword() {
-    var keyValue = $("#gridList").jqGridRowValue().F_Id;
-    var Account = $("#gridList").jqGridRowValue().F_Account;
-    var RealName = $("#gridList").jqGridRowValue().F_RealName;
-    $.modalOpen({
-        id: "RevisePassword",
-        title: PageResx.resetpwd,
-        url: '/User/RevisePassword?keyValue=' + keyValue + "&account=" + escape(Account) + '&realName=' + escape(RealName),
-        width: "450px",
-        height: "260px",
-        callBack: function (iframeId) {
-            top.frames[iframeId].submitForm();
-        }
-    });
 }
 function btn_disabled() {
     var keyValue = $("#gridList").jqGridRowValue().ID;
     $.modalConfirm(PageResx.confirm4disable, function (r) {
         if (r) {
             $.submitForm({
-                url: "/User/DisabledAccount",
-                param: { keyValue: keyValue },
+                url: "UpdateIsAble",
+                param: { ID: keyValue, IsAble: false },
                 success: function () {
                     $.currentWindow().$("#gridList").trigger("reloadGrid");
                 }
@@ -107,8 +105,8 @@ function btn_enabled() {
     $.modalConfirm(PageResx.confirm4enable, function (r) {
         if (r) {
             $.submitForm({
-                url: "/User/EnabledAccount",
-                param: { keyValue: keyValue },
+                url: "/User/UpdateIsAble",
+                param: { ID: keyValue, IsAble: true },
                 success: function () {
                     $.currentWindow().$("#gridList").trigger("reloadGrid");
                 }
