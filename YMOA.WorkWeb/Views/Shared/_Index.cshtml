@@ -15,7 +15,11 @@
 </head>
 <body>
     @RenderBody()
-    @Scripts.Render("~/bundles/js_index", "~/Content/js/jqgrid/grid.locale." + Resource._culture + ".js", Url.Content(string.Format("~/Scripts/resx/{0}/{1}.js", Resource._culture, fileName)), Url.Content(string.Format("~/Scripts/resx/{0}/global.js", Resource._culture)),Url.Content(string.Format("~/Scripts/{0}.js", fileName)))
+    @Scripts.Render("~/bundles/js_index", 
+    "~/Content/js/jqgrid/grid.locale." + Resource._culture + ".js", 
+    Url.Content(string.Format("~/Scripts/resx/{0}/{1}.js", Resource._culture, fileName)), 
+    Url.Content(string.Format("~/Scripts/resx/{0}/global.js", Resource._culture)),
+    Url.Content(string.Format("~/Scripts/{0}.js", fileName)))
     @*引入当页脚本*@
     @RenderSection("scripts", required: false)
 </body>
