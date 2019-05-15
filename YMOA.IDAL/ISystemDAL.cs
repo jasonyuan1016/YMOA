@@ -48,5 +48,12 @@ namespace YMOA.IDAL
         /// <param name="departments"></param>
         /// <param name="menuPermissions"></param>
         void SystemDataInit<T1, T2, T3>(int RoleId, ref List<T1> groups, ref List<T2> departments, ref List<T3> menuPermissions);
+
+        /// <summary>
+        /// 新增/修改 公用数据类型
+        /// </summary>
+        /// <param name="libraryEntity"></param>
+        /// <returns></returns>
+        int LibrarySave(LibraryEntity libraryEntity);
     }
 }

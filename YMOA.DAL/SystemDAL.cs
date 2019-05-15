@@ -90,5 +90,15 @@ namespace YMOA.DAL
                 }
             }
         }
+
+        /// <summary>
+        /// 新增/修改 公用数据类型
+        /// </summary>
+        /// <param name="libraryEntity"></param>
+        /// <returns></returns>
+        public int LibrarySave(LibraryEntity libraryEntity)
+        {
+            return QuerySingle<int>("P_Library_Save", libraryEntity, CommandType.StoredProcedure);
+        }
     }
 }
