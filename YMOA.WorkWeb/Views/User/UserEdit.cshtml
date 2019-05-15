@@ -41,15 +41,15 @@
                     <th class="formTitle">允许登录</th>
                     <td class="formValue">
                         <select id="sltIsAble" class="form-control" value="@Model.IsAble">
-                            <option value="0">是</option>
-                            <option value="1">否</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <th class="formTitle">手机</th>
                     <td class="formValue">
-                        <input id="txtMobilePhone" type="text" name="txtMobilePhone" class="form-control required isMobile" />
+                        <input id="txtMobilePhone" type="text" name="txtMobilePhone" class="form-control required isMobile" value="@Model.MobilePhone" />
                     </td>
                     <th class="formTitle">生日</th>
                     <td class="formValue">
@@ -59,7 +59,7 @@
                 <tr>
                     <th class="formTitle">邮箱</th>
                     <td class="formValue">
-                        <input id="txtEmail" name="txtEmail" type="email" class="form-control required email" />
+                        <input id="txtEmail" name="txtEmail" type="email" class="form-control required email" value="@Model.Email" />
                     </td>
                     <th class="formTitle">入职日期</th>
                     <td class="formValue">

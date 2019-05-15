@@ -6,7 +6,7 @@ $(function () {
         $("#txtAccountName").attr('disabled', 'disabled');
         $("#sltDepartmentId").val($("#sltDepartmentId").attr("value"));
         $("#sltRoleId").val($("#sltRoleId").attr("value"));
-        $("#sltIsAble").val($("#sltIsAble").attr("value") == true ? 1 : 0);
+        $("#sltIsAble").val($("#sltIsAble").attr("value") == undefined ? 0 : 1);
     }
 });
 function initControl() {
