@@ -1,8 +1,9 @@
-﻿var ID = $.request("ID");
+﻿
 $(function () {
+    var ID = parseInt($("#hidID").val());
     initControl();
-    if (!!ID) {
-        $("#txtPassword").val("******").attr('disabled', 'disabled');
+    if (ID > 0) {
+        $("#txtPassword").val("******");
     }
 });
 function initControl() {

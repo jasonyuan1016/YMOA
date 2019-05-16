@@ -3,11 +3,14 @@
     ViewBag.Title = "Form";
     Layout = "~/Views/Shared/_Form.cshtml";
 }
+@*@section css {
+            @Styles.Render("")
+    }*@
 <form id="UserEidt">
     <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <input id="hidID" type="hidden" value="@Model.ID" />
         <ul class="nav nav-tabs">
             <li class="active"><a href="#">基本信息</a></li>
-            <input id="hidID" type="hidden" value="@Model.ID" />
             @*<li ><a href="#">扩展信息</a></li>*@
         </ul>
         <div style="padding-top: 20px; margin-right: 30px;">
@@ -29,8 +32,7 @@
                     </td>
                     <th class="formTitle">部门</th>
                     <td class="formValue">
-                        <select id="sltDepartmentId" class="form-control required">
-                        </select>
+                        <select id="sltDepartmentId" class="form-control required"></select>
                     </td>
                 </tr>
                 <tr>
@@ -79,3 +81,8 @@
         </div>
     </div>
 </form>
+
+
+@section scripts {
+    @Scripts.Render("~/Content/js/datepicker/WdatePicker.js")
+}

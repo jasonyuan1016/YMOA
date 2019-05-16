@@ -4,9 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css/framework")
-    <link href="~/Content/js/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/js/wizard/wizard.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css/framework", "~/Content/js/bootstrap/bootstrap.min.css")
     @*引入当页样式*@
     @RenderSection("css", required: false)
     @{

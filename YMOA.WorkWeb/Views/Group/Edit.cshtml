@@ -3,6 +3,9 @@
     ViewBag.Title = "Form";
     Layout = "~/Views/Shared/_Form.cshtml";
 }
+@section css {
+    @Styles.Render("~/Content/js/wizard/wizard.css")
+ }
 <form id="GroupEdit">
     <div class="widget-body">
         <div id="wizard" class="wizard" data-target="#wizard-steps" style="border-left: none; border-top: none; border-right: none;">
@@ -66,11 +69,11 @@
                             @{
                                 var menus = ViewData["MenuEntity"] as List<YMOA.Model.MenuEntity>;
                                 var mainMenu = menus.FindAll(x => x.parentid == 0);
-                                bool cbxCheckTag ;
-                                bool cbxCheckTag_Add ;
-                                bool cbxCheckTag_Update ;
-                                bool cbxCheckTag_Delete ;
-                                bool cbxCheckTag_Other ;
+                                bool cbxCheckTag;
+                                bool cbxCheckTag_Add;
+                                bool cbxCheckTag_Update;
+                                bool cbxCheckTag_Delete;
+                                bool cbxCheckTag_Other;
 
                                 foreach (var m in mainMenu)
                                 {
@@ -133,7 +136,7 @@
                                         }
                                         <tr name="trSubMenuFrom_@m.id">
                                             <td>
-                                                <input id="cbx_@s.id" type="checkbox" value="@s.id" @(cbxCheckTag ? "checked" : "")/>
+                                                <input id="cbx_@s.id" type="checkbox" value="@s.id" @(cbxCheckTag ? "checked" : "") />
                                             </td>
                                             <td>
                                                 @s.name
@@ -166,4 +169,6 @@
         </div>
     </div>
 </form>
-
+@section scripts {
+    @Scripts.Render("~/Content/js/wizard/wizard.js")
+}
