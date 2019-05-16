@@ -40,8 +40,8 @@
                     <th class="formTitle">允许登录</th>
                     <td class="formValue">
                         <select id="sltIsAble" class="form-control" value="@Model.IsAble">
-                            <option value="1">是</option>
-                            <option value="0">否</option>
+                            <option value="true">是</option>
+                            <option value="false">否</option>
                         </select>
                     </td>
                 </tr>
@@ -70,7 +70,7 @@
                         备注
                     </th>
                     <td class="formValue" colspan="3">
-                        <textarea id="texDescription" name="texDescription" class="form-control required" style="height: 60px;">@Model.Description</textarea>
+                        <textarea id="texDescription" name="texDescription" class="form-control" style="height: 60px;">@Model.Description</textarea>
                     </td>
                 </tr>
             </table>

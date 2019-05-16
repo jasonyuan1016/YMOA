@@ -10,9 +10,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using YMOA.Model;
 
 namespace YMOA.WorkWeb.Domain
 {
@@ -65,31 +67,32 @@ namespace YMOA.WorkWeb.Domain
                 //var memuInfo = ((IEnumerable<Navbar>)HttpContext.Current.Session["MemuList"]).SingleOrDefault(
                 //    x => x.controller.Equals(controller, StringComparison.CurrentCultureIgnoreCase)
                 //    && x.action.Equals(action, StringComparison.CurrentCultureIgnoreCase));
-                //if (memuInfo != null)
-                //{
-                //    switch (operationype)
-                //    {
-                //        case Operationype.View:
-                //            allowAccess = true;
-                //            break;
-                //        case Operationype.Add:
-                //            allowAccess = memuInfo.add;
-                //            break;
-                //        case Operationype.Update:
-                //            allowAccess = memuInfo.update;
-                //            break;
-                //        case Operationype.Delete:
-                //            allowAccess = memuInfo.delete;
-                //            break;
-                //        case Operationype.Other:
-                //            allowAccess = memuInfo.other;
-                //            break;
-                //    }
-                filterContext.Controller.ViewData["Add"] = true;
-                filterContext.Controller.ViewData["Update"] = true;
-                filterContext.Controller.ViewData["Delete"] = true;
-                filterContext.Controller.ViewBag.Title = true;
-                //}
+                Dictionary<string, MenuPermission> memuList = (Dictionary<string, MenuPermission>)HttpContext.Current.Session["MemuList"];
+                if (memuList[controller] != null)
+                {
+                    switch (operationype)
+                    {
+                        case Operationype.View:
+                            allowAccess = true;
+                            break;
+                        case Operationype.Add:
+                            allowAccess = memuList[controller].add;
+                            break;
+                        case Operationype.Update:
+                            allowAccess = memuList[controller].update;
+                            break;
+                        case Operationype.Delete:
+                            allowAccess = memuList[controller].delete;
+                            break;
+                        case Operationype.Other:
+                            allowAccess = memuList[controller].other;
+                            break;
+                    }
+                    filterContext.Controller.ViewData["Add"] = memuList[controller].add;
+                    filterContext.Controller.ViewData["Update"] = memuList[controller].update;
+                    filterContext.Controller.ViewData["Delete"] = memuList[controller].delete;
+                    filterContext.Controller.ViewBag.Title = true;
+                }
             }
 
             if (!allowAccess)
@@ -105,24 +108,24 @@ namespace YMOA.WorkWeb.Domain
                     filterContext.Result = new ContentResult() { Content = "-100" };
                 }
             }
-            else
-            {
-                //判断重复登入
-                Hashtable htOnline = (Hashtable)System.Web.HttpContext.Current.Application["CurrentOnline"];
-                if (htOnline != null && htOnline[filterContext.HttpContext.Session["UserId"].ToString()] != filterContext.HttpContext.Session["LoginTime"])
-                {
-                    filterContext.HttpContext.Session.Clear();
-                    if (isViewPage)
-                    {
-                        filterContext.RequestContext.HttpContext.Response.Redirect("~/Manager/Login?t=rl");
-                    }
-                    else
-                    {
-                        filterContext.Result = new ContentResult() { Content = "-101" };
-                    }
-                    return;
-                }
-            }
+            //else
+            //{
+            //    //判断重复登入
+            //    Hashtable htOnline = (Hashtable)System.Web.HttpContext.Current.Application["CurrentOnline"];
+            //    if (htOnline != null && htOnline[filterContext.HttpContext.Session["UserId"].ToString()] != filterContext.HttpContext.Session["LoginTime"])
+            //    {
+            //        filterContext.HttpContext.Session.Clear();
+            //        if (isViewPage)
+            //        {
+            //            filterContext.RequestContext.HttpContext.Response.Redirect("~/Manager/Login?t=rl");
+            //        }
+            //        else
+            //        {
+            //            filterContext.Result = new ContentResult() { Content = "-101" };
+            //        }
+            //        return;
+            //    }
+            //}
         }
     }
 }
