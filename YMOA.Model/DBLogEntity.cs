@@ -7,6 +7,9 @@ using YMOA.Comm;
 
 namespace YMOA.Model
 {
+    /// <summary>
+    /// 数据库操作日志
+    /// </summary>
     public class DBLogEntity
     {
         public string _id { get; set; } = Guid.NewGuid().To16String();

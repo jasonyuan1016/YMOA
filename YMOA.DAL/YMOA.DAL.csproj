@@ -44,6 +44,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\BaseDal.cs" />
+    <Compile Include="Common\CommEnum.cs" />
     <Compile Include="Common\DapperExtendItems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemDAL.cs" />
@@ -70,6 +72,10 @@
     <ProjectReference Include="..\YMOA.Model\YMOA.Model.csproj">
       <Project>{45414ed5-57ad-497d-be4c-7a6b76831c61}</Project>
       <Name>YMOA.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YMOA.MongoDB\YMOA.MongoDB.csproj">
+      <Project>{7B9E5941-BE57-4987-96C4-3EF0BFAAD9C8}</Project>
+      <Name>YMOA.MongoDB</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

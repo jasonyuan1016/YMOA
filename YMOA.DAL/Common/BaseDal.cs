@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Dapper;
 using YMOA.Comm;
+using YMOA.Model;
+using YMOA.MongoDB;
 
 namespace YMOA.DAL
 {
@@ -27,6 +31,11 @@ namespace YMOA.DAL
                 return 30;
             } 
         }
+
+        /// <summary>
+        /// MongoDB表名
+        /// </summary>
+        private const string MongoDBCollection = "DBLog";
 
         protected string ConnString { get; set; } = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
@@ -150,7 +159,7 @@ namespace YMOA.DAL
         /// <param name="paras">参数</param>
         /// <param name="keyFild">主键字段</param>
         /// <returns></returns>
-        protected int StandardInsertOrUpdate(string tabName, Dictionary<string, object> paras, string keyFild = "ID")
+        protected int StandardInsertOrUpdate(string tabName, Dictionary<string, object> paras, string keyFild = "ID", bool needLog = false, OperateType operateType = OperateType.None)
         {
             var fields = GetFieldsFromDictionary(paras, keyFild);
             var sql = "";
@@ -165,11 +174,36 @@ namespace YMOA.DAL
                 var fieldsSql = String.Join(",", fields.Select(field => field + " = @" + field));
                 sql = String.Format("UPDATE {0} SET {1} WHERE {2} = @{2}", tabName, fieldsSql, keyFild);
             }
+
             using (IDbConnection dbConnection = GetConnection())
             {
-                return dbConnection.Execute(sql, paras);
+                if (needLog)
+                {
+                    DBLogEntity entity = new DBLogEntity();
+                    entity.tabName = tabName;
+                    entity.tId = paras[keyFild].ToString();
+                    entity.lType = (int)operateType;
+                    entity.sql = sql;
+                    entity.paras = paras.ToJson();
+                    return InvokeMethodWithDB<int>(() =>
+                    {
+                        int i = dbConnection.Execute(sql, paras);
+                        if (entity.tId.Equals("0"))
+                        {
+                            //获得刚新增的ID
+                            entity.tId = dbConnection.QueryFirst<string>(string.Format("SELECT MAX({0}) FROM {1}", keyFild, tabName));
+                        }
+                        return i;
+                    }, entity);
+                }
+                else
+                {
+                    return dbConnection.Execute(sql, paras);
+                }
             }
         }
+
+       
 
         private string[] GetFieldsFromDictionary(Dictionary<string, object> keyValues, string keyFild = "")
         {
@@ -236,6 +270,30 @@ namespace YMOA.DAL
             #endregion
             //builder.Parameters.Add("PageSize", grid.PageSize * grid.PageIndex);
             //builder.Parameters.Add("PageStartIndex", grid.PageSize * (grid.PageIndex - 1) + 1);
+        }
+
+        /// <summary>
+        /// 执行DB操作
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="p">当前执行方法</param>
+        /// <param name="entity">数据库操作日志</param>
+        /// <returns></returns>
+        private T InvokeMethodWithDB<T>(Func<T> p, DBLogEntity entity)
+        {
+            T retObj = default(T);
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            retObj = p();
+            sw.Stop();
+            entity.ms = sw.ElapsedMilliseconds;
+            entity.uId = HttpContext.Current.Session["UserId"].ToString();
+            entity.ctime = DateTime.Now;
+            Task.Factory.StartNew(() =>
+            {
+                new MongoDbService().Add<DBLogEntity>(ConfigurationManager.AppSettings["MongoDb_Name"], MongoDBCollection, entity);
+            });
+            return retObj;
         }
     }
 }

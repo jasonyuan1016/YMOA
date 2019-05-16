@@ -18,6 +18,7 @@ namespace YMOA.DAL
     /// </summary>
     public class UserDAL : BaseDal,IUserDAL
     {
+        
         /// <summary>
         /// 根据用户id获取用户
         /// </summary>
@@ -131,7 +132,7 @@ namespace YMOA.DAL
         /// <returns></returns>
         public int Save(Dictionary<string, object> paras)
         {
-            return StandardInsertOrUpdate("tbUser", paras);
+            return StandardInsertOrUpdate("tbUser", paras,"ID", true, OperateType.User);
         }
 
         /// <summary>
