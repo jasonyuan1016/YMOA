@@ -27,5 +27,16 @@ namespace YMOA.UnitTest
             Console.WriteLine(result);
             Assert.AreNotEqual(result, 0);
         }
+
+        [TestMethod]
+        public void TestRoleDelete()
+        {
+            Dictionary<string, object> pars = new Dictionary<string, object>();
+            pars["id"] = 1007;
+            int result = DALCore.GetInstance().SystemCore.RoleDelete(pars);
+            // 0成功 1角色不存在 2角色被用户引用
+            Console.WriteLine(result);
+            Assert.AreEqual(result,0);
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using YMOA.Comm;
 using YMOA.Model;
+using YMOA.WorkWeb.Resources;
 
 namespace YMOA.WorkWeb.Controllers
 {
@@ -61,10 +62,11 @@ namespace YMOA.WorkWeb.Controllers
             paras["AccountName"] = userEntity.AccountName;
             paras["Email"] = userEntity.Email;
             //验证账号、邮箱是否重复
-            int verify = DALUtility.UserCore.CheckUseridAndEmail(paras);
-            if (verify != 0)
+            int result = DALUtility.UserCore.CheckUseridAndEmail(paras);
+            if (result > 0)
             {
-                return OperationReturn(false, verify==1?"账号重复":"邮箱重复");
+                return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_user_" + result));
+
             }
             if (userEntity.Password != "******")
             {

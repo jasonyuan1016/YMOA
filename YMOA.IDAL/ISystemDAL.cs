@@ -35,6 +35,13 @@ namespace YMOA.IDAL
         IEnumerable<T> MenuGetList<T>(Dictionary<string, object> paras);
 
         int RoleSave(Dictionary<string, object> paras);
+
+        /// <summary>
+        ///  根据Id删除角色
+        /// </summary>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        int RoleDelete(Dictionary<string, object> paras);
         #endregion
 
         /// <summary>

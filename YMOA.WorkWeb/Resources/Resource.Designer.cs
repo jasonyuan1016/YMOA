@@ -295,6 +295,51 @@ namespace YMOA.WorkWeb.Resources {
         }
         
         /// <summary>
+        ///   查找类似 code已存在 的本地化字符串。
+        /// </summary>
+        public static string ormsg_codeexist {
+            get {
+                return ResourceManager.GetString("ormsg_codeexist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除失败 的本地化字符串。
+        /// </summary>
+        public static string ormsg_role_1 {
+            get {
+                return ResourceManager.GetString("ormsg_role_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色被引用 的本地化字符串。
+        /// </summary>
+        public static string ormsg_role_2 {
+            get {
+                return ResourceManager.GetString("ormsg_role_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 账号重复 的本地化字符串。
+        /// </summary>
+        public static string ormsg_user_1 {
+            get {
+                return ResourceManager.GetString("ormsg_user_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 邮箱重复 的本地化字符串。
+        /// </summary>
+        public static string ormsg_user_2 {
+            get {
+                return ResourceManager.GetString("ormsg_user_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 密码 的本地化字符串。
         /// </summary>
         public static string passwrod {
