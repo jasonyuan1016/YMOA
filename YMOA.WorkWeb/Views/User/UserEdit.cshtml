@@ -3,7 +3,6 @@
     ViewBag.Title = "Form";
     Layout = "~/Views/Shared/_Form.cshtml";
 }
-<script src="~/Content/js/datepicker/WdatePicker.js"></script>
 <form id="UserEidt">
     <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
         <ul class="nav nav-tabs">
@@ -30,13 +29,13 @@
                     </td>
                     <th class="formTitle">部门</th>
                     <td class="formValue">
-                        <select id="sltDepartmentId" name="sltDepartmentId" class="form-control required" value="@Model.DepartmentId" ></select>
+                        <select id="sltDepartmentId" name="sltDepartmentId" class="form-control required" value="@Model.DepartmentId"></select>
                     </td>
                 </tr>
                 <tr>
                     <th class="formTitle">角色</th>
                     <td class="formValue">
-                        <select id="sltRoleId" name="sltRoleId" class="form-control required" value="@Model.RoleId" ></select>
+                        <select id="sltRoleId" name="sltRoleId" class="form-control required" value="@Model.RoleId"></select>
                     </td>
                     <th class="formTitle">允许登录</th>
                     <td class="formValue">
@@ -78,3 +77,6 @@
         </div>
     </div>
 </form>
+@section scripts {
+    @Scripts.Render("~/Content/js/datepicker/WdatePicker.js")
+}
