@@ -55,6 +55,7 @@ namespace YMOA.WorkWeb.Controllers
                 Session["RoleId"] = currentUser.RoleId;
 
                 var CurrentOnline = System.Web.HttpContext.Current.Application["CurrentOnline"];
+                
                 if (CurrentOnline != null)
                 {
                     Hashtable htOnline = (Hashtable)CurrentOnline;

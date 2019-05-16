@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using YMOA.Comm;
 using YMOA.Model;
+using YMOA.WorkWeb.Domain;
 using YMOA.WorkWeb.Resources;
 
 namespace YMOA.WorkWeb.Controllers
@@ -12,6 +14,7 @@ namespace YMOA.WorkWeb.Controllers
     public class UserController : BaseController
     {
         // GET: User
+        [PermissionFilter("user", "Index")]
         public ActionResult Index()
         {
             return View();
@@ -45,17 +48,17 @@ namespace YMOA.WorkWeb.Controllers
             }
             return View(userInfo);
         }
-
+        [PermissionFilter("user", "Index", Operationype.Add)]
         public ActionResult Add(UserEntity userEntity)
         {
             return SubmitForm(userEntity);
         }
-
+        [PermissionFilter("user", "Index", Operationype.Update)]
         public ActionResult Update(UserEntity userEntity)
         {
             return SubmitForm(userEntity);
         }
-        public ActionResult SubmitForm(UserEntity userEntity)
+        private ActionResult SubmitForm(UserEntity userEntity)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["ID"] = userEntity.ID;
@@ -66,7 +69,6 @@ namespace YMOA.WorkWeb.Controllers
             if (result > 0)
             {
                 return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_user_" + result));
-
             }
             if (userEntity.Password != "******")
             {
@@ -86,10 +88,11 @@ namespace YMOA.WorkWeb.Controllers
             paras["Birthday"] = userEntity.Birthday;
             paras["Entrydate"] = userEntity.Entrydate;
             paras["IsAble"] = userEntity.IsAble;
-            paras["Description"] = userEntity.Description;
+            paras["Description"] = userEntity.Description == null ? "" : userEntity.Description;
             return OperationReturn(DALUtility.UserCore.Save(paras) > 0);
         }
 
+        [PermissionFilter("user", "Index", Operationype.Update)]
         /// <summary>
         ///  修改用户是否启用
         /// </summary>
@@ -104,6 +107,7 @@ namespace YMOA.WorkWeb.Controllers
             return OperationReturn(DALUtility.UserCore.Save(paras) > 0);
         }
 
+        [PermissionFilter("user", "Index", Operationype.Delete)]
         /// <summary>
         ///  用户删除
         /// </summary>
