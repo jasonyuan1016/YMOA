@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using YMOA.Comm;
 using YMOA.Model;
+using YMOA.WorkWeb.Resources;
 
 namespace YMOA.WorkWeb.Controllers
 {
@@ -78,5 +79,18 @@ namespace YMOA.WorkWeb.Controllers
             paras["rolemenu"] = dtCheckInfo;
             return OperationReturn(DALUtility.SystemCore.RoleSave(paras) == 0);
         }
+
+        public ActionResult Delete(int ID)
+        {
+            Dictionary<string, object> paras = new Dictionary<string, object>();
+            paras["id"] = ID;
+            int result = DALUtility.SystemCore.RoleDelete(paras);
+            if (result == 0)
+            {
+                return OperationReturn(true);
+            }
+            return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_role_" + result));
+        }
+
     }
 }

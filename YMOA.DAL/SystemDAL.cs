@@ -66,6 +66,17 @@ namespace YMOA.DAL
             sql += " ORDER BY sortvalue DESC";
             return QueryList<T>(sql, paras);
         }
+
+        /// <summary>
+        ///  根据Id删除角色
+        /// </summary>
+        /// <param name="paras"></param>
+        /// <returns>0成功 1角色不存在 2角色被用户引用</returns>
+        public int RoleDelete(Dictionary<string, object> paras)
+        {
+            return QuerySingle<int>("P_Role_Delete", paras, CommandType.StoredProcedure);
+        }
+
         #endregion
 
         /// <summary>
