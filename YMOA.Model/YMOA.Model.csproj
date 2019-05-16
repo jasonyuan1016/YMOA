@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBLogEntity.cs" />
     <Compile Include="LibraryEntity.cs" />
     <Compile Include="MenuPermission.cs" />
     <Compile Include="LoginIpLogEntity.cs" />
@@ -67,6 +68,12 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YMOA.Comm\YMOA.Comm.csproj">
+      <Project>{1D5C9EAE-2405-4376-BB0D-95E8ED778AB4}</Project>
+      <Name>YMOA.Comm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

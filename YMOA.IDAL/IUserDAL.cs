@@ -25,47 +25,14 @@ namespace YMOA.IDAL
         /// </summary>
         bool InitUserPwd(UserEntity user);
 
-        /// <summary>
-        /// 修改密码
-        /// </summary>
-        bool ChangePwd(UserEntity user);
 
         /// <summary>
         /// 用户登录
         /// </summary>
         UserEntity UserLogin(Dictionary<string, object> paras);
 
-        /// <summary>
-        /// 根据用户id判断用户是否可用
-        /// </summary>
-        UserEntity CheckLoginByUserId(string userId);
 
-        /// <summary>
-        /// 添加用户
-        /// </summary>
-        int AddUser(UserEntity user);
 
-        /// <summary>
-        /// 删除用户（可批量删除，删除用户同时删除对应的：角色/权限/部门）
-        /// </summary>
-        bool DeleteUser(string idList);
-
-        /// <summary>
-        /// 删除用户（可批量删除）
-        /// </summary>
-        /// <param name="idList"></param>
-        /// <returns></returns>
-        bool OnlyDeleteUser(string idList);
-
-        /// <summary>
-        /// 修改用户
-        /// </summary>
-        bool EditUser(UserEntity user);
-
-        /// <summary>
-        /// 获取用户信息（“我的信息”）
-        /// </summary>
-        DataTable GetUserInfo(int userId);
 
         /// <summary>
         /// 查询用户列表
@@ -106,6 +73,11 @@ namespace YMOA.IDAL
         /// <param name="paras"></param>
         /// <returns></returns>
         int Save(Dictionary<string, object> paras);
-        
+        /// <summary>
+        /// 仅删除用户(可批量删除)
+        /// </summary>
+        /// <param name="idList">需要删除的id集</param>
+        /// <returns></returns>
+        bool OnlyDeleteUser(string idList);
     }
 }
