@@ -7,6 +7,8 @@ $(function () {
         $("#sltDepartmentId").val($("#sltDepartmentId").attr("value"));
         $("#sltRoleId").val($("#sltRoleId").attr("value"));
         $("#sltIsAble").val($("#sltIsAble").attr("value") == undefined ? 0 : 1);
+        $("#txtEntrydate").val(new Date($("#txtEntrydate").val()).Format("yyyy-MM-dd"));
+        $("#txtBirthday").val(new Date($("#txtBirthday").val()).Format("yyyy-MM-dd"));
     }
 });
 function initControl() {

@@ -3,7 +3,7 @@
     ViewBag.Title = "Form";
     Layout = "~/Views/Shared/_Form.cshtml";
 }
-
+<script src="~/Content/js/datepicker/WdatePicker.js"></script>
 <form id="UserEidt">
     <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
         <ul class="nav nav-tabs">
@@ -71,7 +71,7 @@
                         备注
                     </th>
                     <td class="formValue" colspan="3">
-                        <textarea id="texDescription" name="texDescription" class="form-control" style="height: 60px;">@Model.Description</textarea>
+                        <textarea id="texDescription" name="texDescription" class="form-control required" style="height: 60px;">@Model.Description</textarea>
                     </td>
                 </tr>
             </table>
