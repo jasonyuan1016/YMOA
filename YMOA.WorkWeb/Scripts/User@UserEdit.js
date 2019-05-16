@@ -1,9 +1,12 @@
-﻿
+﻿var ID = $.request("ID");
 $(function () {
-    var ID = parseInt($("#hidID").val());
     initControl();
-    if (ID > 0) {
-        $("#txtPassword").val("******");
+    if (!!ID) {
+        $("#txtPassword").val("******").attr('disabled', 'disabled');
+        $("#txtAccountName").attr('disabled', 'disabled');
+        $("#sltDepartmentId").val($("#sltDepartmentId").attr("value"));
+        $("#sltRoleId").val($("#sltRoleId").attr("value"));
+        $("#sltIsAble").val($("#sltIsAble").attr("value") == undefined ? 0 : 1);
     }
 });
 function initControl() {
