@@ -32,6 +32,7 @@ namespace YMOA.WorkWeb
                     "~/Content/js/jquery/jquery-2.1.1.min.js",
                     "~/Content/js/bootstrap/bootstrap.js",
                     "~/Content/js/jqgrid/jqgrid.min.js",
+                    "~/Content/js/datepicker/WdatePicker.js",
                     "~/Content/js/framework-ui.js"
                 ));
 
@@ -40,9 +41,9 @@ namespace YMOA.WorkWeb
                 "~/Content/js/jquery/jquery-2.1.1.min.js",
                 "~/Content/js/bootstrap/bootstrap.js",
                  "~/Content/js/wizard/wizard.js", 
-                 "~/Content/js/validate/jquery.validate.min.js", 
-                 "~/Content/js/datepicker/WdatePicker.js",
-                 "~/Content/js/framework-ui.js"
+                 "~/Content/js/validate/jquery.validate.min.js",
+                 "~/Content/js/framework-ui.js",
+                 "~/Content/js/md5/jquery.md5.js"
                 ));
             BundleTable.EnableOptimizations = true;
         }
