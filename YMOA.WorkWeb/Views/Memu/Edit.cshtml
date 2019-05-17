@@ -1,0 +1,59 @@
+﻿@model YMOA.Model.MenuEntity
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<form id="MemuEidt">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#">基本信息</a></li>
+            <input id="hidID" type="hidden" value="@Model.id" />
+            @*<li ><a href="#">扩展信息</a></li>*@
+        </ul>
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle">菜单名称</th>
+                    <td class="formValue">
+                        <input id="txtname" name="txtname" type="text" class="form-control required" autocomplete="off" placeholder="请输入菜单名" value="@Model.name" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">标识码</th>
+                    <td class="formValue">
+                        <input id="txtcode" type="text" name="txtcode" class="form-control required" autocomplete="off" placeholder="请输入标识码" value="@Model.code" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">控制器</th>
+                    <td class="formValue">
+                        <input id="txtcontroller" name="txtcontroller" autocomplete="off" type="text" class="form-control isEnglish" placeholder="请输入控制器" value="@Model.controller" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">动作</th>
+                    <td class="formValue">
+                        <input id="txtaction" name="txtaction" autocomplete="off" type="text" class="form-control isEnglish" placeholder="请输入动作" value="@Model.action" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">父级菜单</th>
+                    <td class="formValue">
+                        <select id="sltparentid" name="sltparentid" class="form-control" data-value="@Model.parentid">
+                            <option value="0">===请选择===</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">状态</th>
+                    <td class="formValue">
+                        <select id="sltstate" class="form-control" value="@Model.state">
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>

@@ -38,5 +38,13 @@ namespace YMOA.UnitTest
             Console.WriteLine(result);
             Assert.AreEqual(result,0);
         }
+        
+        [TestMethod]
+        public void TestMenuGetList()
+        {
+            IEnumerable<MenuEntity> result = DALCore.GetInstance().SystemCore.MenuGetList<MenuEntity>(null);
+            Debug.WriteLine(result);
+            Assert.AreNotEqual(result, null);
+        }
     }
 }

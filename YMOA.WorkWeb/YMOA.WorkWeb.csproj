@@ -126,6 +126,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
+    <Compile Include="Controllers\MemuController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\CommonData.cs" />
     <Compile Include="Domain\CustomsAttribute.cs" />
@@ -411,6 +412,8 @@
     <Content Include="Scripts\Group%40Index.js" />
     <Content Include="Scripts\Home%40Index.js" />
     <Content Include="Scripts\Login%40Index.js" />
+    <Content Include="Scripts\Memu%40Index.js" />
+    <Content Include="Scripts\Memu%40Edit.js" />
     <Content Include="Scripts\resx\en-us\global.js" />
     <Content Include="Scripts\resx\en-us\Group%40Index.js" />
     <Content Include="Scripts\resx\en-us\Login%40Index.js" />
@@ -418,6 +421,7 @@
     <Content Include="Scripts\resx\zh-cn\global.js" />
     <Content Include="Scripts\resx\zh-cn\Group%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Login%40Index.js" />
+    <Content Include="Scripts\resx\zh-cn\Memu%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\User%40Index.js" />
     <Content Include="Scripts\User%40Index.js" />
     <Content Include="Scripts\User%40UserEdit.js" />
@@ -444,7 +448,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Menu\" />
     <Folder Include="Views\Revenue\" />
   </ItemGroup>
   <ItemGroup>
@@ -455,6 +458,8 @@
     <Content Include="Views\User\UserEdit.cshtml" />
     <Content Include="Views\Group\Index.cshtml" />
     <Content Include="Views\Group\Edit.cshtml" />
+    <Content Include="Views\Memu\Index.cshtml" />
+    <Content Include="Views\Memu\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YMOA.Comm\YMOA.Comm.csproj">
