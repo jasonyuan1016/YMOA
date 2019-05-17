@@ -35,7 +35,7 @@ namespace YMOA.WorkWeb.Controllers
         {
             if (Session["session_verifycode"].IsEmpty() || Md5.md5(code.ToLower(), 16) != Session["session_verifycode"].ToString())
             {
-                throw new Exception("验证码错误，请重新输入");
+                return AjaxReturn(ResultType.error, "验证码错误，请重新输入");
             }
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["UserId"] = username;
@@ -45,7 +45,7 @@ namespace YMOA.WorkWeb.Controllers
             {
                 if (currentUser.IsAble == false)
                 {
-                    throw new Exception("用户已被禁用，请您联系管理员");
+                    return AjaxReturn(ResultType.error, "用户已被禁用，请您联系管理员");
                 }
                 
                 Session["UserId"] = currentUser.AccountName;
@@ -66,12 +66,11 @@ namespace YMOA.WorkWeb.Controllers
                     htOnline[currentUser.AccountName] = dateTime;
                     System.Web.HttpContext.Current.Application["CurrentOnline"] = htOnline;
                 }
-                return Content(new AjaxResult { state = ResultType.success.ToString(), message = "登录成功" }.ToJson());
-
+                return AjaxReturn(ResultType.success, "登录成功");
             }
             else
             {
-                throw new Exception("用户名密码错误，请您检查");
+                return AjaxReturn(ResultType.error, "用户名密码错误，请您检查");
             }
         }
         /// <summary>

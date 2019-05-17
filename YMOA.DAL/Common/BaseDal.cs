@@ -48,14 +48,12 @@ namespace YMOA.DAL
         {
             using (IDbConnection conn = GetConnection())
             {
-                try
+                var q = conn.Query<T>(sql, param, null, true, CommandTimeout, commandType);
+                if (q != null)
                 {
-                    return conn.QuerySingle<T>(sql, param, null, CommandTimeout, commandType);
+                    return q.FirstOrDefault();
                 }
-                catch (InvalidOperationException ex)
-                {
-                    return default(T);
-                }
+                return default(T);
             }
         }
 
