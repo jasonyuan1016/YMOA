@@ -9,6 +9,7 @@ $(function () {
         $("#sltIsAble").val($("#sltIsAble").attr("value") == undefined ? "false" : "true");
         $("#txtEntrydate").val(new Date($("#txtEntrydate").val()).Format("yyyy-MM-dd"));
         $("#txtBirthday").val(new Date($("#txtBirthday").val()).Format("yyyy-MM-dd"));
+        $("#txtRealName").val($.trim($("#txtRealName").val()));
     }
 });
 function initControl() {

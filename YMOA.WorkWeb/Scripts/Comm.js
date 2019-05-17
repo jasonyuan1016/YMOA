@@ -39,7 +39,7 @@ $.fn.dataSerialize = function () {
                 postdata[dataID] = $this.is(":checked");
                 break;
             default:
-                var value = $this.val() == "" ? "&nbsp;" : $this.val();
+                var value = $this.val() == "" ? "&nbsp;" : $.trim($this.val());
                 if (!$.request("keyValue")) {
                     value = value.replace(/&nbsp;/g, '');
                 }
