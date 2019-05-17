@@ -131,24 +131,7 @@ namespace YMOA.DAL
         /// <returns></returns>
         public bool DeleteMemu(string idList)
         {
-            List<string> list = new List<string>();
-            list.Add("delete from tbMenu where ID in (" + idList + ")");
-            try
-            {
-                int count = SqlHelper.ExecuteNonQuery(SqlHelper.connStr, list);
-                if (count > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch
-            {
-                return false;
-            }
+            return Execute("delete from tbMenu where ID in (" + idList + ")", null, CommandType.Text) > 0;
         }
 
         #endregion
