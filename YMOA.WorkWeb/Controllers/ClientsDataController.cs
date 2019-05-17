@@ -41,7 +41,7 @@ namespace YMOA.WorkWeb.Controllers
             }
             data.departments = dictionaryItem;
             data.menuPermissions = menuPermissions;
-            // 保存权限
+            // 保存角色权限
             Dictionary<string, MenuPermission> ListToDictionary = menuPermissions.ToDictionary(key => key.code, value => value);
             Session["MemuList"] = ListToDictionary;
             return Content(data.ToJson());

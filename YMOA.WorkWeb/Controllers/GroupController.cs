@@ -6,13 +6,14 @@ using System.Web;
 using System.Web.Mvc;
 using YMOA.Comm;
 using YMOA.Model;
+using YMOA.WorkWeb.Domain;
 using YMOA.WorkWeb.Resources;
 
 namespace YMOA.WorkWeb.Controllers
 {
     public class GroupController : BaseController
     {
-        // GET: User
+        [PermissionFilter("group")]
         public ActionResult Index()
         {
             return View();
@@ -44,11 +45,13 @@ namespace YMOA.WorkWeb.Controllers
             return View(roleMenuEntity);
         }
 
+        [PermissionFilter("group", "Add", Operationype.Add)]
         public ActionResult Add(RoleMenuEntity roleMenuEntity)
         {
             return Save(roleMenuEntity);
         }
 
+        [PermissionFilter("group", "Update", Operationype.Update)]
         public ActionResult Update(RoleMenuEntity roleMenuEntity)
         {
             return Save(roleMenuEntity);
@@ -80,6 +83,7 @@ namespace YMOA.WorkWeb.Controllers
             return OperationReturn(DALUtility.SystemCore.RoleSave(paras) == 0);
         }
 
+        [PermissionFilter("group", "Delete", Operationype.Delete)]
         public ActionResult Delete(int ID)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
