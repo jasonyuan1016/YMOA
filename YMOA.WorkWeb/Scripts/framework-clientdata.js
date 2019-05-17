@@ -6,6 +6,7 @@ $.clientsInit = function () {
     var dataJson = {
         groups: [],
         departments: [],
+        menus:[],
         menuPermissions: []
     };
     var init = function () {
@@ -18,6 +19,7 @@ $.clientsInit = function () {
                 dataJson.groups = data.groups;
                 dataJson.departments = data.departments;
                 dataJson.menuPermissions = data.menuPermissions;
+                dataJson.menus = data.menus;
             }
         });
     }
