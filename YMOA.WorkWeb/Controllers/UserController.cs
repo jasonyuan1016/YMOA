@@ -14,7 +14,7 @@ namespace YMOA.WorkWeb.Controllers
     public class UserController : BaseController
     {
         // GET: User
-        [PermissionFilter("user", "Index")]
+        [PermissionFilter("user")]
         public ActionResult Index()
         {
             return View();
@@ -48,12 +48,12 @@ namespace YMOA.WorkWeb.Controllers
             }
             return View(userInfo);
         }
-        [PermissionFilter("user", "Index", Operationype.Add)]
+        [PermissionFilter("user", "Add", Operationype.Add)]
         public ActionResult Add(UserEntity userEntity)
         {
             return SubmitForm(userEntity);
         }
-        [PermissionFilter("user", "Index", Operationype.Update)]
+        [PermissionFilter("user", "Update", Operationype.Update)]
         public ActionResult Update(UserEntity userEntity)
         {
             return SubmitForm(userEntity);
@@ -92,7 +92,7 @@ namespace YMOA.WorkWeb.Controllers
             return OperationReturn(DALUtility.UserCore.Save(paras) > 0);
         }
 
-        [PermissionFilter("user", "Index", Operationype.Update)]
+        [PermissionFilter("user", "Update", Operationype.Update)]
         /// <summary>
         ///  修改用户是否启用
         /// </summary>
@@ -107,7 +107,7 @@ namespace YMOA.WorkWeb.Controllers
             return OperationReturn(DALUtility.UserCore.Save(paras) > 0);
         }
 
-        [PermissionFilter("user", "Index", Operationype.Delete)]
+        [PermissionFilter("user", "Delete", Operationype.Delete)]
         /// <summary>
         ///  用户删除
         /// </summary>

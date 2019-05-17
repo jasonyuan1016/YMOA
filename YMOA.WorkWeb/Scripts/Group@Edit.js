@@ -45,7 +45,7 @@ function submitForm() {
         allowOperations: _allowOperations
     }
     _roleEntity.id = $("#hidid").val();
-    var doUrl = _roleEntity.id > 0 ? "Add" : "Update";
+    var doUrl = _roleEntity.id == 0 ? "Add" : "Update";
     $.submitForm({
         url: doUrl,
         param: roleMenuEntity,
