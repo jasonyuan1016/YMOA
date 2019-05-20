@@ -44,16 +44,42 @@ namespace YMOA.DAL
             return new SqlConnection(ConnString);
         }
 
-        protected T QuerySingle<T>(string sql, object param = null, CommandType commandType = CommandType.Text)
+        /// <summary>
+        /// 查询单笔
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="sql"></param>
+        /// <param name="param">参数</param>
+        /// <param name="commandType">SQL命令类型</param>
+        /// <param name="logEntity">DBLog</param>
+        /// <returns></returns>
+        protected T QuerySingle<T>(string sql, object param = null, CommandType commandType = CommandType.Text, DBLogEntity logEntity = null)
+        {
+            if (logEntity == null)
+            {
+                return _QuerySingle<T>(sql, param, commandType);
+            }
+            else
+            {
+                return InvokeMethodWithDB<T>(() =>
+                {
+                   var r = _QuerySingle<T>(sql, param, commandType);
+                    if (!string.IsNullOrEmpty(logEntity._id) && logEntity._id != "0")
+                    {
+                        using (IDbConnection conn = GetConnection())//获得刚新增的ID
+                            logEntity.tId = conn.QueryFirst<string>(string.Format("SELECT MAX({0}) FROM {1}", "ID", logEntity.tabName));
+                    }
+                    return r;
+                }, logEntity);
+            }
+        }
+
+        private T _QuerySingle<T>(string sql, object param = null, CommandType commandType = CommandType.Text)
         {
             using (IDbConnection conn = GetConnection())
             {
-                var q = conn.Query<T>(sql, param, null, true, CommandTimeout, commandType);
-                if (q != null)
-                {
-                    return q.FirstOrDefault();
-                }
-                return default(T);
+                var q = conn.QuerySingleOrDefault<T>(sql, param, null, CommandTimeout, commandType);
+                return q;
             }
         }
 

@@ -433,7 +433,30 @@ namespace YMOA.MongoDB
 
         #endregion
 
+        #region 笔数
 
+        #region 笔数（同步）
+        /// <summary>
+        /// 分页
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="database">库</param>
+        /// <param name="collection">集合</param>
+        /// <param name="predicate">过滤条件</param>
+        /// <returns></returns>
+        public long GetCount<T>(string database, string collection, Expression<Func<T, bool>> predicate)
+        {
+            var db = _mongoClient.GetDatabase(database);
+            var coll = db.GetCollection<T>(collection);
+            return coll.CountDocumentsAsync<T>(predicate).Result;
+        }
+
+        #endregion
+
+        #endregion
+
+
+        #region 统计
         public List<BsonDocument> GetGroupData<T>(string database, string collection, List<string> _groupKeys, List<string> _groupFileds, List<string> _matchs = null)
         {
             var db = _mongoClient.GetDatabase(database);
@@ -443,7 +466,7 @@ namespace YMOA.MongoDB
             string strTmp = string.Empty;
             if (_matchs != null && _matchs.Count > 0)
             {
-                
+
                 foreach (string _m in _matchs)
                 {
                     strTmp = "," + _m;
@@ -463,7 +486,8 @@ namespace YMOA.MongoDB
             stages.Add(new JsonPipelineStageDefinition<BsonDocument, BsonDocument>("{$group:{_id:{" + strTmp.Substring(1) + "}" + strFileds + "}}"));
             PipelineDefinition<BsonDocument, BsonDocument> pipeline = new PipelineStagePipelineDefinition<BsonDocument, BsonDocument>(stages);
             return coll.Aggregate(pipeline).ToList();
-        }
+        } 
+        #endregion
     }
     #endregion
 }
