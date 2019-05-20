@@ -256,4 +256,12 @@
     <value>邮箱重复</value>
     <comment>邮箱重复</comment>
   </data>
+  <data name="ormsg_distanceLogin" xml:space="preserve">
+    <value>您已在异地登录，将跳转到登录页</value>
+    <comment>您已在异地登录，将跳转到登录页</comment>
+  </data>
+  <data name="ormsg_nopermissions" xml:space="preserve">
+    <value>未获得此权限</value>
+    <comment>未获得此权限</comment>
+  </data>
 </root>

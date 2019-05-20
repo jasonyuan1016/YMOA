@@ -6,6 +6,7 @@
  * 修改歷史:
  * 2019/04/28       J.Y       創建
  *-------------------------------------*/
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using YMOA.Model;
+using YMOA.WorkWeb.Resources;
 
 namespace YMOA.WorkWeb.Domain
 {
@@ -56,19 +58,19 @@ namespace YMOA.WorkWeb.Domain
             }
             if (controller.Equals(string.Empty))
             {
-                controller = filterContext.RouteData.Values["controller"].ToString().ToLower();
+                controller = filterContext.RouteData.Values["controller"].ToString();
             }
             if (action.Equals(string.Empty))
             {
-                action = filterContext.RouteData.Values["action"].ToString().ToLower();
+                action = filterContext.RouteData.Values["action"].ToString();
             }
             if (HttpContext.Current.Session["MemuList"] != null)
             {
-                //var memuInfo = ((IEnumerable<Navbar>)HttpContext.Current.Session["MemuList"]).SingleOrDefault(
-                //    x => x.controller.Equals(controller, StringComparison.CurrentCultureIgnoreCase)
-                //    && x.action.Equals(action, StringComparison.CurrentCultureIgnoreCase));
-                Dictionary<string, MenuPermission> memuList = (Dictionary<string, MenuPermission>)HttpContext.Current.Session["MemuList"];
-                if (memuList[controller] != null)
+                var memuInfo = ((List<MenuPermission>)HttpContext.Current.Session["MemuList"]).SingleOrDefault(
+                    x => x.controller.Equals(controller, StringComparison.CurrentCultureIgnoreCase)
+                    && x.action.Equals(action, StringComparison.CurrentCultureIgnoreCase));
+
+                if (memuInfo != null)
                 {
                     switch (operationype)
                     {
@@ -76,21 +78,21 @@ namespace YMOA.WorkWeb.Domain
                             allowAccess = true;
                             break;
                         case Operationype.Add:
-                            allowAccess = memuList[controller].add;
+                            allowAccess = memuInfo.add;
                             break;
                         case Operationype.Update:
-                            allowAccess = memuList[controller].update;
+                            allowAccess = memuInfo.update;
                             break;
                         case Operationype.Delete:
-                            allowAccess = memuList[controller].delete;
+                            allowAccess = memuInfo.delete;
                             break;
                         case Operationype.Other:
-                            allowAccess = memuList[controller].other;
+                            allowAccess = memuInfo.other;
                             break;
                     }
-                    filterContext.Controller.ViewData["Add"] = memuList[controller].add;
-                    filterContext.Controller.ViewData["Update"] = memuList[controller].update;
-                    filterContext.Controller.ViewData["Delete"] = memuList[controller].delete;
+                    filterContext.Controller.ViewData["Add"] = memuInfo.add;
+                    filterContext.Controller.ViewData["Update"] = memuInfo.update;
+                    filterContext.Controller.ViewData["Delete"] = memuInfo.delete;
                     filterContext.Controller.ViewBag.Title = true;
                 }
             }
@@ -105,27 +107,30 @@ namespace YMOA.WorkWeb.Domain
                 }
                 else
                 {
-                    filterContext.Result = new ContentResult() { Content = "-100" };
+                    var obj = new { success = false, msg = Resource.ResourceManager.GetString("ormsg_nopermissions"), code = "-100" };
+                    filterContext.Result = new ContentResult() { Content = JsonConvert.SerializeObject(obj) };
                 }
             }
-            //else
-            //{
-            //    //判断重复登入
-            //    Hashtable htOnline = (Hashtable)System.Web.HttpContext.Current.Application["CurrentOnline"];
-            //    if (htOnline != null && htOnline[filterContext.HttpContext.Session["UserId"].ToString()] != filterContext.HttpContext.Session["LoginTime"])
-            //    {
-            //        filterContext.HttpContext.Session.Clear();
-            //        if (isViewPage)
-            //        {
-            //            filterContext.RequestContext.HttpContext.Response.Redirect("~/Manager/Login?t=rl");
-            //        }
-            //        else
-            //        {
-            //            filterContext.Result = new ContentResult() { Content = "-101" };
-            //        }
-            //        return;
-            //    }
-            //}
+            else
+            {
+                //判断重复登入
+                var CurrentOnline = System.Web.HttpContext.Current.Application["CurrentOnline"];
+                Hashtable htOnline = (Hashtable)CurrentOnline;
+                if (htOnline != null && htOnline[filterContext.HttpContext.Session["UserId"].ToString()].ToString() != filterContext.HttpContext.Session["LoginTime"].ToString())
+                {
+                    filterContext.HttpContext.Session.Clear();
+                    if (isViewPage)
+                    {
+                        filterContext.RequestContext.HttpContext.Response.Redirect("~/Manager/Login?t=rl");
+                    }
+                    else
+                    {
+                        var obj = new { success = false, msg = Resource.ResourceManager.GetString("ormsg_distanceLogin"), code = "-101" };
+                        filterContext.Result = new ContentResult() { Content = JsonConvert.SerializeObject(obj) };
+                    }
+                    return;
+                }
+            }
         }
     }
 }

@@ -42,8 +42,7 @@ namespace YMOA.WorkWeb.Controllers
             data.departments = dictionaryItem;
             data.menuPermissions = menuPermissions;
             // 保存角色权限
-            Dictionary<string, MenuPermission> ListToDictionary = menuPermissions.ToDictionary(key => key.code, value => value);
-            Session["MemuList"] = ListToDictionary;
+            Session["MemuList"] = menuPermissions;
             Dictionary<string, object> menuItem = new Dictionary<string, object>();
             menuItem["noState"] = 0;
             data.menus = (List<MenuEntity>)DALCore.GetInstance().SystemCore.MenuGetList<MenuEntity>(menuItem);

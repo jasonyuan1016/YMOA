@@ -304,6 +304,24 @@ namespace YMOA.WorkWeb.Resources {
         }
         
         /// <summary>
+        ///   查找类似 您已在异地登录，将跳转到登录页 的本地化字符串。
+        /// </summary>
+        public static string ormsg_distanceLogin {
+            get {
+                return ResourceManager.GetString("ormsg_distanceLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未获得此权限 的本地化字符串。
+        /// </summary>
+        public static string ormsg_nopermissions {
+            get {
+                return ResourceManager.GetString("ormsg_nopermissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 角色被引用 的本地化字符串。
         /// </summary>
         public static string ormsg_role_1 {

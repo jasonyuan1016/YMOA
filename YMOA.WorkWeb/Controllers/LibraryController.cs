@@ -12,12 +12,13 @@ namespace YMOA.WorkWeb.Controllers
 {
     public class LibraryController : BaseController
     {
-        [PermissionFilter("library")]
+        [PermissionFilter]
         public ActionResult Index()
         {
             return View();
         }
 
+        [PermissionFilter("library", "index")]
         public ActionResult GetGridJson(int tag=1)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
@@ -30,35 +31,28 @@ namespace YMOA.WorkWeb.Controllers
             return Content(data.ToJson());
         }
 
+        [PermissionFilter("library", "index")]
         public ActionResult Edit(int tag,int ID = 0)
         {
             LibraryEntity entity = new LibraryEntity();
-            Dictionary<string, object> paras = new Dictionary<string, object>();
-            paras["tag"] = tag;
-            List<LibraryEntity> list = (List<LibraryEntity>)DALUtility.SystemCore.LibraryGetList<LibraryEntity>(paras);
             if (ID > 0)
             {
-                foreach(LibraryEntity lib in list)
-                {
-                    if (lib.id == ID)
-                    {
-                        entity = lib;
-                        break;
-                    }
-                }
+                Dictionary<string, object> paras = new Dictionary<string, object>();
+                paras["tag"] = tag;
+                paras["id"] = ID;
+                List<LibraryEntity> list = DALUtility.SystemCore.LibraryGetList<LibraryEntity>(paras).ToList();
+                entity = list[0];
             }
-            entity.tag = tag;
-            ViewData["listLibrary"] = list;
             return View(entity);
         }
 
-        [PermissionFilter("library", "Add", Operationype.Add)]
+        [PermissionFilter("library", "index", Operationype.Add)]
         public ActionResult Add(LibraryEntity entity)
         {
             return Save(entity);
         }
 
-        [PermissionFilter("library", "Update", Operationype.Update)]
+        [PermissionFilter("library", "index", Operationype.Update)]
         public ActionResult Update(LibraryEntity entity)
         {
             return Save(entity);
@@ -80,6 +74,7 @@ namespace YMOA.WorkWeb.Controllers
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
+        [PermissionFilter("library", "index", Operationype.Delete)]
         public ActionResult Delete(int ID)
         {
             return OperationReturn(DALUtility.SystemCore.DeleteLibrary(ID.ToString()));

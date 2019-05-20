@@ -17,7 +17,7 @@ namespace YMOA.WorkWeb.Controllers
     public class MemuController : BaseController
     {
         // GET: Menu
-        [PermissionFilter("memu")]
+        [PermissionFilter]
         public ActionResult Index()
         {
             return View();
@@ -27,6 +27,7 @@ namespace YMOA.WorkWeb.Controllers
         ///  获取所有选单
         /// </summary>
         /// <returns></returns>
+        [PermissionFilter("memu", "index")]
         public ActionResult GetGridJson()
         {
             var data = DALUtility.SystemCore.MenuGetList<MenuEntity>(null);
@@ -44,12 +45,13 @@ namespace YMOA.WorkWeb.Controllers
             }
             return Content(treeList.TreeGridJson());
         }
-        
+
         /// <summary>
         ///  添加/修改弹框
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
+        [PermissionFilter("memu", "index")]
         public ActionResult Edit(int ID = 0)
         {
             MenuEntity entity = new MenuEntity();
@@ -63,23 +65,24 @@ namespace YMOA.WorkWeb.Controllers
             return View(entity);
         }
 
-        [PermissionFilter("memu", "Update", Operationype.Add)]
         /// <summary>
         ///  修改菜单
         /// </summary>
         /// <param name="menuEntity"></param>
         /// <returns></returns>
+        [PermissionFilter("memu", "index", Operationype.Update)]
         public ActionResult Update(MenuEntity menuEntity)
         {
             return SubmitForm(menuEntity);
         }
 
-        [PermissionFilter("memu", "Add", Operationype.Add)]
+
         /// <summary>
         ///  添加菜单
         /// </summary>
         /// <param name="menuEntity"></param>
         /// <returns></returns>
+        [PermissionFilter("memu", "index", Operationype.Add)]
         public ActionResult Add(MenuEntity menuEntity)
         {
             return SubmitForm(menuEntity);
@@ -99,13 +102,13 @@ namespace YMOA.WorkWeb.Controllers
             return OperationReturn(DALUtility.SystemCore.MemuSave(paras) > 0);
         }
 
-        [PermissionFilter("memu", "Update", Operationype.Add)]
         /// <summary>
         ///  修改状态
         /// </summary>
         /// <param name="ID"></param>
         /// <param name="state">状态</param>
         /// <returns></returns>
+        [PermissionFilter("memu", "Update", Operationype.Update)]
         public ActionResult UpdateState(int ID, int state)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
@@ -114,12 +117,12 @@ namespace YMOA.WorkWeb.Controllers
             return OperationReturn(DALUtility.SystemCore.MemuSave(paras) > 0);
         }
 
-        [PermissionFilter("memu", "Delete", Operationype.Add)]
         /// <summary>
         ///  删除菜单
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
+        [PermissionFilter("memu", "Delete", Operationype.Add)]
         public ActionResult Delete(int ID)
         {
             return OperationReturn(DALUtility.SystemCore.DeleteMemu(ID.ToString()));

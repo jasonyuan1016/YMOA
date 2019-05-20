@@ -13,12 +13,13 @@ namespace YMOA.WorkWeb.Controllers
 {
     public class GroupController : BaseController
     {
-        [PermissionFilter("group")]
+        [PermissionFilter]
         public ActionResult Index()
         {
             return View();
         }
 
+        [PermissionFilter("group", "index")]
         public ActionResult GetGridJson()
         {
             var roles = DALUtility.SystemCore.RoleGetList<RoleEntity>(null);
@@ -26,6 +27,7 @@ namespace YMOA.WorkWeb.Controllers
             return Content(data.ToJson());
         }
 
+        [PermissionFilter("group", "index")]
         public ActionResult Edit(int ID = 0)
         {
             RoleMenuEntity roleMenuEntity = new RoleMenuEntity();
@@ -45,13 +47,13 @@ namespace YMOA.WorkWeb.Controllers
             return View(roleMenuEntity);
         }
 
-        [PermissionFilter("group", "Add", Operationype.Add)]
+        [PermissionFilter("group", "index", Operationype.Add)]
         public ActionResult Add(RoleMenuEntity roleMenuEntity)
         {
             return Save(roleMenuEntity);
         }
 
-        [PermissionFilter("group", "Update", Operationype.Update)]
+        [PermissionFilter("group", "index", Operationype.Update)]
         public ActionResult Update(RoleMenuEntity roleMenuEntity)
         {
             return Save(roleMenuEntity);
@@ -83,7 +85,7 @@ namespace YMOA.WorkWeb.Controllers
             return OperationReturn(DALUtility.SystemCore.RoleSave(paras) == 0);
         }
 
-        [PermissionFilter("group", "Delete", Operationype.Delete)]
+        [PermissionFilter("group", "index", Operationype.Delete)]
         public ActionResult Delete(int ID)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
