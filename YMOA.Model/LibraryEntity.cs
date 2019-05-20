@@ -68,6 +68,7 @@ namespace YMOA.Model
             set { _code = value; }
             get { return _code; }
         }
+
     }
 
 }

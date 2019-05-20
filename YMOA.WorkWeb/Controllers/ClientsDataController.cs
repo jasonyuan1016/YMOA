@@ -41,6 +41,10 @@ namespace YMOA.WorkWeb.Controllers
             }
             data.departments = dictionaryItem;
             data.menuPermissions = menuPermissions;
+            // 保存角色权限
+            Dictionary<string, MenuPermission> ListToDictionary = menuPermissions.ToDictionary(key => key.code, value => value);
+            Session["MemuList"] = ListToDictionary;
+            data.menus = (List<MenuEntity>)DALCore.GetInstance().SystemCore.MenuGetList<MenuEntity>(null);
             return Content(data.ToJson());
         }
     }

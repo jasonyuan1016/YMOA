@@ -12,6 +12,8 @@ namespace YMOA.WorkWeb.Models
         public Dictionary<string, object> departments { get; set; }
 
         public List<MenuPermission> menuPermissions { get; set; }
+
+        public List<MenuEntity> menus { get; set; }
     }
 
     public class group

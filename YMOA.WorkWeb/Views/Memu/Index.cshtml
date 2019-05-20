@@ -1,7 +1,9 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Index.cshtml";
 }
+
 <div class="topPanel">
     <div class="toolbar">
         <div class="btn-group">
@@ -10,7 +12,7 @@
         @if ((bool)ViewData["Add"])
         {
             <div class="btn-group">
-                <a id="NF-add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建用户</a>
+                <a id="NF-add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
             </div>
         }
         <div class="operate">
@@ -19,11 +21,11 @@
                 @{
                     if ((bool)ViewData["Update"])
                     {
-                        <li><a id="NF-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改用户</a></li>
+                        <li><a id="NF-edit" authorize="yes" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a></li>
                     }
                     if ((bool)ViewData["Delete"])
                     {
-                        <li><a id="NF-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除用户</a></li>
+                        <li><a id="NF-delete" authorize="yes" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a></li>
                     }
                     if ((bool)ViewData["Update"])
                     {
@@ -35,25 +37,8 @@
             </ul>
             <a href="javascript:;" class="close"></a>
         </div>
-        @*进行权限设置*@
-        @*<script>$('.toolbar').authorizeButton()</script>*@
-    </div>
-    <div class="search">
-        <table>
-            <tr>
-                <td>
-                    <div class="input-group">
-                        <input id="txt_keyword" type="text" class="form-control" placeholder="账户/姓名" style="width: 200px;">
-                        <span class="input-group-btn">
-                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
-                        </span>
-                    </div>
-                </td>
-            </tr>
-        </table>
     </div>
 </div>
 <div class="gridPanel">
     <table id="gridList"></table>
-    <div id="gridPager"></div>
 </div>

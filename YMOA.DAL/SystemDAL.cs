@@ -111,5 +111,30 @@ namespace YMOA.DAL
         {
             return QuerySingle<int>("P_Library_Save", libraryEntity, CommandType.StoredProcedure);
         }
+
+        #region 选单管理
+        
+        /// <summary>
+        /// 新增/修改 菜单
+        /// </summary>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        public int MemuSave(Dictionary<string, object> paras)
+        {
+            return StandardInsertOrUpdate("tbMenu", paras);
+        }
+
+        /// <summary>
+        ///  删除菜单 (可批量删除)
+        /// </summary>
+        /// <param name="idList"></param>
+        /// <returns></returns>
+        public bool DeleteMemu(string idList)
+        {
+            return Execute("delete from tbMenu where ID in (" + idList + ")", null, CommandType.Text) > 0;
+        }
+
+        #endregion
+
     }
 }

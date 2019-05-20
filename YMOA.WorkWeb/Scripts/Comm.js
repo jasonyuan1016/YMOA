@@ -5,6 +5,13 @@ $.fn.bindSlt = function (data) {
         $element.append($("<option></option>").val(i).html(data[i]));
     });
 }
+ // 绑定下拉框，指定id,name
+$.fn.bindSltSpe = function (obj) {
+    var $element = $(this);
+    $.each(obj.data, function (i,n) {
+        $element.append($("<option></option>").val(n[obj.id]).html(n[obj.name]));
+    });
+}
 
 //表单验证
 $.fn.formValid = function () {
@@ -39,7 +46,7 @@ $.fn.dataSerialize = function () {
                 postdata[dataID] = $this.is(":checked");
                 break;
             default:
-                var value = $this.val() == "" ? "&nbsp;" : $this.val();
+                var value = $this.val() == "" ? "&nbsp;" : $.trim($this.val());
                 if (!$.request("keyValue")) {
                     value = value.replace(/&nbsp;/g, '');
                 }

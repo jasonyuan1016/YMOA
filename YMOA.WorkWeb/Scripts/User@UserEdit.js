@@ -6,9 +6,10 @@ $(function () {
         $("#txtAccountName").attr('disabled', 'disabled');
         $("#sltDepartmentId").val($("#sltDepartmentId").attr("value"));
         $("#sltRoleId").val($("#sltRoleId").attr("value"));
-        $("#sltIsAble").val($("#sltIsAble").attr("value") == undefined ? 0 : 1);
+        $("#sltIsAble").val($("#sltIsAble").attr("value") == undefined ? "false" : "true");
         $("#txtEntrydate").val(new Date($("#txtEntrydate").val()).Format("yyyy-MM-dd"));
         $("#txtBirthday").val(new Date($("#txtBirthday").val()).Format("yyyy-MM-dd"));
+        $("#txtRealName").val($.trim($("#txtRealName").val()));
     }
 });
 function initControl() {
@@ -25,7 +26,7 @@ function submitForm() {
         userEntity.Password = $.md5($.trim(userEntity.Password));
     }
     $.submitForm({
-        url: "/User/SubmitForm",
+        url: "/User/" + (!!ID == true ? "Update":"Add"),
         param: userEntity,
         success: function () {
             $.currentWindow().$("#gridList").trigger("reloadGrid");

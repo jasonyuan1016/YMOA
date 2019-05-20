@@ -62,5 +62,19 @@ namespace YMOA.IDAL
         /// <param name="libraryEntity"></param>
         /// <returns></returns>
         int LibrarySave(LibraryEntity libraryEntity);
+
+        /// <summary>
+        ///  新增/修改 菜单
+        /// </summary>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        int MemuSave(Dictionary<string, object> paras);
+
+        /// <summary>
+        ///  删除菜单 (可批量删除)
+        /// </summary>
+        /// <param name="idList"></param>
+        /// <returns></returns>
+        bool DeleteMemu(string idList);
     }
 }
