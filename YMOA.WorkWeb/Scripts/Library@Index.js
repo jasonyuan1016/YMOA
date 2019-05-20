@@ -9,6 +9,7 @@ function gridList() {
         colModel: [
             { label: 'ID', name: 'id', hidden: true },
             { label: PageResx.col_name, name: 'name', width: 80, align: 'left' },
+            { label: PageResx.col_code, name: 'code', width: 80, align: 'left' },
             { label: PageResx.col_sort, name: 'sort', width: 80, align: 'left' },
         ]
     });
@@ -24,7 +25,7 @@ function btn_add() {
         title: GlobalResx.add,
         url: "/Library/Edit?tag=" + $("input[name='tag']:checked").val(),
         width: "420px",
-        height: "330px",
+        height: "280px",
         callBack: function (iframeId) {
             top.frames[iframeId].submitForm();
         }
@@ -37,7 +38,7 @@ function btn_edit() {
         title: GlobalResx.edit,
         url: "/Library/Edit?ID=" + keyValue + "&tag=" + $("input[name='tag']:checked").val(),
         width: "420px",
-        height: "330px",
+        height: "280px",
         callBack: function (iframeId) {
             top.frames[iframeId].submitForm();
         }

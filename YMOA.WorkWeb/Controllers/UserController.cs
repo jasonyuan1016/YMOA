@@ -14,12 +14,13 @@ namespace YMOA.WorkWeb.Controllers
     public class UserController : BaseController
     {
         // GET: User
-        [PermissionFilter("user")]
+        [PermissionFilter]
         public ActionResult Index()
         {
             return View();
         }
 
+        [PermissionFilter("user","index")]
         public ActionResult GetGridJson(Pagination pagination, string keyword)
         {
             Dictionary<string, object> pars = new Dictionary<string, object>();
@@ -37,6 +38,7 @@ namespace YMOA.WorkWeb.Controllers
             return Content(data.ToJson());
         }
 
+        [PermissionFilter("user", "index")]
         public ActionResult UserEdit(int ID = 0)
         {
             var userInfo = new UserEntity();
@@ -48,16 +50,19 @@ namespace YMOA.WorkWeb.Controllers
             }
             return View(userInfo);
         }
-        [PermissionFilter("user", "Add", Operationype.Add)]
+
+        [PermissionFilter("user", "index", Operationype.Add)]
         public ActionResult Add(UserEntity userEntity)
         {
             return SubmitForm(userEntity);
         }
-        [PermissionFilter("user", "Update", Operationype.Update)]
+
+        [PermissionFilter("user", "index", Operationype.Update)]
         public ActionResult Update(UserEntity userEntity)
         {
             return SubmitForm(userEntity);
         }
+
         private ActionResult SubmitForm(UserEntity userEntity)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
@@ -92,13 +97,13 @@ namespace YMOA.WorkWeb.Controllers
             return OperationReturn(DALUtility.UserCore.Save(paras) > 0);
         }
 
-        [PermissionFilter("user", "Update", Operationype.Update)]
         /// <summary>
         ///  修改用户是否启用
         /// </summary>
         /// <param name="ID"></param>
         /// <param name="IsAble"></param>
         /// <returns></returns>
+        [PermissionFilter("user", "index", Operationype.Update)]
         public ActionResult UpdateIsAble(int ID, bool IsAble)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
@@ -106,13 +111,13 @@ namespace YMOA.WorkWeb.Controllers
             paras["IsAble"] = IsAble;
             return OperationReturn(DALUtility.UserCore.Save(paras) > 0);
         }
-
-        [PermissionFilter("user", "Delete", Operationype.Delete)]
         /// <summary>
         ///  用户删除
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
+
+        [PermissionFilter("user", "index", Operationype.Delete)]
         public ActionResult Delete(int ID)
         {
             return OperationReturn(DALUtility.UserCore.OnlyDeleteUser(ID.ToString()));

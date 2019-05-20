@@ -194,6 +194,17 @@ $.submitForm = function (options) {
                         $.modalClose();
                     }
                 } else {
+                    if (data.code == "-100") {
+                        $.modalAlert(data.msg, false);
+                        return;
+                    }
+                    else if (data.code == "-101") {
+                        $.modalAlert(data.msg, false);
+                        window.setTimeout(function () {
+                            window.location.href = "/Home/Index";
+                        }, 500);
+                        return;
+                    }
                     $.modalAlert(data.msg, data.success);
                 }
             },

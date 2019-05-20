@@ -22,28 +22,13 @@
                 <tr>
                     <th class="formTitle">标识码</th>
                     <td class="formValue">
-                        <input id="txtcode" type="text" name="txtcode" class="form-control required" autocomplete="off" placeholder="请输入标识码" value="@Model.code" />
+                        <input id="txtcode" type="text" name="txtcode" class="form-control required isEnglish" autocomplete="off" placeholder="请输入标识码" value="@Model.code" />
                     </td>
                 </tr>
                 <tr>
                     <th class="formTitle">排序</th>
                     <td class="formValue">
                         <input id="txtsort" name="txtsort" autocomplete="off" type="text" class="form-control isDigits" placeholder="请输入排序" value="@Model.sort" />
-                    </td>
-                </tr>
-                <tr>
-                    <th class="formTitle">父级菜单</th>
-                    <td class="formValue">
-                        <select id="sltpid" name="sltpid" class="form-control" data-value="@Model.pid">
-                            <option value="0">===请选择===</option>
-                            @{
-                                var libraries = ViewData["listLibrary"] as List<YMOA.Model.LibraryEntity>;
-                                foreach (var e in libraries)
-                                {
-                                    <option value="@e.id">@e.name</option>
-                                }
-                            }
-                        </select>
                     </td>
                 </tr>
             </table>
