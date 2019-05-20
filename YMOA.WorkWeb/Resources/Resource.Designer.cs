@@ -214,15 +214,6 @@ namespace YMOA.WorkWeb.Resources {
         }
         
         /// <summary>
-        ///   查找类似 部门管理 的本地化字符串。
-        /// </summary>
-        public static string menu_department {
-            get {
-                return ResourceManager.GetString("menu_department", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 角色管理 的本地化字符串。
         /// </summary>
         public static string menu_group {
@@ -237,6 +228,15 @@ namespace YMOA.WorkWeb.Resources {
         public static string menu_hours {
             get {
                 return ResourceManager.GetString("menu_hours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 部门管理 的本地化字符串。
+        /// </summary>
+        public static string menu_library {
+            get {
+                return ResourceManager.GetString("menu_library", resourceCulture);
             }
         }
         

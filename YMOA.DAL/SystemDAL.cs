@@ -101,8 +101,42 @@ namespace YMOA.DAL
             return QuerySingle<int>("P_Library_Save", libraryEntity, CommandType.StoredProcedure);
         }
 
+        /// <summary>
+        ///  获得公用数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        public IEnumerable<T> LibraryGetList<T>(Dictionary<string, object> paras)
+        {
+            string sql = "SELECT * FROM tbLibrary";
+            if (paras != null)
+            {
+                WhereBuilder builder = new WhereBuilder();
+                builder.AddWhereAndParameter(paras, "id");
+                builder.AddWhereAndParameter(paras, "tag");
+                if (builder.Wheres.Count > 0)
+                {
+                    sql += " WHERE " + String.Join(" and ", builder.Wheres);
+                }
+            }
+            return QueryList<T>(sql, paras);
+        }
+
+        /// <summary>
+        ///  删除公用数据 (可批量删除)
+        /// </summary>
+        /// <param name="idList"></param>
+        /// <returns></returns>
+        public bool DeleteLibrary(string idList)
+        {
+            return Execute("delete from tbLibrary where id in (" + idList + ")", null, CommandType.Text) > 0;
+        }
+
+
+
         #region 选单管理
-        
+
         /// <summary>
         /// 新增/修改 菜单
         /// </summary>
@@ -120,7 +154,9 @@ namespace YMOA.DAL
         /// <returns></returns>
         public bool DeleteMemu(string idList)
         {
-            return Execute("delete from tbRoleMenu where m_id in (" + idList + ")"+" delete from tbMenu where id in (" + idList + ")", null, CommandType.Text) > 0;
+            string sql = "delete from tbRoleMenu where m_id in (" + idList + ")";
+            sql += " delete from tbMenu where id in (" + idList + ")";
+            return Execute(sql, null, CommandType.Text) > 0;
         }
 
         /// <summary>
@@ -143,11 +179,12 @@ namespace YMOA.DAL
                 }
             }
             sql += " ORDER BY sortvalue DESC";
-
             return QueryList<T>(sql, paras);
         }
 
         #endregion
+
+
 
 
 

@@ -64,6 +64,21 @@ namespace YMOA.IDAL
         int LibrarySave(LibraryEntity libraryEntity);
 
         /// <summary>
+        ///  获得公用数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        IEnumerable<T> LibraryGetList<T>(Dictionary<string, object> paras);
+
+        /// <summary>
+        /// 删除公用数据 (可批量删除)
+        /// </summary>
+        /// <param name="idList"></param>
+        /// <returns></returns>
+        bool DeleteLibrary(string idList);
+
+        /// <summary>
         ///  新增/修改 菜单
         /// </summary>
         /// <param name="paras"></param>

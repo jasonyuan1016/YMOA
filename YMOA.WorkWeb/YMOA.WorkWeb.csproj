@@ -124,6 +124,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ClientsDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\MemuController.cs" />
@@ -411,16 +412,20 @@
     <Content Include="Scripts\Group%40Edit.js" />
     <Content Include="Scripts\Group%40Index.js" />
     <Content Include="Scripts\Home%40Index.js" />
+    <Content Include="Scripts\Library%40Edit.js" />
+    <Content Include="Scripts\Library%40Index.js" />
     <Content Include="Scripts\Login%40Index.js" />
     <Content Include="Scripts\Memu%40Index.js" />
     <Content Include="Scripts\Memu%40Edit.js" />
     <Content Include="Scripts\resx\en-us\global.js" />
     <Content Include="Scripts\resx\en-us\Group%40Index.js" />
+    <Content Include="Scripts\resx\en-us\Library%40Index.js" />
     <Content Include="Scripts\resx\en-us\Login%40Index.js" />
     <Content Include="Scripts\resx\en-us\Memu%40Index.js" />
     <Content Include="Scripts\resx\en-us\User%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\global.js" />
     <Content Include="Scripts\resx\zh-cn\Group%40Index.js" />
+    <Content Include="Scripts\resx\zh-cn\Library%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Login%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Memu%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\User%40Index.js" />
@@ -461,6 +466,8 @@
     <Content Include="Views\Group\Edit.cshtml" />
     <Content Include="Views\Memu\Index.cshtml" />
     <Content Include="Views\Memu\Edit.cshtml" />
+    <Content Include="Views\Library\Index.cshtml" />
+    <Content Include="Views\Library\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YMOA.Comm\YMOA.Comm.csproj">
