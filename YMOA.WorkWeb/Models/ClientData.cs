@@ -9,7 +9,7 @@ namespace YMOA.WorkWeb.Models
     public class ClientData
     {
         public Dictionary<string, object> groups { get; set; }
-        public Dictionary<string, object> departments { get; set; }
+        public List<LibraryEntity> departments { get; set; }
 
         public List<MenuPermission> menuPermissions { get; set; }
 

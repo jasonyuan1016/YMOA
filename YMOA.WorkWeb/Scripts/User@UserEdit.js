@@ -14,8 +14,10 @@ $(function () {
 });
 function initControl() {
     var topData = top.clients;
-    $("#sltDepartmentId").bindSlt(topData.departments);
     $("#sltRoleId").bindSlt(topData.groups);
+    $("#sltDepartmentId").bindSltSpe({
+        id: "id", name: "name", data: topData.departments
+    });
 }
 function submitForm() {
     if (!$('#UserEidt').formValid()) {

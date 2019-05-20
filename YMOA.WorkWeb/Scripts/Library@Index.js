@@ -47,7 +47,7 @@ function btn_edit() {
 function btn_delete() {
     $.deleteForm({
         url: "Delete",
-        param: { ID: $("#gridList").jqGridRowValue().ID },
+        param: { ID: $("#gridList").jqGridRowValue().id },
         success: function () {
             $.currentWindow().$("#gridList").trigger("reloadGrid");
         }

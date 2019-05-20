@@ -33,13 +33,7 @@ namespace YMOA.WorkWeb.Controllers
                 dictionaryItem.Add(itm.id.ToString(), itm.name);
             }
             data.groups = dictionaryItem;
-            dictionaryItem = new Dictionary<string, object>();
-            foreach (var itm in departments)
-            {
-                itm.name = Resource.ResourceManager.GetString("dp_" + itm.code); 
-                dictionaryItem.Add(itm.id.ToString(), itm.name);
-            }
-            data.departments = dictionaryItem;
+            data.departments = departments;
             data.menuPermissions = menuPermissions;
             // 保存角色权限
             Session["MemuList"] = menuPermissions;
