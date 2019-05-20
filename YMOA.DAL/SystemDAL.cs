@@ -56,17 +56,6 @@ namespace YMOA.DAL
             return QuerySingle<int>("P_Role_Save", paras, CommandType.StoredProcedure);
         }
 
-        public IEnumerable<T> MenuGetList<T>(Dictionary<string, object> paras)
-        {
-            string sql = "SELECT * FROM tbMenu WHERE 1=1";
-            if (paras != null && paras.ContainsKey("id"))
-            {
-                sql += " AND id=@id";
-            }
-            sql += " ORDER BY sortvalue DESC";
-            return QueryList<T>(sql, paras);
-        }
-
         /// <summary>
         ///  根据Id删除角色
         /// </summary>
@@ -131,10 +120,36 @@ namespace YMOA.DAL
         /// <returns></returns>
         public bool DeleteMemu(string idList)
         {
-            return Execute("delete from tbMenu where ID in (" + idList + ")", null, CommandType.Text) > 0;
+            return Execute("delete from tbRoleMenu where m_id in (" + idList + ")"+" delete from tbMenu where id in (" + idList + ")", null, CommandType.Text) > 0;
+        }
+
+        /// <summary>
+        ///  查询选单
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        public IEnumerable<T> MenuGetList<T>(Dictionary<string, object> paras)
+        {
+            string sql = "SELECT * FROM tbMenu";
+            if (paras != null)
+            {
+                WhereBuilder builder = new WhereBuilder();
+                builder.AddWhereAndParameter(paras, "id");
+                builder.AddWhereAndParameter(paras, "noState","state","!=");
+                if (builder.Wheres.Count > 0)
+                {
+                    sql += " WHERE " + String.Join(" and ", builder.Wheres);
+                }
+            }
+            sql += " ORDER BY sortvalue DESC";
+
+            return QueryList<T>(sql, paras);
         }
 
         #endregion
+
+
 
     }
 }

@@ -245,10 +245,6 @@
     <value>code已存在</value>
   </data>
   <data name="ormsg_role_1" xml:space="preserve">
-    <value>删除失败</value>
-    <comment>删除失败</comment>
-  </data>
-  <data name="ormsg_role_2" xml:space="preserve">
     <value>角色被引用</value>
     <comment>角色被引用</comment>
   </data>

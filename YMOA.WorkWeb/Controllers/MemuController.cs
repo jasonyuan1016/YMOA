@@ -29,11 +29,20 @@ namespace YMOA.WorkWeb.Controllers
         /// <returns></returns>
         public ActionResult GetGridJson()
         {
-            var data = new
+            var data = DALUtility.SystemCore.MenuGetList<MenuEntity>(null);
+            var treeList = new List<TreeGridModel>();
+            foreach (MenuEntity item in data)
             {
-                rows = DALUtility.SystemCore.MenuGetList<MenuEntity>(null)
-            };
-            return Content(data.ToJson());
+                TreeGridModel treeModel = new TreeGridModel();
+                bool hasChildren = data.Count(t => t.parentid == item.id) == 0 ? false : true;
+                treeModel.id = item.id.ToString();
+                treeModel.isLeaf = hasChildren;
+                treeModel.parentId = item.parentid.ToString();
+                treeModel.expanded = hasChildren;
+                treeModel.entityJson = item.ToJson();
+                treeList.Add(treeModel);
+            }
+            return Content(treeList.TreeGridJson());
         }
         
         /// <summary>

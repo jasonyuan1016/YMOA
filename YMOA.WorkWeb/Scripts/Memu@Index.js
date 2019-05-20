@@ -5,13 +5,16 @@ function gridList() {
     var $gridList = $("#gridList");
     $gridList.dataGrid({
         url: "GetGridJson",
+        treeGrid: true,
+        treeGridModel: "adjacency",
+        ExpandColumn: "controller",
         height: $(window).height() - 128,
         colModel: [
-            { label: 'ID', name: 'id', hidden: true, key: true },
-            { label: PageResx.col_name, name: 'name', width: 80, align: 'left' },
-            { label: PageResx.col_code, name: 'code', width: 80, align: 'left' },
+            { label: 'ID', name: 'id', hidden: true },
+            { label: PageResx.col_name, name: 'name', width: 100, align: 'left' },
             { label: PageResx.col_controller, name: 'controller', width: 80, align: 'left' },
             { label: PageResx.col_action, name: 'action', width: 80, align: 'left' },
+            { label: PageResx.col_code, name: 'code', width: 100, align: 'left' },
             { label: PageResx.col_sortvalue, name: 'sortvalue', width: 80, align: 'left' },
             {
                 label: PageResx.col_state, name: "state", width: 80, align: "left",

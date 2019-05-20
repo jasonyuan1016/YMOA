@@ -8,7 +8,7 @@ $.fn.bindSlt = function (data) {
  // 绑定下拉框，指定id,name
 $.fn.bindSltSpe = function (obj) {
     var $element = $(this);
-    $.each(obj.data, function (i,n) {
+    $.each(obj.data, function (i, n) {
         $element.append($("<option></option>").val(n[obj.id]).html(n[obj.name]));
     });
 }

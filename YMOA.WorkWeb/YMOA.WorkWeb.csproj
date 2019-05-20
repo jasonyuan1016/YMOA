@@ -417,6 +417,7 @@
     <Content Include="Scripts\resx\en-us\global.js" />
     <Content Include="Scripts\resx\en-us\Group%40Index.js" />
     <Content Include="Scripts\resx\en-us\Login%40Index.js" />
+    <Content Include="Scripts\resx\en-us\Memu%40Index.js" />
     <Content Include="Scripts\resx\en-us\User%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\global.js" />
     <Content Include="Scripts\resx\zh-cn\Group%40Index.js" />
