@@ -103,7 +103,7 @@ namespace YMOA.WorkWeb.Domain
                 //filterContext.HttpContext.Request.IsAjaxRequest
                 if (isViewPage)
                 {
-                    filterContext.RequestContext.HttpContext.Response.Redirect("~/Manager/Login");
+                    filterContext.RequestContext.HttpContext.Response.Redirect("~/Login/Index");
                 }
                 else
                 {

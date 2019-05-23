@@ -4,8 +4,8 @@
     Layout = "~/Views/Shared/_Form.cshtml";
 }
 @section css {
-    @Styles.Render("~/Content/js/wizard/wizard.css")
- }
+    @Styles.Render("~/Content/js/wizard/wizard.css", "~/Content/Group/Group@Edit.css")
+}
 <form id="GroupEdit">
     <div class="widget-body">
         <div id="wizard" class="wizard" data-target="#wizard-steps" style="border-left: none; border-top: none; border-right: none;">
@@ -57,12 +57,12 @@
                     <table id="tbPermission">
                         <thead>
                             <tr>
-                                <th>开放</th>
-                                <th>选单名称</th>
-                                <th>新增</th>
-                                <th>修改</th>
-                                <th>删除</th>
-                                <th>其他</th>
+                                <th class="col-md-1">开放</th>
+                                <th class="col-md-2">选单名称</th>
+                                <th class="col-md-1">新增</th>
+                                <th class="col-md-1">修改</th>
+                                <th class="col-md-1">删除</th>
+                                <th class="col-md-1">其他</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -95,22 +95,22 @@
                                         cbxCheckTag_Other = false;
                                     }
                                     <tr style="font-weight:bolder">
-                                        <td>
+                                        <td class="col-md-1">
                                             <input id="cbx_@m.id" type="checkbox" onclick="checkChange('cbx_',@m.id)" value="@m.id" @(cbxCheckTag ? "checked" : "") />
                                         </td>
-                                        <td>
+                                        <td class="col-md-2">
                                             @m.name
                                         </td>
-                                        <td>
+                                        <td class="col-md-1">
                                             <input id="cbxAdd_@m.id" type="checkbox" onclick="checkChange('cbxAdd_',@m.id)" @(cbxCheckTag_Add ? "checked" : "") />
                                         </td>
-                                        <td>
+                                        <td class="col-md-1">
                                             <input id="cbxUpdate_@m.id" type="checkbox" onclick="checkChange('cbxUpdate_',@m.id)" @(cbxCheckTag_Update ? "checked" : "") />
                                         </td>
-                                        <td>
+                                        <td class="col-md-1">
                                             <input id="cbxDelete_@m.id" type="checkbox" onclick="checkChange('cbxDelete_',@m.id)" @(cbxCheckTag_Delete ? "checked" : "") />
                                         </td>
-                                        <td>
+                                        <td class="col-md-1">
                                             <input id="cbxOther_@m.id" type="checkbox" onclick="checkChange('cbxOther_',@m.id)" @(cbxCheckTag_Other ? "checked" : "") />
                                         </td>
                                     </tr>
@@ -135,22 +135,22 @@
                                             cbxCheckTag_Other = false;
                                         }
                                         <tr name="trSubMenuFrom_@m.id">
-                                            <td>
+                                            <td class="col-md-1">
                                                 <input id="cbx_@s.id" type="checkbox" value="@s.id" @(cbxCheckTag ? "checked" : "") />
                                             </td>
-                                            <td>
+                                            <td class="col-md-2">
                                                 @s.name
                                             </td>
-                                            <td>
+                                            <td class="col-md-1">
                                                 <input id="cbxAdd_@s.id" type="checkbox" value="@s.id" @(cbxCheckTag_Add ? "checked" : "") />
                                             </td>
-                                            <td>
+                                            <td class="col-md-1">
                                                 <input id="cbxUpdate_@s.id" type="checkbox" value="@s.id" @(cbxCheckTag_Update ? "checked" : "") />
                                             </td>
-                                            <td>
+                                            <td class="col-md-1">
                                                 <input id="cbxDelete_@s.id" type="checkbox" value="@s.id" @(cbxCheckTag_Delete ? "checked" : "") />
                                             </td>
-                                            <td>
+                                            <td class="col-md-1">
                                                 <input id="cbxOther_@s.id" type="checkbox" value="@s.id" @(cbxCheckTag_Other ? "checked" : "") />
                                             </td>
                                         </tr>

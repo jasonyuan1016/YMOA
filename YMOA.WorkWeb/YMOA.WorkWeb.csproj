@@ -161,6 +161,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\weathericons-regular-webfont.svg" />
+    <Content Include="Content\Group\Group%40Edit.css" />
     <Content Include="Content\img\ajax-loader.gif" />
     <Content Include="Content\img\alipay.jpg" />
     <Content Include="Content\img\alipayimg.png" />

@@ -232,7 +232,7 @@ namespace YMOA.WorkWeb.Resources {
         }
         
         /// <summary>
-        ///   查找类似 部门管理 的本地化字符串。
+        ///   查找类似 系统参数管理 的本地化字符串。
         /// </summary>
         public static string menu_library {
             get {

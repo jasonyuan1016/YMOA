@@ -178,7 +178,7 @@
     <comment>考勤</comment>
   </data>
   <data name="menu_library" xml:space="preserve">
-    <value>部门管理</value>
+    <value>系统参数管理</value>
     <comment>部门管理</comment>
   </data>
   <data name="menu_group" xml:space="preserve">
