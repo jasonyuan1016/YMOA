@@ -21,7 +21,12 @@ function gridList() {
             {
                 label: PageResx.col_department, name: 'DepartmentId', width: 80, align: 'left',
                 formatter: function (cellvalue, options, rowObject) {
-                    return top.clients.departments[cellvalue] == null ? "" : top.clients.departments[cellvalue];
+                    for (var i = 0; i < top.clients.departments.length; i++) {
+                        if (top.clients.departments[i].id == cellvalue) {
+                            return top.clients.departments[i].name;
+                        }
+                    }
+                    return "";
                 }
             },
             {
