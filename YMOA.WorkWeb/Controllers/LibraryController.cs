@@ -43,6 +43,7 @@ namespace YMOA.WorkWeb.Controllers
                 List<LibraryEntity> list = DALUtility.SystemCore.LibraryGetList<LibraryEntity>(paras).ToList();
                 entity = list[0];
             }
+            entity.tag = tag;
             return View(entity);
         }
 
@@ -60,7 +61,6 @@ namespace YMOA.WorkWeb.Controllers
 
         private ActionResult Save(LibraryEntity entity)
         {
-            Dictionary<string, object> paras = new Dictionary<string, object>();
             int result = DALUtility.SystemCore.LibrarySave(entity);
             if (result != 0)
             {
