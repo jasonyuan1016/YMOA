@@ -85,5 +85,10 @@ namespace YMOA.DALFactory
         {
             get { return LoadAssamblyType<IUserDAL>("UserDAL"); }
         }
+        
+        public IProjectDAL ProjectCore
+        {
+            get { return LoadAssamblyType<IProjectDAL>("ProjectDAL"); }
+        }
     }
 }
