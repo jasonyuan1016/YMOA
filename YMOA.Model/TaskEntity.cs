@@ -114,4 +114,9 @@ namespace YMOA.Model
         /// </summary>
         public DateTime? UpdateTime { get; set; }
     }
+
+    public class Task: TaskEntity
+    {
+
+    }
 }

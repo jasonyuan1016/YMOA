@@ -58,6 +58,7 @@
     <Compile Include="Common\DapperExtendItems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemDAL.cs" />
+    <Compile Include="TaskDAL.cs" />
     <Compile Include="UserDAL.cs" />
   </ItemGroup>
   <ItemGroup>
