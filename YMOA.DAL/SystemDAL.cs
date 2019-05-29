@@ -67,6 +67,8 @@ namespace YMOA.DAL
         }
 
         #endregion
+        
+        #region 系统数据相关
 
         /// <summary>
         /// 系统数据加载
@@ -133,9 +135,9 @@ namespace YMOA.DAL
             return Execute("delete from tbLibrary where id in (" + idList + ")", null, CommandType.Text) > 0;
         }
 
+        #endregion
 
-
-        #region 选单管理
+        #region 选单相关
 
         /// <summary>
         /// 新增/修改 菜单
@@ -183,10 +185,6 @@ namespace YMOA.DAL
         }
 
         #endregion
-
-
-
-
-
+        
     }
 }
