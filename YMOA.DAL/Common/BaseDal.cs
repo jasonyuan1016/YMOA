@@ -235,7 +235,80 @@ namespace YMOA.DAL
             }
         }
 
-       
+        /// <summary>
+        /// 执行标准单表Insert操作
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="tabName">表名</param>
+        /// <param name="paras">参数</param>
+        /// <param name="keyFild">主键字段</param>
+        /// <returns></returns>
+        protected int StandardInsert(string tabName, Dictionary<string, object> paras, string keyFild = "ID", bool needLog = false, OperateType operateType = OperateType.None)
+        {
+            var fields = GetFieldsFromDictionary(paras, keyFild);
+            var sql = "";
+     
+            var fieldsSql1 = String.Join(",", fields);
+            var fieldsSql2 = String.Join(",", fields.Select(field => "@" + field));
+            sql = String.Format("INSERT {0} ({1}) VALUES ({2});", tabName, fieldsSql1, fieldsSql2);
+
+            return StandardInsertOrUpdate(sql, tabName, paras, keyFild, needLog, operateType);
+        }
+
+        /// <summary>
+        /// Update
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="tabName">表名</param>
+        /// <param name="paras">参数</param>
+        /// <param name="keyFild">主键字段</param>
+        /// <returns></returns>
+        protected int StandardUpdate(string tabName, Dictionary<string, object> paras, string keyFild = "ID", bool needLog = false, OperateType operateType = OperateType.None)
+        {
+            var fields = GetFieldsFromDictionary(paras, keyFild);
+            var sql = "";
+
+            var fieldsSql = String.Join(",", fields.Select(field => field + " = @" + field));
+            sql = String.Format("UPDATE {0} SET {1} WHERE {2} = @{2}", tabName, fieldsSql, keyFild);
+
+            return StandardInsertOrUpdate(sql, tabName, paras, keyFild, needLog, operateType);
+        }
+
+        /// <summary>
+        /// 执行标准单表Insert&Update操作
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="tabName">表名</param>
+        /// <param name="paras">参数</param>
+        /// <param name="keyFild">主键字段</param>
+        /// <returns></returns>
+        private int StandardInsertOrUpdate(string sql, string tabName, Dictionary<string, object> paras, string keyFild, bool needLog, OperateType operateType)
+        {
+            using (IDbConnection dbConnection = GetConnection())
+            {
+                if (needLog)
+                {
+                    DBLogEntity entity = new DBLogEntity();
+                    entity.tabName = tabName;
+                    entity.tId = paras[keyFild].ToString();
+                    entity.lType = (int)operateType;
+                    entity.sql = sql;
+                    entity.paras = paras.ToJson();
+                    return InvokeMethodWithDB<int>(() =>
+                    {
+                        int i = dbConnection.Execute(sql, paras);
+                        return i;
+                    }, entity);
+                }
+                else
+                {
+                    return dbConnection.Execute(sql, paras);
+                }
+            }
+        }
+
+
+
 
         private string[] GetFieldsFromDictionary(Dictionary<string, object> keyValues, string keyFild = "")
         {
