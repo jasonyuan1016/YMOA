@@ -16,13 +16,22 @@ namespace YMOA.IDAL
     {
 
         /// <summary>
-        ///  任务添加/修改
+        ///  添加任务
         /// </summary>
         /// <param name="tasks">任务参数</param>
-        /// <param name="dtTeam">团员</param>
-        /// <param name="dtAccessory">附件</param>
+        /// <param name="teams">团员</param>
+        /// <param name="accessories">附件</param>
         /// <returns></returns>
-        int TaskSave(Dictionary<string, object> tasks, List<TeamEntity> listTeam, List<AccessoryEntity> listAccessory);
+        bool TaskInsert(Dictionary<string, object> tasks, List<TeamEntity> teams, List<AccessoryEntity> accessories);
+
+        /// <summary>
+        ///  修改任务
+        /// </summary>
+        /// <param name="tasks">任务参数</param>
+        /// <param name="teams">团员</param>
+        /// <param name="accessories">附件</param>
+        /// <returns></returns>
+        bool TaskUpdate(Dictionary<string, object> tasks, List<TeamEntity> teams, List<AccessoryEntity> accessories);
 
 
         /// <summary>

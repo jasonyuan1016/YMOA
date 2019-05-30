@@ -19,60 +19,95 @@ namespace YMOA.DAL
     public class TaskDAL : BaseDal, ITaskDAL
     {
 
-        // 任务添加/修改
-        public int TaskSave(Dictionary<string, object> tasks, List<TeamEntity> teams, List<AccessoryEntity> accessories)
+        /// <summary>
+        ///  添加任务
+        /// </summary>
+        /// <param name="tasks">任务参数</param>
+        /// <param name="teams">团员</param>
+        /// <param name="accessories">附件</param>
+        /// <returns></returns>
+        public bool TaskInsert(Dictionary<string, object> tasks, List<TeamEntity> teams, List<AccessoryEntity> accessories)
         {
-            string id;
-            if (tasks.ContainsKey("ID"))
-            {
-                id = tasks["ID"].ToString();
-            }
-            else
-            {
-                id = Guid.NewGuid().To16String();
-                tasks["id"] = id;
-            }
-            int result = StandardInsertOrUpdate("tbTask", tasks);
+            string id = Guid.NewGuid().To16String();
+            tasks["ID"] = id;
+            int result = StandardInsert("tbTask", tasks);
             if (result > 0)
             {
-                var dtTeam = new DataTable();
-                dtTeam.Columns.Add("ProjectId", typeof(string));
-                dtTeam.Columns.Add("TaskId", typeof(string));
-                dtTeam.Columns.Add("Person", typeof(string));
-                foreach (var item in teams)
-                {
-                    var row = dtTeam.NewRow();
-                    row[0] = tasks["ProjectId"].ToString();
-                    row[1] = id;
-                    row[2] = item.Person;
-                    dtTeam.Rows.Add(row);
-                }
-                var dtAccessory = new DataTable();
-                dtAccessory.Columns.Add("ID", typeof(string));
-                dtAccessory.Columns.Add("Name", typeof(string));
-                dtAccessory.Columns.Add("TaskId", typeof(string));
-                dtAccessory.Columns.Add("AccessoryUrl", typeof(string));
-                foreach (var item in accessories)
-                {
-                    var row = dtAccessory.NewRow();
-                    row[0] = item.ID;
-                    row[1] = item.Name;
-                    row[2] = id;
-                    row[3] = item.AccessoryUrl;
-                    dtAccessory.Rows.Add(row);
-                }
-                Dictionary<string, object> paras = new Dictionary<string, object>();
-                paras["ProjectId"] = tasks["ProjectId"];
-                paras["TaskId"] = id;
-                paras["team"] = dtTeam.AsTableValuedParameter();
-                paras["accessory"] = dtAccessory.AsTableValuedParameter();
-                QuerySingle<int>("P_TeamAndAccessory_SaveBatch", paras, CommandType.StoredProcedure);
+                string projectId = tasks["ProjectId"].ToString();
+                string taskId = id;
+                SaveTeamAndAccessory(projectId,id,teams,accessories);
             }
-            return result;
+            return result > 0;
         }
 
-        // 批量添加
+        /// <summary>
+        ///  修改任务
+        /// </summary>
+        /// <param name="tasks">任务参数</param>
+        /// <param name="teams">团员</param>
+        /// <param name="accessories">附件</param>
+        /// <returns></returns>
+        public bool TaskUpdate(Dictionary<string, object> tasks, List<TeamEntity> teams, List<AccessoryEntity> accessories)
+        {
+            string id = tasks["ID"].ToString();
+            int result = StandardUpdate("tbTask", tasks);
+            if (result > 0)
+            {
+                string projectId = tasks["ProjectId"].ToString();
+                string taskId = id;
+                SaveTeamAndAccessory(projectId, id, teams, accessories);
+            }
+            return result > 0;
+        }
+        
+        /// <summary>
+        ///  批量添加团员与附件
+        /// </summary>
+        /// <param name="projectId">项目编号</param>
+        /// <param name="taskId">任务编号</param>
+        /// <param name="teams">团员</param>
+        /// <param name="accessories">附件</param>
+        private void SaveTeamAndAccessory(string projectId, string taskId, List<TeamEntity> teams, List<AccessoryEntity> accessories)
+        {
+            var dtTeam = new DataTable();
+            dtTeam.Columns.Add("ProjectId", typeof(string));
+            dtTeam.Columns.Add("TaskId", typeof(string));
+            dtTeam.Columns.Add("Person", typeof(string));
+            foreach (var item in teams)
+            {
+                var row = dtTeam.NewRow();
+                row[0] = projectId;
+                row[1] = taskId;
+                row[2] = item.Person;
+                dtTeam.Rows.Add(row);
+            }
+            var dtAccessory = new DataTable();
+            dtAccessory.Columns.Add("ID", typeof(string));
+            dtAccessory.Columns.Add("Name", typeof(string));
+            dtAccessory.Columns.Add("TaskId", typeof(string));
+            dtAccessory.Columns.Add("AccessoryUrl", typeof(string));
+            foreach (var item in accessories)
+            {
+                var row = dtAccessory.NewRow();
+                row[0] = item.ID;
+                row[1] = item.Name;
+                row[2] = taskId;
+                row[3] = item.AccessoryUrl;
+                dtAccessory.Rows.Add(row);
+            }
+            Dictionary<string, object> paras = new Dictionary<string, object>();
+            paras["ProjectId"] = projectId;
+            paras["TaskId"] = taskId;
+            paras["team"] = dtTeam.AsTableValuedParameter();
+            paras["accessory"] = dtAccessory.AsTableValuedParameter();
+            QuerySingle<int>("P_TeamAndAccessory_SaveBatch", paras, CommandType.StoredProcedure);
+        }
 
+        /// <summary>
+        ///  批量添加任务
+        /// </summary>
+        /// <param name="listTask"></param>
+        /// <returns></returns>
         public int BatchInsert(List<TaskEntity> listTask)
         {
             var dtTask = new DataTable();
@@ -130,7 +165,7 @@ namespace YMOA.DAL
         /// <summary>
         ///  删除任务
         /// </summary>
-        /// <param name="taskId"></param>
+        /// <param name="taskId">任务编号</param>
         /// <returns></returns>
         public bool TaskDelete(string taskId)
         {
