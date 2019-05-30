@@ -11,6 +11,7 @@ namespace YMOA.IDAL
     public interface ISystemDAL
     {
         #region 选单权限相关
+
         /// <summary>
         /// 获得对应角色的选单权限
         /// </summary>
@@ -26,14 +27,6 @@ namespace YMOA.IDAL
         /// <returns></returns>
         IEnumerable<T> RoleGetList<T>(Dictionary<string, object> paras);
 
-        /// <summary>
-        /// 获得选单
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="paras"></param>
-        /// <returns></returns>
-        IEnumerable<T> MenuGetList<T>(Dictionary<string, object> paras);
-
         int RoleSave(Dictionary<string, object> paras);
 
         /// <summary>
@@ -42,7 +35,10 @@ namespace YMOA.IDAL
         /// <param name="paras"></param>
         /// <returns></returns>
         int RoleDelete(Dictionary<string, object> paras);
+
         #endregion
+
+        #region 系统数据相关
 
         /// <summary>
         /// 系统数据加载
@@ -53,8 +49,11 @@ namespace YMOA.IDAL
         /// <param name="RoleId"></param>
         /// <param name="groups"></param>
         /// <param name="departments"></param>
+        /// <param name="projects"></param>
+        /// <param name="tasks"></param>
+        /// <param name="prioritys"></param>
         /// <param name="menuPermissions"></param>
-        void SystemDataInit<T1, T2, T3>(int RoleId, ref List<T1> groups, ref List<T2> departments, ref List<T3> menuPermissions);
+        void SystemDataInit<T1, T2, T3>(int RoleId, ref List<T1> groups, ref List<T2> departments, ref List<T2> projects, ref List<T2> tasks, ref List<T2> prioritys, ref List<T3> menuPermissions);
 
         /// <summary>
         /// 新增/修改 公用数据类型
@@ -78,6 +77,10 @@ namespace YMOA.IDAL
         /// <returns></returns>
         bool DeleteLibrary(string idList);
 
+        #endregion
+
+        #region 选单相关
+
         /// <summary>
         ///  新增/修改 菜单
         /// </summary>
@@ -91,5 +94,15 @@ namespace YMOA.IDAL
         /// <param name="idList"></param>
         /// <returns></returns>
         bool DeleteMemu(string idList);
+
+        /// <summary>
+        /// 获得选单
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        IEnumerable<T> MenuGetList<T>(Dictionary<string, object> paras);
+
+        #endregion
     }
 }

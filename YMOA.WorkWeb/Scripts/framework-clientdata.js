@@ -7,7 +7,10 @@ $.clientsInit = function () {
         groups: [],
         departments: [],
         menus:[],
-        menuPermissions: []
+        menuPermissions: [],
+        prioritys: [], // 优先级
+        projectStatus: [], // 项目状态
+        taskStatus: [] // 任务状态
     };
     var init = function () {
         $.ajax({
@@ -20,6 +23,9 @@ $.clientsInit = function () {
                 dataJson.departments = data.departments;
                 dataJson.menuPermissions = data.menuPermissions;
                 dataJson.menus = data.menus;
+                dataJson.prioritys = data.prioritys;
+                dataJson.projectStatus = data.projectStatus;
+                dataJson.taskStatus = data.taskStatus;
             }
         });
     }

@@ -20,8 +20,11 @@ namespace YMOA.WorkWeb.Controllers
             var data = new ClientData();
             var groups = new List<group>();
             var departments = new List<LibraryEntity>();
+            var projectStatus = new List<LibraryEntity>();
+            var taskStatus = new List<LibraryEntity>();
+            var prioritys = new List<LibraryEntity>();
             var menuPermissions = new List<MenuPermission>();
-            DALCore.GetInstance().SystemCore.SystemDataInit<group, LibraryEntity, MenuPermission>(RoleId, ref groups, ref departments, ref menuPermissions);
+            DALCore.GetInstance().SystemCore.SystemDataInit<group, LibraryEntity, MenuPermission>(RoleId, ref groups, ref departments, ref projectStatus, ref taskStatus, ref prioritys, ref menuPermissions);
             foreach (var m in menuPermissions)
             {
                 m.name = Resource.ResourceManager.GetString("menu_" + m.code);
@@ -35,6 +38,9 @@ namespace YMOA.WorkWeb.Controllers
             data.groups = dictionaryItem;
             data.departments = departments;
             data.menuPermissions = menuPermissions;
+            data.projectStatus = projectStatus;
+            data.taskStatus = taskStatus;
+            data.prioritys = prioritys;
             // 保存角色权限
             Session["MemuList"] = menuPermissions;
             Dictionary<string, object> menuItem = new Dictionary<string, object>();

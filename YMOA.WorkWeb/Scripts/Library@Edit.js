@@ -12,7 +12,6 @@ function submitForm() {
         return false;
     }
     var userEntity = $("#LibraryEidt").dataSerialize();
-    console.log(userEntity);
     $.submitForm({
         url: "/Library/" + (!!ID == true ? "Update" : "Add"),
         param: userEntity,

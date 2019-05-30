@@ -10,10 +10,20 @@ namespace YMOA.WorkWeb.Models
     {
         public Dictionary<string, object> groups { get; set; }
         public List<LibraryEntity> departments { get; set; }
-
         public List<MenuPermission> menuPermissions { get; set; }
-
         public List<MenuEntity> menus { get; set; }
+        /// <summary>
+        ///  项目状态
+        /// </summary>
+        public List<LibraryEntity> projectStatus { get; set; }
+        /// <summary>
+        ///  任务状态
+        /// </summary>
+        public List<LibraryEntity> taskStatus { get; set; }
+        /// <summary>
+        ///  优先级
+        /// </summary>
+        public List<LibraryEntity> prioritys { get; set; }
     }
 
     public class group

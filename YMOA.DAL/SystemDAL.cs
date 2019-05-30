@@ -67,6 +67,8 @@ namespace YMOA.DAL
         }
 
         #endregion
+        
+        #region 系统数据相关
 
         /// <summary>
         /// 系统数据加载
@@ -78,7 +80,7 @@ namespace YMOA.DAL
         /// <param name="groups"></param>
         /// <param name="departments"></param>
         /// <param name="menuPermissions"></param>
-        public void SystemDataInit<T1, T2, T3>(int RoleId, ref List<T1> groups, ref List<T2> departments, ref List<T3> menuPermissions)
+        public void SystemDataInit<T1, T2, T3>(int RoleId, ref List<T1> groups, ref List<T2> departments, ref List<T2> projects, ref List<T2> tasks, ref List<T2> prioritys, ref List<T3> menuPermissions)
         {
             using (var connection = GetConnection())
             {
@@ -86,6 +88,9 @@ namespace YMOA.DAL
                 {
                     groups = multi.Read<T1>().ToList();
                     departments = multi.Read<T2>().ToList();
+                    projects = multi.Read<T2>().ToList();
+                    tasks = multi.Read<T2>().ToList();
+                    prioritys = multi.Read<T2>().ToList();
                     menuPermissions = multi.Read<T3>().ToList();
                 }
             }
@@ -133,9 +138,9 @@ namespace YMOA.DAL
             return Execute("delete from tbLibrary where id in (" + idList + ")", null, CommandType.Text) > 0;
         }
 
+        #endregion
 
-
-        #region 选单管理
+        #region 选单相关
 
         /// <summary>
         /// 新增/修改 菜单
@@ -183,10 +188,6 @@ namespace YMOA.DAL
         }
 
         #endregion
-
-
-
-
-
+        
     }
 }
