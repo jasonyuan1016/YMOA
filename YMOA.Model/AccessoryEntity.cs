@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YMOA.Comm;
 
 namespace YMOA.Model
 {
@@ -17,7 +18,7 @@ namespace YMOA.Model
         /// <summary>
         ///  附件编号
         /// </summary>
-        public string ID { get; set; }
+        public string ID { get; set; } = Guid.NewGuid().To16String();
         /// <summary>
         ///  标题
         /// </summary>

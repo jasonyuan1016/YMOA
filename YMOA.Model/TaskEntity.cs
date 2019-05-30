@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YMOA.Comm;
 
 namespace YMOA.Model
 {
@@ -20,7 +21,7 @@ namespace YMOA.Model
         /// <summary>
         ///  任务名称
         /// </summary>
-        public string name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         ///  项目编号
         /// </summary>
@@ -113,10 +114,11 @@ namespace YMOA.Model
         ///  最后修改时间
         /// </summary>
         public DateTime? UpdateTime { get; set; }
-    }
 
-    public class Task: TaskEntity
-    {
-
+        /// <summary>
+        ///  成员
+        /// </summary>
+        public List<TeamEntity> listTeam { get; set; }
     }
+    
 }
