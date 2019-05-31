@@ -17,7 +17,7 @@ namespace YMOA.Model
         /// <summary>
         ///  任务编号
         /// </summary>
-        public string ID { get; set; }
+        public string ID { get; set; } = Guid.NewGuid().To16String();
         /// <summary>
         ///  任务名称
         /// </summary>
@@ -42,6 +42,17 @@ namespace YMOA.Model
         ///  备注
         /// </summary>
         public string Remarks { get; set; }
+
+        /// <summary>
+        ///  负责人
+        /// </summary>
+        public string DutyPerson { get; set; }
+
+        /// <summary>
+        ///  是否多人
+        /// </summary>
+        public bool IsTeam { get; set; }
+
         /// <summary>
         ///  预计工时
         /// </summary>

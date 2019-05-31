@@ -48,5 +48,21 @@ namespace YMOA.IDAL
         /// <returns></returns>
         bool TaskDelete(string id);
 
+
+        /// <summary>
+        ///  判断用户修改权限
+        /// </summary>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        bool TaskUpdateJudge(Dictionary<string, object> paras);
+
+        /// <summary>
+        ///  判断用户添加权限
+        /// </summary>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        bool TaskInsertJudge(Dictionary<string, object> paras);
+
+        void TaskList<T1, T2>(int qryTag, string userName, int page, int rows, string sidx, string sord, ref List<T1> taskList, ref int total);
     }
 }

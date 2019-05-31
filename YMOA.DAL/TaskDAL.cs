@@ -28,9 +28,8 @@ namespace YMOA.DAL
         /// <returns></returns>
         public bool TaskInsert(Dictionary<string, object> tasks, List<TeamEntity> teams, List<AccessoryEntity> accessories)
         {
-            string id = Guid.NewGuid().To16String();
-            tasks["ID"] = id;
-            int result = StandardInsert("tbTask", tasks);
+            string id = tasks["ID"].ToString();
+            int result = StandardInsert("tbTask", tasks, "id");
             if (result > 0)
             {
                 string projectId = tasks["ProjectId"].ToString();
@@ -69,6 +68,14 @@ namespace YMOA.DAL
         /// <param name="accessories">附件</param>
         private void SaveTeamAndAccessory(string projectId, string taskId, List<TeamEntity> teams, List<AccessoryEntity> accessories)
         {
+            if (teams == null)
+            {
+                teams = new List<TeamEntity>();
+            }
+            if (accessories == null)
+            {
+                accessories = new List<AccessoryEntity>();
+            }
             var dtTeam = new DataTable();
             dtTeam.Columns.Add("ProjectId", typeof(string));
             dtTeam.Columns.Add("TaskId", typeof(string));
@@ -129,12 +136,10 @@ namespace YMOA.DAL
             dtTeam.Columns.Add("ProjectId", typeof(string));
             dtTeam.Columns.Add("TaskId", typeof(string));
             dtTeam.Columns.Add("Person", typeof(string));
-            string id;
             foreach (var item in listTask)
             {
                 var row = dtTask.NewRow();
-                id = Guid.NewGuid().To16String();
-                row[0] = id;
+                row[0] = item.ID;
                 row[1] = item.Name;
                 row[2] = item.ProjectId;
                 row[3] = item.ParentId;
@@ -152,14 +157,14 @@ namespace YMOA.DAL
                 {
                     var rowTeam = dtTeam.NewRow();
                     rowTeam[0] = item.ProjectId;
-                    rowTeam[1] = id;
+                    rowTeam[1] = item.ID;
                     rowTeam[2] = team.Person;
                     dtTeam.Rows.Add(rowTeam);
                 }
                 dtTask.Rows.Add(row);
             }
-            int result = Execute("P_TeamAndAccessory_SaveBatch", new { task = dtTask, team = dtTeam }, CommandType.StoredProcedure);
-            return 1;
+            int result = Execute("P_Task_BatchInsert", new { task = dtTask, team = dtTeam }, CommandType.StoredProcedure);
+            return result;
         }
 
         /// <summary>
@@ -169,8 +174,46 @@ namespace YMOA.DAL
         /// <returns></returns>
         public bool TaskDelete(string taskId)
         {
-            return Execute("P_Team_Delete", new { taskId }, CommandType.StoredProcedure) > 0;
+            int result = Execute("P_Task_Delete", new { taskId }, CommandType.StoredProcedure);
+            return result > 0;
         }
+
+        /// <summary>
+        ///  判断用户修改权限
+        /// </summary>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        public bool TaskUpdateJudge(Dictionary<string, object> paras)
+        {
+            int result = QuerySingle<int>("P_Task_UpdateJudge", paras, CommandType.StoredProcedure);
+            return result > 0;
+        }
+
+        /// <summary>
+        ///  判断用户添加权限
+        /// </summary>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        public bool TaskInsertJudge(Dictionary<string, object> paras)
+        {
+            string sql = "SELECT COUNT(0) FROM tbProduct WHERE ID = @ProductId and DutyPerson = @CreateBy ";
+            int result = QuerySingle<int>(sql, paras);
+            return result > 0;
+        }
+
+
+        public void TaskList<T1,T2>(int qryTag, string userName, int page, int rows, string sidx, string sord, ref List<T1> taskList, ref int total)
+        {
+            using (var connection = GetConnection())
+            {
+                using (var multi = connection.QueryMultiple("P_Task_Select", new { qryTag, userName,page,rows,sidx,sord }, null, null, CommandType.StoredProcedure))
+                {
+                    taskList = multi.Read<T1>().ToList();
+                    total = multi.Read<T2>().ToInt();
+                }
+            }
+        }
+        
 
     }
 }
