@@ -208,10 +208,42 @@ namespace YMOA.UnitTest
         public void TestTaskList()
         {
             List<TaskEntity> tasks = new List<TaskEntity>();
-            int total = 0;
-            DALCore.GetInstance().TaskCore.TaskList<TaskEntity,int>(0, "J·Y",1,2, "", "ASC", ref tasks, ref total);
+            Dictionary<string, object> paras = new Dictionary<string, object>();
+            paras["qryTag"] = 0;
+            paras["userName"] = "J·Y";
+            paras["page"] = 1;
+            paras["rows"] = 2;
+            paras["sidx"] = "CreateTime";
+            paras["sort"] = "ASC";
+            DALCore.GetInstance().TaskCore.TaskList<TaskEntity>(paras, ref tasks);
             Assert.AreNotEqual(tasks.Count, 0);
         }
+
+        [TestMethod]
+        public void TestUserTaskList()
+        {
+            List<TaskEntity> tasks = new List<TaskEntity>();
+            Dictionary<string, object> paras = new Dictionary<string, object>();
+            paras["qryTag"] = 0;
+            paras["userName"] = RealName;
+            paras["page"] = 1;
+            paras["rows"] = 2;
+            int iCount = 0;
+            tasks = DALCore.GetInstance().TaskCore.UserTaskList<TaskEntity>(paras, "CreateTime", "ASC", out iCount).ToList();
+            List<string> teams = new List<string>();
+            foreach(TaskEntity task in tasks)
+            {
+                teams.Add(task.ID);
+            }
+            // 去重复
+            teams = teams.Where((x, i) => teams.FindIndex(z => z == x) == i).ToList();
+            string strTeams = String.Join("','", teams);
+            strTeams = "'" + strTeams + "'";
+            // 查询任务团员
+            var teamList = DALCore.GetInstance().TaskCore.GetTeams<TeamEntity>(strTeams);
+            Assert.AreNotEqual(tasks.Count, 0);
+        }
+
 
     }
 }

@@ -1,0 +1,95 @@
+﻿@model YMOA.Model.TaskEntity
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<form id="TaskEidt">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <div style="padding-top: 10px;">
+            <table class="form">
+                <tr>
+                    <th style="width: 2%"></th>
+                    <th style="width: 15%">名称</th>
+                    <th style="width: 10%">项目</th>
+                    <th style="width: 10%">指派给</th>
+                    <th style="width: 20%">任务描述</th>
+                    <th style="width: 15%">截止日期</th>
+                    <th style="width: 10%">优先级</th>
+                    <th style="width: 10%">预计</th>
+                    <th style="width: 8%">操作</th>
+                </tr>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td class="formValue">
+                        <input type="text" class="form-control required" placeholder="请输入名称" />
+                    </td>
+                    <td class="formValue">
+                        <select class="form-control"></select>
+                    </td>
+                    <td class="formValue">
+                        <select class="form-control">
+                            <option>=== 指派人员 ===</option>
+                        </select>
+                    </td>
+                    <td class="formValue">
+                        <textarea class="form-control" rows="1"></textarea>
+                    </td>
+                    <td class="formValue">
+                        <input type="text" class="form-control input-wdatepicker" autocomplete="off" onfocus="WdatePicker()" />
+                    </td>
+                    <td class="formValue">
+                        <input type="text" class="form-control" />
+                    </td>
+                    <td class="formValue">
+                        <input type="text" class="form-control" />
+                    </td>
+                    <td class="formValue">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        2
+                    </td>
+                    <td class="formValue">
+                        <input type="text" class="form-control required" placeholder="请输入名称" />
+                    </td>
+                    <td class="formValue">
+                        <select class="form-control"></select>
+                    </td>
+                    <td class="formValue">
+                        <select class="form-control">
+                            <option>=== 指派人员 ===</option>
+                        </select>
+                    </td>
+                    <td class="formValue">
+                        <textarea class="form-control" rows="1"></textarea>
+                    </td>
+                    <td class="formValue">
+                        <input type="text" class="form-control input-wdatepicker" autocomplete="off" onfocus="WdatePicker()" />
+                    </td>
+                    <td class="formValue">
+                        <input type="text" class="form-control" />
+                    </td>
+                    <td class="formValue">
+                        <input type="text" class="form-control" />
+                    </td>
+                    <td class="formValue">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>
+@section scripts {
+    @Scripts.Render("~/Content/js/datepicker/WdatePicker.js")
+}

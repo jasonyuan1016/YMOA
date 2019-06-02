@@ -123,6 +123,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\MemuController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\CommonData.cs" />
     <Compile Include="Domain\CustomsAttribute.cs" />
@@ -461,7 +462,11 @@
     <Content Include="Scripts\resx\zh-cn\Library%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Login%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Memu%40Index.js" />
+    <Content Include="Scripts\resx\zh-cn\Task%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\User%40Index.js" />
+    <Content Include="Scripts\Task%40BatchAdd.js" />
+    <Content Include="Scripts\Task%40Edit.js" />
+    <Content Include="Scripts\Task%40Index.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -496,6 +501,9 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Task\Index.cshtml" />
+    <Content Include="Views\Task\Edit.cshtml" />
+    <Content Include="Views\Task\BatchAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

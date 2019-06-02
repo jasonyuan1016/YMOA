@@ -264,4 +264,8 @@
     <value>未获得此权限</value>
     <comment>未获得此权限</comment>
   </data>
+  <data name="menu_task" xml:space="preserve">
+    <value>任务管理</value>
+    <comment>任务管理</comment>
+  </data>
 </root>

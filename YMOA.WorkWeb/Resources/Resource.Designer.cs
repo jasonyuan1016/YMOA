@@ -286,6 +286,15 @@ namespace YMOA.WorkWeb.Resources {
         }
         
         /// <summary>
+        ///   查找类似 任务管理 的本地化字符串。
+        /// </summary>
+        public static string menu_task {
+            get {
+                return ResourceManager.GetString("menu_task", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 用户管理 的本地化字符串。
         /// </summary>
         public static string menu_user {

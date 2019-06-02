@@ -63,6 +63,48 @@ namespace YMOA.IDAL
         /// <returns></returns>
         bool TaskInsertJudge(Dictionary<string, object> paras);
 
-        void TaskList<T1, T2>(int qryTag, string userName, int page, int rows, string sidx, string sord, ref List<T1> taskList, ref int total);
+        void TaskList<T1>(Dictionary<string, object> paras, ref List<T1> taskList);
+
+        /// <summary>
+        ///  查询用户所能看到的任务
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <param name="sidx"></param>
+        /// <param name="sord"></param>
+        /// <param name="iCount"></param>
+        /// <returns></returns>
+        IEnumerable<T> UserTaskList<T>(Dictionary<string, object> paras, string sidx, string sord, out int iCount);
+
+        /// <summary>
+        ///  查询成员
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        IEnumerable<T> GetTeams<T>(Dictionary<string, object> paras);
+
+        /// <summary>
+        ///  查询成员
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tasks"></param>
+        /// <returns></returns>
+        IEnumerable<T> GetTeams<T>(string tasks);
+
+        /// <summary>
+        ///  查询项目
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        IEnumerable<T> GetProject<T>();
+        
+        /// <summary>
+        ///  查询任务
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        T QryTask<T>(Dictionary<string, object> paras);
     }
 }

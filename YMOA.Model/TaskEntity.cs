@@ -44,16 +44,6 @@ namespace YMOA.Model
         public string Remarks { get; set; }
 
         /// <summary>
-        ///  负责人
-        /// </summary>
-        public string DutyPerson { get; set; }
-
-        /// <summary>
-        ///  是否多人
-        /// </summary>
-        public bool IsTeam { get; set; }
-
-        /// <summary>
         ///  预计工时
         /// </summary>
         public Decimal Estimate { get; set; }

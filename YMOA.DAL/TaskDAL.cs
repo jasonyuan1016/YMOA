@@ -34,7 +34,7 @@ namespace YMOA.DAL
             {
                 string projectId = tasks["ProjectId"].ToString();
                 string taskId = id;
-                SaveTeamAndAccessory(projectId,id,teams,accessories);
+                SaveTeamAndAccessory(projectId, id, teams, accessories);
             }
             return result > 0;
         }
@@ -58,7 +58,7 @@ namespace YMOA.DAL
             }
             return result > 0;
         }
-        
+
         /// <summary>
         ///  批量添加团员与附件
         /// </summary>
@@ -201,19 +201,102 @@ namespace YMOA.DAL
             return result > 0;
         }
 
-
-        public void TaskList<T1,T2>(int qryTag, string userName, int page, int rows, string sidx, string sord, ref List<T1> taskList, ref int total)
+        /// <summary>
+        ///  根据用户查询任务
+        /// </summary>
+        public void TaskList<T1>(Dictionary<string, object> paras, ref List<T1> taskList)
         {
             using (var connection = GetConnection())
             {
-                using (var multi = connection.QueryMultiple("P_Task_Select", new { qryTag, userName,page,rows,sidx,sord }, null, null, CommandType.StoredProcedure))
+                using (var multi = connection.QueryMultiple("P_Task_Select", paras, null, null, CommandType.StoredProcedure))
                 {
                     taskList = multi.Read<T1>().ToList();
-                    total = multi.Read<T2>().ToInt();
                 }
             }
         }
-        
+
+        /// <summary>
+        ///  根据用户查询任务
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <param name="sidx"></param>
+        /// <param name="sord"></param>
+        /// <param name="iCount"></param>
+        /// <returns></returns>
+        public IEnumerable<T> UserTaskList<T>(Dictionary<string, object> paras, string sidx, string sord, out int iCount)
+        {
+            string sql = "SELECT ID,Name,ProjectId,ParentId,EndTime,Estimate,Consume,Sort,State,CreateTime FROM tbTask";
+            string where = " WHERE";
+            where += " (@qryTag = 0 AND ";
+            where += " ProjectId IN (";
+            where += " SELECT ID FROM tbProduct WHERE DutyPerson = @userName or CreateBy = @userName";
+            where += " UNION";
+            where += " SELECT ProjectId FROM tbTeam WHERE Person = @userName))";
+            where += " OR";
+            where += " (@qryTag = 1 AND tbTask.CreateBy = @userName)";
+            where += " OR";
+            where += " (@qryTag = 2 AND tbTask.FinishBy = @userName)";
+            using (IDbConnection connection = GetConnection())
+            {
+                sql += where;
+                sql += " ORDER BY " + sidx + " " + sord;
+                sql += " OFFSET @rows*(@page-1) ROWS FETCH NEXT @rows ROWS ONLY";
+                var retObj = connection.Query<T>(sql, paras);
+                string iCountSql = "SELECT COUNT(0) FROM tbTask" + where;
+                iCount = connection.QuerySingleOrDefault<int>(iCountSql, paras);
+                return retObj;
+            }
+        }
+
+        /// <summary>
+        ///  查询成员
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<T> GetTeams<T>(Dictionary<string, object> paras)
+        {
+            string sql = "SELECT * FROM tbTeam";
+            if (paras != null)
+            {
+                WhereBuilder builder = new WhereBuilder();
+                builder.AddWhereAndParameter(paras, "projectId");
+                builder.AddWhereAndParameter(paras, "TaskId");
+                if (builder.Wheres.Count > 0)
+                {
+                    sql += " WHERE " + String.Join(" and ", builder.Wheres);
+                }
+            }
+            return QueryList<T>(sql, paras);
+        }
+
+        /// <summary>
+        ///  查询成员
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tasks"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetTeams<T>(string tasks)
+        {
+            string sql = "SELECT * FROM tbTeam WHERE TaskId IN ("+ tasks + ")";
+            return QueryList<T>(sql);
+        }
+
+        /// <summary>
+        ///  查询项目
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public IEnumerable<T> GetProject<T>()
+        {
+            string sql = "SELECT ID,Name FROM tbProduct";
+            return QueryList<T>(sql);
+        }
+
+
+        public T QryTask<T>(Dictionary<string, object> paras)
+        {
+            return QuerySingle<T>("SELECT * FROM tbTask WHERE ID=@ID", paras, CommandType.Text);
+        }
 
     }
 }
