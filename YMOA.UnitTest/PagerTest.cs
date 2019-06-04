@@ -5,6 +5,7 @@ using YMOA.Comm;
 using YMOA.DALFactory;
 using YMOA.Model;
 using System.Data;
+using Dapper;
 
 namespace YMOA.UnitTest
 {
@@ -34,8 +35,8 @@ namespace YMOA.UnitTest
         [TestMethod]
         public void TestMethod2()
         {
-            Dictionary<string, object> pars = new Dictionary<string, object>();
-            pars["DutyPerson"] = "J·Y";
+            DynamicParameters pars = new DynamicParameters();
+            pars.Add("CreateBy", "admin");
             Pagination pagination = new Pagination();
             pagination.sidx = "ID";
             pagination.sord = "DESC";

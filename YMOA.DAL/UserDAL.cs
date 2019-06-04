@@ -144,5 +144,14 @@ namespace YMOA.DAL
         {
             return Execute("delete from tbUser where ID in (" + idList + ")", null, CommandType.Text) > 0;
         }
+        public IEnumerable<T> QryAllUser<T>()
+        {
+            string strSql = "select * from v_user_list";
+            using (IDbConnection dbConnection = GetConnection())
+            {
+                var retObj = dbConnection.Query<T>(strSql);
+                return retObj;
+            }
+        }
     }
 }

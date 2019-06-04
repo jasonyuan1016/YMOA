@@ -26,6 +26,7 @@ $.clientsInit = function () {
                 dataJson.prioritys = data.prioritys;
                 dataJson.projectStatus = data.projectStatus;
                 dataJson.taskStatus = data.taskStatus;
+                dataJson.users = data.users;
             }
         });
     }

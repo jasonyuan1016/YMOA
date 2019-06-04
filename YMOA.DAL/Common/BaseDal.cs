@@ -173,15 +173,6 @@ namespace YMOA.DAL
                 return retObj;
             }
         }
-        //protected IEnumerable<T>SortAndPage<T>(string sql, out int iCount, object param = null, CommandType commandType = CommandType.Text, bool buffered = true)
-        //{
-        //    using (IDbConnection conn = GetConnection())
-        //    {
-        //        var objRet = conn.Query<T>(sql, param, null, buffered, CommandTimeout, commandType);
-        //        iCount = conn.QuerySingleOrDefault<int>(sql, param,null,null,commandType);
-        //        return objRet;
-        //    }
-        //}
 
         /// <summary>
         /// 执行标准单表Insert&Update操作

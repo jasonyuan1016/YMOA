@@ -24,6 +24,10 @@ namespace YMOA.WorkWeb.Models
         ///  优先级
         /// </summary>
         public List<LibraryEntity> prioritys { get; set; }
+        /// <summary>
+        /// 所有用户
+        /// </summary>
+        public List<string> users { get; set; }
     }
 
     public class group

@@ -17,27 +17,39 @@ namespace YMOA.DAL
         /// </summary>
         /// <param name="idList">id</param>
         /// <returns></returns>
-        public bool DeleteProject(string idList)
+        public bool DeleteProject(Dictionary<string,object>paras)
         {
-            string strSql = "delete from tbUser where ID in (" + idList + ")";
-            return Execute(strSql, null, CommandType.Text) > 0;
+            return Execute("P_Delete_ProjectANDTaskANDTeam", paras, CommandType.StoredProcedure) > 0;
         }
 
-        public IEnumerable<T> QryProjects<T>(Dictionary<string, object> paras, Pagination pagination)
+        public T QryProjectInfo<T>(DynamicParameters dp)
         {
-            
-            WhereBuilder builder = new WhereBuilder();
-            builder.FromSql = "tbProduct";
-            builder.AddWhereAndParameter(paras, "Name", "Name", "LIKE", "'%'+@Name+'%'");
-            builder.AddWhereAndParameter(paras, "DutyPerson", "DutyPerson", "LIKE", "'%'+@DutyPerson+'%'");
-            builder.AddWhereAndParameter(paras, "CreateBy","CreateBy","LIKE","'%'+@CreateBy+'%'");
-            return SortAndPage<T>(builder,pagination);
+            using (IDbConnection conn = GetConnection())
+            {
+                dp.Add("Count", null, DbType.Int32, ParameterDirection.Output);
+                var objRet = conn.QuerySingleOrDefault<T>("P_Select_Project", dp, null, null, CommandType.StoredProcedure);
+                return objRet;
+            }
+        }
+
+        public IEnumerable<T> QryProjects<T>(DynamicParameters dp, Pagination pagination)
+        {
+            using (IDbConnection conn = GetConnection())
+            {
+                dp.Add("Count", null, DbType.Int32, ParameterDirection.Output);
+                var objRet = conn.Query<T>("P_Select_Project", dp, null, true, null, CommandType.StoredProcedure);
+                pagination.records = dp.Get<int>("Count");
+                return objRet;
+            }
         }
 
         public int Save(Dictionary<string, object> paras)
         {
-            DataTable dtTeam = paras["Team"] as DataTable;
-            paras["Team"] = dtTeam.AsTableValuedParameter();
+            if (paras.ContainsKey("Team"))
+            {
+                DataTable dtTeam = paras["Team"] as DataTable;
+                paras["Team"] = dtTeam.AsTableValuedParameter();
+            }
             return QuerySingle<int>("P_Product_Save", paras, CommandType.StoredProcedure);
         }
     }

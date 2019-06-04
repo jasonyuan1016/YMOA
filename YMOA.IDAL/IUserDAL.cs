@@ -51,7 +51,7 @@ namespace YMOA.IDAL
         /// <param name="paras">查询条件参数</param>
         /// <returns></returns>
         IEnumerable<T> QryUsers<T>(Pagination pagination, Dictionary<string, object> paras);
-
+        IEnumerable<T> QryAllUser<T>();
         /// <summary>
         /// 查询用户资料
         /// </summary>

@@ -18,9 +18,9 @@ namespace YMOA.Model
         //项目名称
         public string Name { get; set; }
         //项目开始日期
-        public DateTime StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
         //项目结束日期
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
         //项目描述
         public string Describe { get; set; }
         //项目参观者

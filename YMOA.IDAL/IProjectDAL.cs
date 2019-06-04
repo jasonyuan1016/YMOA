@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,9 @@ namespace YMOA.IDAL
 {
     public interface IProjectDAL
     {
-        IEnumerable<T> QryProjects<T>(Dictionary<string, object> paras, Pagination pagination);
+        IEnumerable<T> QryProjects<T>(DynamicParameters dp, Pagination pagination);
         int Save(Dictionary<string, object> paras);
-        bool DeleteProject(string idList);
+        bool DeleteProject(Dictionary<string,object>paras);
+        T QryProjectInfo<T>(DynamicParameters dp);
     }
 }
