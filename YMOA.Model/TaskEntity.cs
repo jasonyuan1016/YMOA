@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YMOA.Comm;
 
 namespace YMOA.Model
 {
@@ -16,11 +17,11 @@ namespace YMOA.Model
         /// <summary>
         ///  任务编号
         /// </summary>
-        public string ID { get; set; }
+        public string ID { get; set; } = Guid.NewGuid().To16String();
         /// <summary>
         ///  任务名称
         /// </summary>
-        public string name { get; set; }
+        public string Name { get; set; }
         /// <summary>
         ///  项目编号
         /// </summary>
@@ -28,7 +29,7 @@ namespace YMOA.Model
         /// <summary>
         /// 父级编号
         /// </summary>
-        public string ParentId { get; set; }
+        public string ParentId { get; set; } = "0";
         /// <summary>
         ///  截至时间
         /// </summary>
@@ -41,6 +42,7 @@ namespace YMOA.Model
         ///  备注
         /// </summary>
         public string Remarks { get; set; }
+
         /// <summary>
         ///  预计工时
         /// </summary>
@@ -56,7 +58,7 @@ namespace YMOA.Model
         /// <summary>
         ///  状态
         /// </summary>
-        public int State { get; set; }
+        public int State { get; set; } = 1;
         /// <summary>
         ///  发送至
         /// </summary>
@@ -113,10 +115,16 @@ namespace YMOA.Model
         ///  最后修改时间
         /// </summary>
         public DateTime? UpdateTime { get; set; }
+
+        /// <summary>
+        ///  成员
+        /// </summary>
+        public List<TeamEntity> listTeam { get; set; }
+
+        /// <summary>
+        ///  附件
+        /// </summary>
+        public List<AccessoryEntity> listAccessory { get; set; }
     }
-
-    //public class Task: TaskEntity
-    //{
-
-    //}
+    
 }
