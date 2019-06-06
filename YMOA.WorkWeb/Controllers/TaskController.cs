@@ -65,7 +65,7 @@ namespace YMOA.WorkWeb.Controllers
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["qryTag"] = Request["qryTag"] == "" ? 0 : Convert.ToInt32(Request["qryTag"]);
-            paras["userName"] = Session["RealName"].ToString();
+            paras["userName"] = UserId;
             paras["page"] = pagination.page;
             paras["rows"] = pagination.rows;
             int iCount = 0;
