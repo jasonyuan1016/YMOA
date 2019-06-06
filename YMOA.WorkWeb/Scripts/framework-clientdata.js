@@ -10,7 +10,8 @@ $.clientsInit = function () {
         menuPermissions: [],
         prioritys: [], // 优先级
         projectStatus: [], // 项目状态
-        taskStatus: [] // 任务状态
+        taskStatus: [], // 任务状态
+        tasks:[]
     };
     var init = function () {
         $.ajax({
@@ -26,6 +27,7 @@ $.clientsInit = function () {
                 dataJson.prioritys = data.prioritys;
                 dataJson.projectStatus = data.projectStatus;
                 dataJson.taskStatus = data.taskStatus;
+                dataJson.tasks = data.tasks;
             }
         });
     }

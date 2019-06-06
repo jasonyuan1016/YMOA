@@ -1,0 +1,7 @@
+﻿.bor-radius .btn, .bor-radius .open {
+    border-radius: 0 !important;
+}
+.input-select {
+    height: 30px !important;
+    padding-top: 4px;
+}

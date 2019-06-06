@@ -199,7 +199,7 @@ namespace YMOA.UnitTest
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["ProductId"] = "4adf5dfe42afa";
-            paras["CreateBy"] = "admin";
+            paras["userName"] = "admin";
             bool result = DALCore.GetInstance().TaskCore.TaskInsertJudge(paras);
             Assert.AreEqual(result, true);
         }
@@ -225,7 +225,7 @@ namespace YMOA.UnitTest
             List<TaskEntity> tasks = new List<TaskEntity>();
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["qryTag"] = 0;
-            paras["userName"] = RealName;
+            paras["userName"] = "zxy";
             paras["page"] = 1;
             paras["rows"] = 2;
             int iCount = 0;

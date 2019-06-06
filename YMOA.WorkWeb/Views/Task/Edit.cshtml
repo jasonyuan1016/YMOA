@@ -3,6 +3,9 @@
     ViewBag.Title = "Form";
     Layout = "~/Views/Shared/_Form.cshtml";
 }
+
+@Styles.Render("~/Content/bootstrap-select/css/bootstrap-select.min.css", "~/Content/css/from.css")
+
 <form id="TaskEidt">
     <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
         <div style="padding-top: 20px; margin-right: 30px;">
@@ -10,7 +13,7 @@
                 <tr>
                     <th class="formTitle">任务名称</th>
                     <td class="formValue">
-                        <input id="txtName" name="txtName" type="text" class="form-control required" placeholder="请输入名称" value="@Model.Name" />
+                        <input id="txtName" name="txtName" type="text" class="form-control required" placeholder="请输入名称" autocomplete="off" value="@Model.Name" />
                     </td>
                     <th class="formTitle">优先级</th>
                     <td class="formValue">
@@ -20,80 +23,76 @@
                 <tr>
                     <th class="formTitle">所属项目</th>
                     <td class="formValue">
-                        <select id="sltProjectId" name="sltProjectId" class="form-control">
+                        <select id="sltProjectId" name="sltProjectId" class="form-control input-select" data-val="@Model.ProjectId">
                             @{
                                 var products = ViewData["products"] as List<YMOA.Model.ProjectEntity>;
                                 foreach (var pro in products)
                                 {
-                                    <option value="@pro.Name">@pro.ID</option>
+                                    <option value="@pro.ID">@pro.Name</option>
                                 }
                             }
                         </select>
                     </td>
                     <th class="formTitle">指派给</th>
-                    <td class="formValue">
-                        <select id="sltTeam" name="sltTeam" class="form-control">
-                            <option>=== 指派人员 ===</option>
-                            @{
-                                var teams = ViewData["teams"] as List<YMOA.Model.TeamEntity>;
-                                foreach (var pro in teams)
-                                {
-                                    <option value="@pro.Person">@pro.Person</option>
-                                }
-                            }
-                        </select>
+                    <td class="formValue bor-radius">
+                        <select id="sltTeam" class="form-control" multiple ></select>
                     </td>
                 </tr>
                 <tr>
                     <th class="formTitle">最初预计/时</th>
                     <td class="formValue">
-                        <input id="txtEstimate" type="text" name="txtEstimate" class="form-control required" value="@Model.Estimate" />
+                        <input id="txtEstimate" name="txtEstimate" type="text" class="form-control required isFloatGteZero" value="@Model.Estimate" />
                     </td>
                     <th class="formTitle">截止日期</th>
                     <td class="formValue">
-                        <input id="txtEndTime" type="text" class="form-control input-wdatepicker" autocomplete="off" onfocus="WdatePicker()" value="@Model.EndTime" />
+                        <input id="txtEndTime" name="txtEndTime" type="text" class="form-control required greaterDate input-wdatepicker" autocomplete="off" onfocus="WdatePicker()" data-val="@Model.EndTime" />
                     </td>
                 </tr>
-                <tr>
-                    <th class="formTitle">抄送给</th>
-                    <td class="formValue" colspan="3">
-                        <select id="sltSend" name="sltSend" class="form-control" data-val="@Model.Send"></select>
-                    </td>
-                </tr>
+                @*<tr>
+                        <th class="formTitle">抄送给</th>
+                        <td class="formValue" colspan="3">
+                            <select id="sltSend" name="sltSend" class="form-control" data-val="@Model.Send"></select>
+                        </td>
+                    </tr>*@
                 <tr>
                     <th class="formTitle" valign="top" style="padding-top: 5px;">
                         附件
                     </th>
-                    <td class="formValue" colspan="3">
-                        <div class="input-group">
-                            <input type="file" class="form-control" id="exampleInputAmount" placeholder="附件">
-                            <div class="input-group-addon">标题</div>
-                            <input type="text" class="form-control" id="exampleInputAmount" placeholder="标题名">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                </button>
-                            </span>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                </button>
-                            </span>
-                        </div>
-                        <div class="input-group">
-                            <input type="file" class="form-control" id="exampleInputAmount" placeholder="附件">
-                            <div class="input-group-addon">标题</div>
-                            <input type="text" class="form-control" id="exampleInputAmount" placeholder="标题名">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                </button>
-                            </span>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                </button>
-                            </span>
+                    <td class="" colspan="3">
+
+                        @{
+                            if (ViewData["accessorys"] != null)
+                            {
+                                var accessorys = ViewData["accessorys"] as List<YMOA.Model.AccessoryEntity>;
+                                foreach (var item in accessorys)
+                                {
+                                    <div class="formValue">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">标题</div>
+                                            <input type="text" class="form-control accessoryName" id="accessoryName" autocomplete="off" readonly="true" placeholder="标题名" value="@item.Name">
+                                            <span class="input-group-btn">
+                                                <a class="btn btn-default plus" href="~/file/@item.AccessoryUrl" download="@item.Name">
+                                                    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                                                </a>
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default pencil" type="button" data-boo="0" data-id="@item.ID" >
+                                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                                </button>
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default remove" type="button" data-id="@item.ID" data-name="@item.AccessoryUrl">
+                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                        }
+                        <div id="accessory">
+
                         </div>
                     </td>
                 </tr>
@@ -118,5 +117,5 @@
     </div>
 </form>
 @section scripts {
-    @Scripts.Render("~/Content/js/datepicker/WdatePicker.js")
+    @Scripts.Render("~/Content/js/datepicker/WdatePicker.js", "~/Content/bootstrap-select/js/bootstrap-select.min.js", "~/Content/bootstrap-select/js/i18n/defaults-zh_CN.min.js")
 }

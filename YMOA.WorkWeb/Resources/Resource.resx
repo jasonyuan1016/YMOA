@@ -268,4 +268,12 @@
     <value>任务管理</value>
     <comment>任务管理</comment>
   </data>
+  <data name="ormsg_taskAdd" xml:space="preserve">
+    <value>您不是该项目负责人</value>
+    <comment>您不是该项目负责人</comment>
+  </data>
+  <data name="ormsg_accessoryAdd" xml:space="preserve">
+    <value>附件添加失败,如:</value>
+    <comment>附件添加失败,如:</comment>
+  </data>
 </root>

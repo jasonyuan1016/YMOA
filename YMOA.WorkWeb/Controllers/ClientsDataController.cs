@@ -45,7 +45,11 @@ namespace YMOA.WorkWeb.Controllers
             Session["MemuList"] = menuPermissions;
             Dictionary<string, object> menuItem = new Dictionary<string, object>();
             menuItem["noState"] = 0;
-            data.menus = (List<MenuEntity>)DALCore.GetInstance().SystemCore.MenuGetList<MenuEntity>(menuItem);
+            data.menus = DALCore.GetInstance().SystemCore.MenuGetList<MenuEntity>(menuItem).ToList();
+            menuItem = new Dictionary<string, object>();
+            menuItem["userName"] = RealName;
+            // 获取用户可修改任务
+            data.tasks = DALCore.GetInstance().TaskCore.QryUpdateTask<TaskEntity>(menuItem).ToList();
             return Content(data.ToJson());
         }
     }

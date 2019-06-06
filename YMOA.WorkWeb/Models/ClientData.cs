@@ -24,6 +24,11 @@ namespace YMOA.WorkWeb.Models
         ///  优先级
         /// </summary>
         public List<LibraryEntity> prioritys { get; set; }
+
+        /// <summary>
+        ///  用户任务
+        /// </summary>
+        public List<TaskEntity> tasks { get; set; }
     }
 
     public class group

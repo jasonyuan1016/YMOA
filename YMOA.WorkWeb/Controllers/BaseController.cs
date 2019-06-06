@@ -27,7 +27,7 @@ namespace YMOA.WorkWeb.Controllers
             return Content(JsonConvert.SerializeObject(new { msg = _msg != "" ? _msg : (_success ? "操作成功" : "操作失败"), success = _success }));
         }
 
-        protected ContentResult AjaxReturn(ResultType resultType,string _msg)
+        protected ContentResult AjaxReturn(ResultType resultType, string _msg)
         {
             return Content(new AjaxResult { state = resultType.ToString(), message = _msg }.ToJson());
         }

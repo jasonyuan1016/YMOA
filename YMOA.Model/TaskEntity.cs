@@ -29,7 +29,7 @@ namespace YMOA.Model
         /// <summary>
         /// 父级编号
         /// </summary>
-        public string ParentId { get; set; }
+        public string ParentId { get; set; } = "0";
         /// <summary>
         ///  截至时间
         /// </summary>
@@ -58,7 +58,7 @@ namespace YMOA.Model
         /// <summary>
         ///  状态
         /// </summary>
-        public int State { get; set; }
+        public int State { get; set; } = 1;
         /// <summary>
         ///  发送至
         /// </summary>
@@ -120,6 +120,11 @@ namespace YMOA.Model
         ///  成员
         /// </summary>
         public List<TeamEntity> listTeam { get; set; }
+
+        /// <summary>
+        ///  附件
+        /// </summary>
+        public List<AccessoryEntity> listAccessory { get; set; }
     }
     
 }
