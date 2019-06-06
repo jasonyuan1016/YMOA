@@ -221,6 +221,60 @@ $.submitForm = function (options) {
         });
     }, 500);
 }
+$.submitFormFile = function (options, param) {
+    var defaults = {
+        url: "",
+        param: [],
+        loading: "正在提交数据...",
+        success: null,
+        close: true
+    };
+    var options = $.extend(defaults, options);
+    $.loading(true, options.loading);
+    window.setTimeout(function () {
+        $.ajax({
+            url: options.url,
+            data: param,
+            type: "post",
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.success) {
+                    options.success(data);
+                    $.modalMsg(data.msg, data.success);
+                    if (options.close == true) {
+                        $.modalClose();
+                    }
+                } else {
+                    if (data.code == "-100") {
+                        $.modalAlert(data.msg, false);
+                        return;
+                    }
+                    else if (data.code == "-101") {
+                        $.modalAlert(data.msg, false);
+                        window.setTimeout(function () {
+                            window.location.href = "/Home/Index";
+                        }, 500);
+                        return;
+                    }
+                    $.modalAlert(data.msg, data.success);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.loading(false);
+                $.modalMsg(errorThrown, false);
+            },
+            beforeSend: function () {
+                $.loading(true, options.loading);
+            },
+            complete: function () {
+                $.loading(false);
+            }
+        });
+    }, 500);
+}
+
 $.deleteForm = function (options) {
     var defaults = {
         prompt: "注：您确定要删除该项数据吗？",

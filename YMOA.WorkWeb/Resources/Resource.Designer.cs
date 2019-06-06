@@ -286,11 +286,29 @@ namespace YMOA.WorkWeb.Resources {
         }
         
         /// <summary>
+        ///   查找类似 任务管理 的本地化字符串。
+        /// </summary>
+        public static string menu_task {
+            get {
+                return ResourceManager.GetString("menu_task", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 用户管理 的本地化字符串。
         /// </summary>
         public static string menu_user {
             get {
                 return ResourceManager.GetString("menu_user", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 附件添加失败,如: 的本地化字符串。
+        /// </summary>
+        public static string ormsg_accessoryAdd {
+            get {
+                return ResourceManager.GetString("ormsg_accessoryAdd", resourceCulture);
             }
         }
         
@@ -327,6 +345,15 @@ namespace YMOA.WorkWeb.Resources {
         public static string ormsg_role_1 {
             get {
                 return ResourceManager.GetString("ormsg_role_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 您不是该项目负责人 的本地化字符串。
+        /// </summary>
+        public static string ormsg_taskAdd {
+            get {
+                return ResourceManager.GetString("ormsg_taskAdd", resourceCulture);
             }
         }
         

@@ -1,0 +1,33 @@
+﻿@model YMOA.Model.TaskEntity
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+@Styles.Render("~/Content/bootstrap-select/css/bootstrap-select.min.css", "~/Content/css/from.css")
+<form id="batchAdd">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <div style="padding-top: 10px; height: 340px">
+            <table class="form bor-radius">
+                <thead>
+                    <tr>
+                        <th style="width: 2%"></th>
+                        <th style="width: 15%">名称</th>
+                        <th style="width: 15%">项目</th>
+                        <th style="width: 13%">指派给</th>
+                        <th style="width: 20%">任务描述</th>
+                        <th style="width: 13%">截止日期</th>
+                        <th style="width: 8%">优先级</th>
+                        <th style="width: 6%">预计</th>
+                        <th style="width: 8%">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="batchTbody">
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
+@section scripts {
+    @Scripts.Render("~/Content/js/datepicker/WdatePicker.js", "~/Content/bootstrap-select/js/bootstrap-select.min.js")
+}

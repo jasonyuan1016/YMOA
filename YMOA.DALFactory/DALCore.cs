@@ -90,6 +90,11 @@ namespace YMOA.DALFactory
         {
             get { return LoadAssamblyType<IProjectDAL>("ProjectDAL"); }
         }
+
+        public ITaskDAL TaskCore
+        {
+            get { return LoadAssamblyType<ITaskDAL>("TaskDAL"); }
+        }
         public ITeamDAL TeamCore
         {
             get { return LoadAssamblyType<ITeamDAL>("TeamDAL"); }
