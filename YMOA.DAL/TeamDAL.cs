@@ -10,6 +10,11 @@ using YMOA.Model;
 
 namespace YMOA.DAL
 {
+    /// <summary>
+    /// 创建人：朱茂琛
+    /// 创建时间：2019/06/04
+    /// 团队实现
+    /// </summary>
     public class TeamDAL : BaseDal, ITeamDAL
     {
         public IEnumerable<T> QryTeam<T>(Dictionary<string, object> paras)

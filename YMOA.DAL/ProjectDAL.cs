@@ -10,6 +10,10 @@ using YMOA.IDAL;
 
 namespace YMOA.DAL
 {
+    /// <summary>
+    /// 创建人：朱茂琛
+    /// 创建时间：2019/05/29
+    /// 项目实现
     public class ProjectDAL : BaseDal, IProjectDAL
     {
         /// <summary>
