@@ -44,10 +44,16 @@ function initControl() {
         data: { Id: ID },
         dataType: "json",
         success: function (data) {
-            $.each(data, function (i, n) {
-                var team = batchTaskTemplate(0, n);
+            if (data.length < 0) {
+                var team = batchTaskTemplate(3);
                 $("#batchTbody").append(team);
-            })
+            } else {
+                $.each(data, function (i, n) {
+                    var team = batchTaskTemplate(0, n);
+                    $("#batchTbody").append(team);
+                })
+            }
+
         }
     });
     $("#batchTbody").on("click", ".plus", function () {
