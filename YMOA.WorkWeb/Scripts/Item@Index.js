@@ -23,7 +23,7 @@ function gridList() {
             {
                 label: '项目入口', width: 140, align: 'left',
                 formatter: function () {
-                    return '<span class=\"label label-success\">进入</span>';
+                    return '<span class=\"label label-success\"><a href=\"\\Task\\Index\">进入</a></span>';
                 }
             }
         ],
@@ -90,4 +90,18 @@ function btn_delete() {
             $.currentWindow().$("#gridList").trigger("reloadGrid");
         }
     })
+}
+
+function btn_team() {
+    var keyValue = $("#gridList").jqGridRowValue().ID;
+    $.modalOpen({
+        id: "Team",
+        title: "团队",
+        url: "/Item/Team?ID=" + keyValue,
+        width: "700px",
+        height: "510px",
+        callBack: function (iframeId) {
+            top.frames[iframeId].submitForm();
+        }
+    });
 }

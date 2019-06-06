@@ -47,6 +47,7 @@
     <Compile Include="IProjectDAL.cs" />
     <Compile Include="ISystemDAL.cs" />
     <Compile Include="ITaskDAL.cs" />
+    <Compile Include="ITeamDAL.cs" />
     <Compile Include="IUserDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

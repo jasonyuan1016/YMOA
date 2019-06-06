@@ -442,6 +442,7 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Item%40Index.js" />
     <Content Include="Scripts\Item%40ProjectEdit.js" />
+    <Content Include="Scripts\Item%40Team.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -505,6 +506,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Item\Index.cshtml" />
     <Content Include="Views\Item\ProjectEdit.cshtml" />
+    <Content Include="Views\Item\Team.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

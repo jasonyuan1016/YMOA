@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,9 +13,15 @@ using YMOA.Model;
 
 namespace YMOA.WorkWeb.Controllers
 {
+    /// <summary>
+    /// 创建人：朱茂琛
+    /// 创建时间：2019/05/30
+    /// 项目控制器
+    /// </summary>
     public class ItemController : BaseController
     {
         // GET: Item
+        #region  获取项目基本信息
         public ActionResult Index()
         {
             return View();
@@ -51,6 +58,8 @@ namespace YMOA.WorkWeb.Controllers
             };
             return Content(data.ToJson());
         }
+        #endregion
+        #region 项目的新增和修改
         public ActionResult ProjectEdit(string ID = "")
         {
             var projectInfo = new ProjectEntity();
@@ -65,7 +74,6 @@ namespace YMOA.WorkWeb.Controllers
             }
             return View(projectInfo);
         }
-
         public ActionResult Add(ProjectEntity project)
         {
             return SubmitForm(project);
@@ -125,12 +133,32 @@ namespace YMOA.WorkWeb.Controllers
             int rows = DALCore.GetInstance().ProjectCore.Save(pars);
             return OperationReturn(rows == 0);
         }
-
+        #endregion
+        #region 团队的查看和批量添加
+        public ActionResult Team()
+        {
+            return View();
+        }
+        public ActionResult GetTeam(string Id = "")
+        {
+            Dictionary<string, object> paras = new Dictionary<string, object>();
+            paras.Add("ProjectId", Id);
+            paras.Add("TaskId", "0");
+            var team = DALUtility.TeamCore.QryTeam<TeamEntity>(paras);
+            return Content(JsonConvert.SerializeObject(team));
+        }
+        public ActionResult AddTeam(List<TeamEntity> teams)
+        {
+            return OperationReturn(DALUtility.TeamCore.Save(teams) > 0);
+        }
+        #endregion
+        #region 删除项目、任务及团队
         public ActionResult Delete()
         {
             Dictionary<string, object> param = new Dictionary<string, object>();
             param["ID"] = Request["ID"];
             return OperationReturn(DALUtility.ProjectCore.DeleteProject(param));
         }
+        #endregion
     }
 }

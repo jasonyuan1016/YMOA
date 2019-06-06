@@ -8,6 +8,11 @@ using YMOA.Comm;
 
 namespace YMOA.IDAL
 {
+    /// <summary>
+    /// 创建人：朱茂琛
+    /// 创建时间：2019/05/29
+    /// 项目接口
+    /// </summary>
     public interface IProjectDAL
     {
         IEnumerable<T> QryProjects<T>(DynamicParameters dp, Pagination pagination);
