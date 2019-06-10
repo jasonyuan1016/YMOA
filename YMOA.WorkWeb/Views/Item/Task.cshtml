@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        @*@if ((bool)ViewData["Add"])
+        {*@
+        <div class="btn-group">
+            <a id="NF-add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_batchAdd()"><i class="fa fa-plus"></i>批量添加</a>
+        </div>
+
+        <div class="btn-group">
+            <a id="NF-add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+        </div>
+        <div class="btn-group">
+            <a id="NF-add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_back()">返回上一层</a>
+        </div>
+        @*}*@
+    </div>
+    <div class="search" id="taskSelect">
+        <table>
+            <tr>
+                <td>
+                    <span id="projectName" style="font-size:large"></span>
+                </td>
+                <td style="padding-left:2em;">
+                    <button type="button" class="btn  btn-primary" data-val="0">所有任务</button>
+                    <button type="button" class="btn" data-val="1">由我创建</button>
+                    <button type="button" class="btn" data-val="2">由我完成</button>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>
