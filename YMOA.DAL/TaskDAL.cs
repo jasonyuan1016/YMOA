@@ -110,6 +110,7 @@ namespace YMOA.DAL
                 t.CreateTime = DateTime.Now;
                 if (t.listTeam != null)
                 {
+                    t.Estimate = Math.Round(t.Estimate, 1);
                     foreach (TeamEntity e in t.listTeam)
                     {
                         e.ProjectId = t.ProjectId;

@@ -69,26 +69,6 @@ namespace YMOA.WorkWeb.Controllers
         /// <returns></returns>
         public ActionResult GetGridJson(Pagination pagination)
         {
-            //DynamicParameters pars = new DynamicParameters();
-            //pars.Add("qryTag", Request["qryTag"] == "" ? 0 : Convert.ToInt32(Request["qryTag"]));
-            //pars.Add("userName", UserId);
-            //pars.Add("page", pagination.page);
-            //pars.Add("rows", pagination.rows);
-            //pars.Add("sidx", pagination.sidx);
-            //pars.Add("sord", pagination.sord);
-            //string projectId = Request["ProjectId"] == null ? "" : Request["ProjectId"].ToString();
-            //pars.Add("ProjectId", projectId);
-            //List<TaskEntity> tasks = DALUtility.TaskCore.QryTaskList<TaskEntity>(pars, pagination).ToList();
-            //tasks = DALCore.GetInstance().TaskCore.GetTeams(tasks);
-            //tasks = SetPermissions(tasks);
-            //var data = new
-            //{
-            //    rows = tasks,
-            //    total = pagination.total,
-            //    page = pagination.page,
-            //    records = pagination.records
-            //};
-            //return Content(data.ToJson());
             Dictionary<string, object> pars = new Dictionary<string, object>();
             pars.Add("qryTag", Request["qryTag"] == "" ? 0 : Convert.ToInt32(Request["qryTag"]));
             if (Request["ProjectId"] != null && Request["ProjectId"] != "")
@@ -156,7 +136,7 @@ namespace YMOA.WorkWeb.Controllers
                 paras["EndTime"] = task.EndTime;
                 paras["Describe"] = task.Describe;
                 paras["Remarks"] = task.Remarks;
-                paras["Estimate"] = task.Estimate;
+                paras["Estimate"] = Math.Round(task.Estimate, 1);
                 paras["Consume"] = task.Consume;
                 paras["Sort"] = task.Sort;
                 paras["State"] = task.State;
@@ -235,7 +215,7 @@ namespace YMOA.WorkWeb.Controllers
                 paras["EndTime"] = task.EndTime;
                 paras["Describe"] = task.Describe;
                 paras["Remarks"] = task.Remarks;
-                paras["Estimate"] = task.Estimate;
+                paras["Estimate"] = Math.Round(task.Estimate, 1);
                 paras["Consume"] = task.Consume;
                 paras["Sort"] = task.Sort;
                 paras["State"] = task.State;
