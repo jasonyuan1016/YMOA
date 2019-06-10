@@ -83,6 +83,7 @@
     <Compile Include="Security\Md5.cs" />
     <Compile Include="Serialize.cs" />
     <Compile Include="SqlInjection.cs" />
+    <Compile Include="ToDatatable.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="Validate\Validate.cs" />
     <Compile Include="ValidatorCodeTools.cs" />

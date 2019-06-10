@@ -103,52 +103,26 @@ namespace YMOA.DAL
         /// <returns></returns>
         public int BatchInsert(List<TaskEntity> listTask, string user)
         {
-            var dtTask = new DataTable();
-            dtTask.Columns.Add("ID", typeof(string));
-            dtTask.Columns.Add("Name", typeof(string));
-            dtTask.Columns.Add("ProjectId", typeof(string));
-            dtTask.Columns.Add("ParentId", typeof(string));
-            dtTask.Columns.Add("EndTime", typeof(DateTime));
-            dtTask.Columns.Add("Describe", typeof(string));
-            dtTask.Columns.Add("Remarks", typeof(string));
-            dtTask.Columns.Add("Estimate", typeof(Decimal));
-            dtTask.Columns.Add("Consume", typeof(Decimal));
-            dtTask.Columns.Add("Sort", typeof(int));
-            dtTask.Columns.Add("State", typeof(int));
-            dtTask.Columns.Add("Send", typeof(string));
-            dtTask.Columns.Add("CreateBy", typeof(string));
-            dtTask.Columns.Add("CreateTime", typeof(DateTime));
-            var dtTeam = new DataTable();
-            dtTeam.Columns.Add("ProjectId", typeof(string));
-            dtTeam.Columns.Add("TaskId", typeof(string));
-            dtTeam.Columns.Add("Person", typeof(string));
-            foreach (var item in listTask)
+            List<TeamEntity> teams = new List<TeamEntity>();
+            foreach (TaskEntity t in listTask)
             {
-                var row = dtTask.NewRow();
-                row[0] = item.ID;
-                row[1] = item.Name;
-                row[2] = item.ProjectId;
-                row[3] = item.ParentId;
-                row[4] = item.EndTime;
-                row[5] = item.Describe;
-                row[6] = item.Remarks;
-                row[7] = item.Estimate;
-                row[8] = item.Consume;
-                row[9] = item.Sort;
-                row[10] = item.State;
-                row[11] = item.Send;
-                row[12] = user;
-                row[13] = DateTime.Now;
-                foreach (var team in item.listTeam)
+                t.CreateBy = user;
+                t.CreateTime = DateTime.Now;
+                if (t.listTeam != null)
                 {
-                    var rowTeam = dtTeam.NewRow();
-                    rowTeam[0] = item.ProjectId;
-                    rowTeam[1] = item.ID;
-                    rowTeam[2] = team.Person;
-                    dtTeam.Rows.Add(rowTeam);
+                    foreach (TeamEntity e in t.listTeam)
+                    {
+                        e.ProjectId = t.ProjectId;
+                        e.TaskId = t.ID;
+                        teams.Add(e);
+                    }
                 }
-                dtTask.Rows.Add(row);
             }
+            string[] arrTask = new string[] { "ID","Name", "ProjectId", "ParentId", "EndTime",
+                "Describe", "Remarks", "Estimate", "Consume", "Sort", "State", "Send","CreateBy", "CreateTime"};
+            string[] arrTeam = new string[] { "ProjectId","TaskId", "Person"};
+            DataTable dtTask = ToDatatable.ListToDataTable(listTask, arrTask);
+            DataTable dtTeam = ToDatatable.ListToDataTable(teams);
             int result = Execute("P_Task_BatchInsert", new { task = dtTask, team = dtTeam }, CommandType.StoredProcedure);
             return result;
         }
@@ -192,7 +166,29 @@ namespace YMOA.DAL
                 return objRet;
             }
         }
-        
+
+        public IEnumerable<T> QryTask<T>(Pagination pagination, Dictionary<string, object> paras)
+        {
+            WhereBuilder builder = new WhereBuilder();
+            builder.FromSql = "tbTask";
+            builder.AddWhere(" ProjectId IN (" +
+                " SELECT ID FROM tbProduct WHERE DutyPerson = @userName or CreateBy = @userName" +
+                " UNION" +
+                " SELECT ProjectId FROM tbTeam WHERE Person = @userName" +
+                ")");
+            builder.AddParameter("userName", paras["userName"]);
+            builder.AddWhereAndParameter(paras, "ProjectId");
+            if (int.Parse(paras["qryTag"].ToString()) == 1)
+            {
+                builder.AddWhere(" CreateBy = @userName");
+            }
+            if (int.Parse(paras["qryTag"].ToString()) == 2)
+            {
+                builder.AddWhere(" FinishBy = @userName");
+            }
+            return SortAndPage<T>(builder, pagination);
+        }
+
         /// <summary>
         ///  根据编号查询任务
         /// </summary>
@@ -331,32 +327,17 @@ namespace YMOA.DAL
             {
                 accessories = new List<AccessoryEntity>();
             }
-            var dtTeam = new DataTable();
-            dtTeam.Columns.Add("ProjectId", typeof(string));
-            dtTeam.Columns.Add("TaskId", typeof(string));
-            dtTeam.Columns.Add("Person", typeof(string));
             foreach (var item in teams)
             {
-                var row = dtTeam.NewRow();
-                row[0] = projectId;
-                row[1] = taskId;
-                row[2] = item.Person;
-                dtTeam.Rows.Add(row);
+                item.ProjectId = projectId;
+                item.TaskId = taskId;
             }
-            var dtAccessory = new DataTable();
-            dtAccessory.Columns.Add("ID", typeof(string));
-            dtAccessory.Columns.Add("Name", typeof(string));
-            dtAccessory.Columns.Add("TaskId", typeof(string));
-            dtAccessory.Columns.Add("AccessoryUrl", typeof(string));
             foreach (var item in accessories)
             {
-                var row = dtAccessory.NewRow();
-                row[0] = item.ID;
-                row[1] = item.Name;
-                row[2] = taskId;
-                row[3] = item.AccessoryUrl;
-                dtAccessory.Rows.Add(row);
+                item.TaskId = taskId;
             }
+            DataTable dtTeam = ToDatatable.ListToDataTable(teams);
+            DataTable dtAccessory = ToDatatable.ListToDataTable(accessories);
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["ProjectId"] = projectId;
             paras["TaskId"] = taskId;

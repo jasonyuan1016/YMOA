@@ -69,16 +69,34 @@ namespace YMOA.WorkWeb.Controllers
         /// <returns></returns>
         public ActionResult GetGridJson(Pagination pagination)
         {
-            DynamicParameters pars = new DynamicParameters();
+            //DynamicParameters pars = new DynamicParameters();
+            //pars.Add("qryTag", Request["qryTag"] == "" ? 0 : Convert.ToInt32(Request["qryTag"]));
+            //pars.Add("userName", UserId);
+            //pars.Add("page", pagination.page);
+            //pars.Add("rows", pagination.rows);
+            //pars.Add("sidx", pagination.sidx);
+            //pars.Add("sord", pagination.sord);
+            //string projectId = Request["ProjectId"] == null ? "" : Request["ProjectId"].ToString();
+            //pars.Add("ProjectId", projectId);
+            //List<TaskEntity> tasks = DALUtility.TaskCore.QryTaskList<TaskEntity>(pars, pagination).ToList();
+            //tasks = DALCore.GetInstance().TaskCore.GetTeams(tasks);
+            //tasks = SetPermissions(tasks);
+            //var data = new
+            //{
+            //    rows = tasks,
+            //    total = pagination.total,
+            //    page = pagination.page,
+            //    records = pagination.records
+            //};
+            //return Content(data.ToJson());
+            Dictionary<string, object> pars = new Dictionary<string, object>();
             pars.Add("qryTag", Request["qryTag"] == "" ? 0 : Convert.ToInt32(Request["qryTag"]));
+            if (Request["ProjectId"] != null && Request["ProjectId"] != "")
+            {
+                pars.Add("ProjectId", Request["ProjectId"]);
+            }
             pars.Add("userName", UserId);
-            pars.Add("page", pagination.page);
-            pars.Add("rows", pagination.rows);
-            pars.Add("sidx", pagination.sidx);
-            pars.Add("sord", pagination.sord);
-            string projectId = Request["ProjectId"] == null ? "" : Request["ProjectId"].ToString();
-            pars.Add("ProjectId", projectId);
-            List<TaskEntity> tasks = DALUtility.TaskCore.QryTaskList<TaskEntity>(pars, pagination).ToList();
+            List<TaskEntity> tasks = DALUtility.TaskCore.QryTask<TaskEntity>(pagination, pars).ToList();
             tasks = DALCore.GetInstance().TaskCore.GetTeams(tasks);
             tasks = SetPermissions(tasks);
             var data = new
@@ -338,6 +356,11 @@ namespace YMOA.WorkWeb.Controllers
                             // 跳到下一个循环
                             continue;
                         }
+                        if (accessories[i].Name == "" || accessories[i].Name == null)
+                        {
+                            accessories[i].Name = fileName.Substring(0, fileName.LastIndexOf("."));
+                        }
+                        fileName = accessories[i].ID + "." + strExtension;
                     }
                     string folder = "~/file";
                     // 判断文件夹是否存在
@@ -350,15 +373,11 @@ namespace YMOA.WorkWeb.Controllers
                     // 文件是否存在
                     if (System.IO.File.Exists(path))
                     {
-                        failure.Add(fileName);
+                        failure.Add(accessories[i].Name);
                         // 跳到下一个循环
                         continue;
                     }
                     accessories[i].AccessoryUrl = fileName;
-                    if (accessories[i].Name == "" || accessories[i].Name == null)
-                    {
-                        accessories[i].Name = fileName;
-                    }
                     list.Add(accessories[i]);
                     // 新建文件,写入用
                     FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
