@@ -338,6 +338,11 @@ namespace YMOA.WorkWeb.Controllers
                             // 跳到下一个循环
                             continue;
                         }
+                        if (accessories[i].Name == "" || accessories[i].Name == null)
+                        {
+                            accessories[i].Name = fileName.Substring(0, fileName.LastIndexOf("."));
+                        }
+                        fileName = accessories[i].ID + "." + strExtension;
                     }
                     string folder = "~/file";
                     // 判断文件夹是否存在
@@ -350,15 +355,11 @@ namespace YMOA.WorkWeb.Controllers
                     // 文件是否存在
                     if (System.IO.File.Exists(path))
                     {
-                        failure.Add(fileName);
+                        failure.Add(accessories[i].Name);
                         // 跳到下一个循环
                         continue;
                     }
                     accessories[i].AccessoryUrl = fileName;
-                    if (accessories[i].Name == "" || accessories[i].Name == null)
-                    {
-                        accessories[i].Name = fileName;
-                    }
                     list.Add(accessories[i]);
                     // 新建文件,写入用
                     FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
