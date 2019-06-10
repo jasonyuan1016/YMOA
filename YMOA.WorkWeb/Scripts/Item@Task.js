@@ -7,7 +7,7 @@ $(function () {
 
     })
     console.log(ProjectName);
-    $("#projectName").html(decodeURI(ProjectName));
+    $("#projectName").val(decodeURI(ProjectName));
     gridList();
     ClickUpdate();
     ClickDelete();
@@ -57,7 +57,7 @@ function TaskState(id, state) {
 function gridList() {
     var $gridList = $("#gridList");
     $gridList.dataGrid({
-        url: "/Task/GetGridJson?ProjectId=" + ProjectId +"&qryTag="+3,
+        url: "/Task/GetGridJson?ProjectId=" + ProjectId,
         height: $(window).height() - 128,
         colModel: [
             { label: 'ID', name: 'ID', hidden: true },
@@ -104,7 +104,7 @@ function gridList() {
             },
             { label: PageResx.col_CreateTime, name: 'CreateTime', width: 140, align: 'center' },
             {
-                label: PageResx.col_oper, name: 'ID', width: 200, align: 'center',
+                label: PageResx.col_oper, name: 'ID', width: 300, align: 'center',
                 formatter: function (cellvalue, options, rowObject) {
                     var str = "";
                     if (rowObject.update == 1) {
@@ -127,7 +127,6 @@ function gridList() {
     });
     $("#taskSelect").on("click", ".btn", function () {
         var qryTag = $(this).data("val");
-        alert("ok");
         $("#taskSelect .btn-primary").removeClass("btn-primary");
         $(this).addClass("btn-primary");
         $gridList.jqGrid('setGridParam', {
