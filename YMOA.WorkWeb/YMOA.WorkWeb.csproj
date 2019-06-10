@@ -565,6 +565,7 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Item%40Index.js" />
     <Content Include="Scripts\Item%40ProjectEdit.js" />
+    <Content Include="Scripts\Item%40Task.js" />
     <Content Include="Scripts\Item%40Team.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -589,6 +590,7 @@
     <Content Include="Scripts\resx\en-us\User%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\global.js" />
     <Content Include="Scripts\resx\zh-cn\Group%40Index.js" />
+    <Content Include="Scripts\resx\zh-cn\Item%40Task.js" />
     <Content Include="Scripts\resx\zh-cn\Library%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Login%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Memu%40Index.js" />
@@ -639,6 +641,7 @@
     <Content Include="Views\Item\ProjectEdit.cshtml" />
     <Content Include="Views\Item\Team.cshtml" />
     <Content Include="Views\Task\BatchChildToAdd.cshtml" />
+    <Content Include="Views\Item\Task.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -160,5 +160,9 @@ namespace YMOA.WorkWeb.Controllers
             return OperationReturn(DALUtility.ProjectCore.DeleteProject(param));
         }
         #endregion
+        public ActionResult Task()
+        {
+            return View();
+        }
     }
 }
