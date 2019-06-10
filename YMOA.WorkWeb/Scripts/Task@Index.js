@@ -1,4 +1,7 @@
 ﻿$(function () {
+    $.get("", function () {
+
+    })
     gridList();
     ClickUpdate();
     ClickDelete();
@@ -7,7 +10,6 @@
 })
 
 function TaskState(id, state) {
-    console.log(state);
     var str = [];
     var update = '<a href="javascript:;" class="update" data-id="' + id + '" >修改</a>';
     var del = '<a href="javascript:;" class="delete" data-id="' + id + '" >删除</a>';
@@ -53,6 +55,7 @@ function gridList() {
         height: $(window).height() - 128,
         colModel: [
             { label: 'ID', name: 'ID', hidden: true },
+            { label: PageResx.col_Name, name: 'Name', width: 120, align: 'left' },
             {
                 label: PageResx.col_Sort, name: 'Sort', width: 40, align: 'center',
                 formatter: function (cellvalue, options, rowObject) {
@@ -64,7 +67,6 @@ function gridList() {
                     return "";
                 }
             },
-            { label: PageResx.col_Name, name: 'Name', width: 120, align: 'center' },
             { label: PageResx.col_EndTime, name: 'EndTime', width: 140, align: 'center' },
             { label: PageResx.col_Estimate, name: 'Estimate', width: 80, align: 'center' },
             { label: PageResx.col_Consume, name: 'Consume', width: 80, align: 'center' },
@@ -96,14 +98,10 @@ function gridList() {
                 label: PageResx.col_oper, name: 'ID', width: 200, align: 'center',
                 formatter: function (cellvalue, options, rowObject) {
                     var str = "";
-                    var tasks = top.clients.tasks;
-                    var boo = tasks.some(function (item) {
-                        return item.ID == cellvalue;
-                    })
-                    if (boo) {
+                    if (rowObject.update==1) {
                         str = TaskState(cellvalue, rowObject.State);
                         if (rowObject.ParentId == "0") {
-                            str += "&nbsp;&nbsp;" + '<a href="javascript:;" class="childToAdd" data-id="' + cellvalue + '" >子添加</a>';
+                            str += "&nbsp;&nbsp;" + '<a href="javascript:;" class="childToAdd" data-pid="' + rowObject.ProjectId + '" data-id="' + cellvalue+'" >子添加</a>';
                         }
                     }
                     return str;
@@ -205,13 +203,14 @@ function ClickState() {
 
 function ClickChildToAdd() {
     $("#gridList").on("click", ".childToAdd", function () {
-        var ID = $(this).data("id");
+        var pid = $(this).data("pid");
+        var id = $(this).data("id");
         $.modalOpen({
             id: "Edit",
             title: GlobalResx.add,
-            url: "/Task/BatchAdd?pId="+ID,
-            width: "1200px",
-            height: "510px",
+            url: "/Task/BatchChildToAdd?pid=" + pid+"&id="+id,
+            width: "1100px",
+            height: "450px",
             callBack: function (iframeId) {
                 top.frames[iframeId].submitForm();
             }

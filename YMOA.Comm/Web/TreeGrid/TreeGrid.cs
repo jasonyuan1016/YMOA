@@ -19,6 +19,20 @@ namespace YMOA.Comm
             sb.Append("]}");
             return sb.ToString();
         }
+        
+        public static string TreeGridPagingJson(List<TreeGridModel> data, int total, int page, int records)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{ \"rows\": [");
+            sb.Append(TreeGridJson(data, -1, "0"));
+            sb.Append("]");
+            sb.Append(",\"total\":"+ total);
+            sb.Append(",\"page\":" + page);
+            sb.Append(",\"records\":" + records);
+            sb.Append("}");
+            return sb.ToString();
+        }
+
         private static string TreeGridJson(List<TreeGridModel> data, int index, string parentId)
         {
             StringBuilder sb = new StringBuilder();
