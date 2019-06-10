@@ -19,12 +19,6 @@ function gridList() {
             {
                 label: '结束日期', name: 'EndTime', width: 140, align: 'left',
                 formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
-            },
-            {
-                label: '项目入口', width: 140, align: 'left',
-                formatter: function () {
-                    return '<span class=\"label label-success\"><a href=\"\\Task\\Index\">进入</a></span>';
-                }
             }
         ],
         pager: "#gridPager",
@@ -55,6 +49,10 @@ function gridList() {
         $gridList.jqGrid('setGridParam', {
             postData: { Person: 1 },
         }).trigger('reloadGrid');
+    });
+    $gridList.dblclick(function () {
+        var keyValue = $("#gridList").jqGridRowValue().ID;
+        location.href = "/Task/Index?ID=" + keyValue;
     })
 }
 function btn_add() {
