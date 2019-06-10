@@ -92,7 +92,9 @@ namespace YMOA.IDAL
         /// <param name="paras"></param>
         /// <returns></returns>
         IEnumerable<T> QryUpdateTask<T>(Dictionary<string, object> paras);
-        
+
+        IEnumerable<T> QryTask<T>(Pagination pagination, Dictionary<string, object> paras);
+
         /// <summary>
         ///  根据用户查询任务
         /// </summary>
