@@ -178,51 +178,21 @@ namespace YMOA.DAL
         /// <summary>
         ///  根据用户查询任务
         /// </summary>
-        public void TaskList<T1>(Dictionary<string, object> paras, ref List<T1> taskList)
-        {
-            using (var connection = GetConnection())
-            {
-                using (var multi = connection.QueryMultiple("P_Task_Select", paras, null, null, CommandType.StoredProcedure))
-                {
-                    taskList = multi.Read<T1>().ToList();
-                }
-            }
-        }
-
-        /// <summary>
-        ///  根据用户查询任务
-        /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="paras"></param>
-        /// <param name="sidx"></param>
-        /// <param name="sord"></param>
-        /// <param name="iCount"></param>
+        /// <param name="dp"></param>
+        /// <param name="pagination"></param>
         /// <returns></returns>
-        public IEnumerable<T> UserTaskList<T>(Dictionary<string, object> paras, string sidx, string sord, out int iCount)
+        public IEnumerable<T> QryTaskList<T>(DynamicParameters dp, Pagination pagination)
         {
-            string sql = "SELECT ID,Name,ProjectId,ParentId,EndTime,Estimate,Consume,Sort,State,CreateTime FROM tbTask";
-            string where = " WHERE";
-            where += " (@qryTag = 0 AND ";
-            where += " ProjectId IN (";
-            where += " SELECT ID FROM tbProduct WHERE DutyPerson = @userName or CreateBy = @userName";
-            where += " UNION";
-            where += " SELECT ProjectId FROM tbTeam WHERE Person = @userName))";
-            where += " OR";
-            where += " (@qryTag = 1 AND tbTask.CreateBy = @userName)";
-            where += " OR";
-            where += " (@qryTag = 2 AND tbTask.FinishBy = @userName)";
-            using (IDbConnection connection = GetConnection())
+            using (IDbConnection conn = GetConnection())
             {
-                sql += where;
-                sql += " ORDER BY " + sidx + " " + sord;
-                sql += " OFFSET @rows*(@page-1) ROWS FETCH NEXT @rows ROWS ONLY";
-                var retObj = connection.Query<T>(sql, paras);
-                string iCountSql = "SELECT COUNT(0) FROM tbTask" + where;
-                iCount = connection.QuerySingleOrDefault<int>(iCountSql, paras);
-                return retObj;
+                dp.Add("Count", null, DbType.Int32, ParameterDirection.Output);
+                var objRet = conn.Query<T>("P_Task_GetTask", dp, null, true, null, CommandType.StoredProcedure);
+                pagination.records = dp.Get<int>("Count");
+                return objRet;
             }
         }
-
+        
         /// <summary>
         ///  根据编号查询任务
         /// </summary>

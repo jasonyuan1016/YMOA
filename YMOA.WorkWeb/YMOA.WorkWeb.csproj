@@ -595,6 +595,7 @@
     <Content Include="Scripts\resx\zh-cn\Task%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\User%40Index.js" />
     <Content Include="Scripts\Task%40BatchAdd.js" />
+    <Content Include="Scripts\Task%40BatchChildToAdd.js" />
     <Content Include="Scripts\Task%40Edit.js" />
     <Content Include="Scripts\Task%40Index.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
@@ -637,6 +638,7 @@
     <Content Include="Views\Item\Index.cshtml" />
     <Content Include="Views\Item\ProjectEdit.cshtml" />
     <Content Include="Views\Item\Team.cshtml" />
+    <Content Include="Views\Task\BatchChildToAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

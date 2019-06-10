@@ -54,9 +54,7 @@ namespace YMOA.WorkWeb.Controllers
             menuItem["noState"] = 0;
             data.menus = DALCore.GetInstance().SystemCore.MenuGetList<MenuEntity>(menuItem).ToList();
             menuItem = new Dictionary<string, object>();
-            menuItem["userName"] = RealName;
-            // 获取用户可修改任务
-            data.tasks = DALCore.GetInstance().TaskCore.QryUpdateTask<TaskEntity>(menuItem).ToList();
+            menuItem["userName"] = UserId;
             return Content(data.ToJson());
         }
     }

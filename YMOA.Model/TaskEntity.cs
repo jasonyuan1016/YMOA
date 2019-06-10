@@ -125,6 +125,8 @@ namespace YMOA.Model
         ///  附件
         /// </summary>
         public List<AccessoryEntity> listAccessory { get; set; }
+
+        public int update { get; set; } = 0;
     }
     
 }

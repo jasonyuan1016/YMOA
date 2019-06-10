@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YMOA.Comm;
 using YMOA.Model;
 
 namespace YMOA.IDAL
@@ -90,22 +92,15 @@ namespace YMOA.IDAL
         /// <param name="paras"></param>
         /// <returns></returns>
         IEnumerable<T> QryUpdateTask<T>(Dictionary<string, object> paras);
-
-        /// <summary>
-        ///  根据用户查询任务
-        /// </summary>
-        void TaskList<T1>(Dictionary<string, object> paras, ref List<T1> taskList);
-
+        
         /// <summary>
         ///  根据用户查询任务
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="paras"></param>
-        /// <param name="sidx"></param>
-        /// <param name="sord"></param>
-        /// <param name="iCount"></param>
+        /// <param name="dp"></param>
+        /// <param name="pagination"></param>
         /// <returns></returns>
-        IEnumerable<T> UserTaskList<T>(Dictionary<string, object> paras, string sidx, string sord, out int iCount);
+        IEnumerable<T> QryTaskList<T>(DynamicParameters dp, Pagination pagination);
 
         /// <summary>
         ///  根据编号查询任务
