@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -329,8 +330,10 @@ namespace YMOA.WorkWeb.Controllers
                     int nlndex = fileName.LastIndexOf(".");
                     if (nlndex >= 0)
                     {
-                        string strExtension = fileName.Substring(nlndex + 1);
-                        if (!(strExtension == "xlsx" || strExtension == "docx"))
+                        string strExtension = fileName.Substring(nlndex);
+                        // 判断文件后缀
+                        string fileSuffix = ConfigurationManager.AppSettings["FileSuffix"].ToString();
+                        if (fileSuffix.IndexOf(strExtension + ".", StringComparison.OrdinalIgnoreCase) < 0)
                         {
                             failure.Add(fileName);
                             // 跳到下一个循环
@@ -340,7 +343,7 @@ namespace YMOA.WorkWeb.Controllers
                         {
                             accessories[i].Name = fileName.Substring(0, fileName.LastIndexOf("."));
                         }
-                        fileName = accessories[i].ID + "." + strExtension;
+                        fileName = accessories[i].ID + strExtension;
                     }
                     string folder = "~/file";
                     // 判断文件夹是否存在
