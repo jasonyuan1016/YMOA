@@ -562,6 +562,7 @@
     <Content Include="Content\bootstrap-select\js\i18n\defaults-vi_VN.js.map" />
     <Content Include="Content\bootstrap-select\js\i18n\defaults-zh_CN.js.map" />
     <Content Include="Content\bootstrap-select\js\i18n\defaults-zh_TW.js.map" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Item%40Index.js" />
     <Content Include="Scripts\Item%40ProjectEdit.js" />

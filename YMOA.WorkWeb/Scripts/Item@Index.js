@@ -1,5 +1,9 @@
 ﻿$(function () {
     gridList();
+    btn_edit();
+    btn_delete();
+    btn_team();
+    btn_task();
 })
 function gridList() {
     var $gridList = $("#gridList");
@@ -19,6 +23,16 @@ function gridList() {
             {
                 label: '结束日期', name: 'EndTime', width: 140, align: 'left',
                 formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+            },
+            {
+                label: '操作', name: 'ID', width: 200, align: 'center',
+                formatter: function (cellvalue, options, rowObject) {
+                    var update = '<a id="update" authorize="yes" data-id="' + cellvalue + '"><i class="fa fa-pencil-square-o"></i>编辑</a>';
+                    update += "&nbsp;&nbsp;" + '<a id="delete" authorize="yes" data-id="' + cellvalue + '"><i class="fa fa-trash-o"></i>删除</a>';
+                    update += "&nbsp;&nbsp;" + '<a id="team" authorize="yes" data-id="' + cellvalue + '"><i class="fa fa-product-hunt"></i>团队</a>';
+                    update += "&nbsp;&nbsp;" + '<a id="task" authorize="yes" class="btn btn-primary dropdown-text" data-id="' + cellvalue + '" data-pid="' + rowObject.Name + '">进入</a>'
+                    return update;
+                }
             }
         ],
         pager: "#gridPager",
@@ -69,38 +83,52 @@ function btn_add() {
     });
 }
 function btn_edit() {
-    var keyValue = $("#gridList").jqGridRowValue().ID;
-    $.modalOpen({
-        id: "ProjectEdit",
-        title: GlobalResx.edit,
-        url: "/Item/ProjectEdit?ID=" + keyValue,
-        width: "700px",
-        height: "510px",
-        callBack: function (iframeId) {
-            top.frames[iframeId].submitForm();
-        }
-    });
+    $("#gridList").on("click", "#update", function () {
+        var ID = $(this).data("id");
+        $.modalOpen({
+            id: "ProjectEdit",
+            title: GlobalResx.edit,
+            url: "/Item/ProjectEdit?ID=" + ID,
+            width: "700px",
+            height: "510px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    })
 }
 function btn_delete() {
-    $.deleteForm({
-        url: "Delete",
-        param: { ID: $("#gridList").jqGridRowValue().ID },
-        success: function () {
-            $.currentWindow().$("#gridList").trigger("reloadGrid");
-        }
-    })
+    $("#gridList").on("click", "#delete", function () {
+        var ID = $(this).data("id");
+        $.deleteForm({
+            url: "Delete",
+            param: { ID },
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        });
+    });
 }
 
 function btn_team() {
-    var keyValue = $("#gridList").jqGridRowValue().ID;
-    $.modalOpen({
-        id: "Team",
-        title: "团队",
-        url: "/Item/Team?ID=" + keyValue,
-        width: "700px",
-        height: "510px",
-        callBack: function (iframeId) {
-            top.frames[iframeId].submitForm();
-        }
+    $("#gridList").on("click", "#team", function () {
+        var ID = $(this).data("id");
+        $.modalOpen({
+            id: "Team",
+            title: "团队",
+            url: "/Item/Team?ID=" + ID,
+            width: "700px",
+            height: "510px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
     });
+}
+function btn_task() {
+    $("#gridList").on("click", "#task", function () {
+        var ID = $(this).data("id");
+        var Name = $(this).data("pid");
+        location.href = "/Item/Task?ID=" + ID + "&Name=" + Name;
+    })
 }

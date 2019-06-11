@@ -3,10 +3,12 @@
     ViewBag.Title = "Form";
     Layout = "~/Views/Shared/_Form.cshtml";
 }
+
+@Styles.Render("~/Content/bootstrap-select/css/bootstrap-select.min.css", "~/Content/css/from.css")
+
 <form id="ProjectEdit">
     <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#">基本信息</a></li>
             <input id="hidID" type="hidden" value="@Model.ID" />
             @*<li ><a href="#">扩展信息</a></li>*@
         </ul>
@@ -14,27 +16,25 @@
             <table class="form">
                 <tr>
                     <th class="formTitle">项目名称</th>
-                    <td class="formValue">
+                    <td class="formValue" colspan="3">
                         <input id="txtName" name="txtName" type="text" class="form-control required" placeholder="请输入项目名称" value="@Model.Name" />
                     </td>
                 </tr>
                 <tr>
                     <th class="formTitle">负责人</th>
-                    <td class="formValue">
+                    <td class="formValue" colspan="3">
                         <select id="sltDutyPerson" name="sltDutyPerson" class="form-control required" value="@Model.DutyPerson"></select>
                     </td>
                 </tr>
-                <tr> 
+                <tr>
                     <th class="formTitle" id="formTitle">团队</th>
-                    <td class="formValue" id="Team"></td>
+                    <td class="formValue" id="Team" colspan="3"></td>
                 </tr>
                 <tr>
                     <th class="formTitle">开始日期</th>
                     <td class="formValue">
                         <input id="txtStartTime" type="text" class="form-control input-wdatepicker" autocomplete="off" onfocus="WdatePicker()" value="@Model.StartTime" />
                     </td>
-                </tr>
-                <tr>
                     <th class="formTitle">结束日期</th>
                     <td class="formValue">
                         <input id="txtEndTime" type="text" class="form-control input-wdatepicker" autocomplete="off" onfocus="WdatePicker()" value="@Model.EndTime" />
@@ -44,18 +44,18 @@
                     <th class="formTitle" valign="top" style="padding-top: 5px;">
                         项目描述
                     </th>
-                    <td class="formValue">
+                    <td class="formValue" colspan="3">
                         <textarea id="texDescribe" name="texDescribe" class="form-control" style="height: 60px;">@Model.Describe</textarea>
                     </td>
                 </tr>
                 <tr>
                     <th class="formTitle">参观者</th>
-                    <td class="formValue" style="padding-top: 1px;" id="victors" data-val="@Model.Victors"></td>
+                    <td class="formValue" style="padding-top: 1px;" id="victors" data-val="@Model.Victors" colspan="3"></td>
                 </tr>
             </table>
         </div>
     </div>
 </form>
 @section scripts {
-    @Scripts.Render("~/Content/js/datepicker/WdatePicker.js")
+    @Scripts.Render("~/Content/js/datepicker/WdatePicker.js", "~/Content/bootstrap-select/js/bootstrap-select.min.js", "~/Content/bootstrap-select/js/i18n/defaults-zh_CN.min.js")
 }

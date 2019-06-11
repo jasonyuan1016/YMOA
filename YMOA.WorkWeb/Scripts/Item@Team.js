@@ -7,31 +7,15 @@ $(function () {
 });
 
 // 批量任务模板
-function batchTaskTemplate(i, n) {
+function batchTaskTemplate() {
     var name = top.clients.users;
+    index = 0;
     var template = '<tr>'
-        + '<td class="formValue" style="width: 75%">'
-        + '<select class="form-control input-select sltProject" id="sltProject">';
-    if (i > 0) {
-        $.each(name, function (j) {
-            template += '<option value="' + name[j] + '">' + name[j] + '</option>';
-        });
-    } else {
-        template += '<option value="' + n.Person + '">' + n.Person + '</option>';
-        $.each(name, function (j) {
-            if ($.trim(n.Person) != $.trim(name[j])) {
-                template += '<option value="' + name[j] + '">' + name[j] + '</option>';
-            }
-        });
-    }
-    template += '</select > '
-        + '</td>'
-        + '<td class="formValue">'
-        + '<div class="btn-group" role="group">'
-        + '<button type="button" class="btn btn-default plus"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>'
-        + '<button type="button" class="btn btn-default minus"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>'
-        + '</div>'
-        + '</td>'
+        + '<td class="formValue" style="width: 75%">';
+    for (index in name) {
+        template += "<input id='" + name[index] + "' name='F_AllowTeam' type='checkbox' value='" + name[index] + "'/>" + name[index];
+    };
+    template += '</td>'
         + '</tr >';
     return template;
 }
@@ -44,25 +28,14 @@ function initControl() {
         data: { Id: ID },
         dataType: "json",
         success: function (data) {
-            if (data.length < 0) {
-                var team = batchTaskTemplate(3);
-                $("#batchTbody").append(team);
-            } else {
-                $.each(data, function (i, n) {
-                    var team = batchTaskTemplate(0, n);
-                    $("#batchTbody").append(team);
-                })
-            }
-
-        }
-    });
-    $("#batchTbody").on("click", ".plus", function () {
-        var tem = batchTaskTemplate($("#batchTbody").children().length + 1);
-        $("#batchTbody").append(tem);
-    });
-    $("#batchTbody").on("click", ".minus", function () {
-        if ($("#batchTbody").children().length != 1) {
-            $(this).closest("tr").remove();
+            $("#batchTbody").append(batchTaskTemplate());
+            $.each($("input[name='F_AllowTeam']"), function (i, val) {
+                for (var j = 0; j < data.length; j++) {
+                    if ($.trim($(val).val()) == $.trim(data[j].Person)) {
+                        $(val).attr("checked", true);
+                    }
+                }
+            })
         }
     });
 }
@@ -73,16 +46,17 @@ function getFormVal() {
         this.Person = Person;
     }
     var trs = $("#batchTbody").children("tr");
-    var listPerson = [];
-    $.each(trs, function (i) {
+    var inputs = $(trs).find("input[name='F_AllowTeam']:checked");
+    var listTeam = [];
+    $.each(inputs, function (i) {
         var projectId = ID;
         var taskId = "0";
-        var that = trs[i];
-        var person = $(that).find("#sltProject option:selected").val();
+        var that = inputs[i];
+        var person = $(that).val();
         console.log(person);
-        listPerson.push(new TeamEntity(projectId, taskId, person));
+        listTeam.push(new TeamEntity(projectId, taskId, person));
     });
-    return listPerson;
+    return listTeam;
 }
 function submitForm() {
     if (!$("#batchAdd").formValid()) {

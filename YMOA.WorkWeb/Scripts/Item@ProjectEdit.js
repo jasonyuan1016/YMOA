@@ -18,9 +18,7 @@ $(function () {
                 }
             }
         });
-        console.log($("input[id='" + roles[1] + "']").val());
         $("#formTitle").html("状态");
-        
         var html = "<select id='sltState'>";
         $.each(projectStatus, function (i,n) {
             html += "<option value='" + n.id + "'>" + n.name + "</option>";
