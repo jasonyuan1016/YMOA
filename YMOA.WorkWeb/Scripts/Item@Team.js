@@ -8,15 +8,20 @@ $(function () {
 
 // 批量任务模板
 function batchTaskTemplate() {
+    var template = "";
     var name = top.clients.users;
-    index = 0;
-    var template = '<tr>'
-        + '<td class="formValue" style="width: 75%">';
-    for (index in name) {
-        template += "<input id='" + name[index] + "' name='F_AllowTeam' type='checkbox' value='" + name[index] + "'/>" + name[index];
+    var rows = (name.length % 5 == 0) ? (parseInt(name.length / 5)) : (parseInt(name.length / 5) + 1);
+    for (var i = 0; i < rows; i++) {
+        template += '<tr>';
+        for (var j = 0; j < 5; j++) {
+            if (name[(i * 5) + j] != null) {
+                template += '<td class="formValue">'
+                    + "<input id='" + name[(i * 5) + j] + "' name='F_AllowTeam' type='checkbox' value='" + name[(i * 5) + j] + "'/>" + name[(i * 5) + j]
+                    + '</td>';
+            }
+        }
+        template += '</tr >';
     };
-    template += '</td>'
-        + '</tr >';
     return template;
 }
 
