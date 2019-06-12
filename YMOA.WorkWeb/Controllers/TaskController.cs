@@ -79,15 +79,56 @@ namespace YMOA.WorkWeb.Controllers
             pars.Add("userName", UserId);
             List<TaskEntity> tasks = DALUtility.TaskCore.QryTask<TaskEntity>(pagination, pars).ToList();
             tasks = DALCore.GetInstance().TaskCore.GetTeams(tasks);
-            tasks = SetPermissions(tasks);
+            List<TaskEntityDTO> taskDTOList = SetPermissions(tasks);
+            List<ProjectEntity> projects = DALUtility.TaskCore.GetProject<ProjectEntity>().ToList();
+            Dictionary<string, string> tasksDictionary = projects.ToDictionary(key => key.ID, value => value.Name);
+            foreach (TaskEntityDTO task in taskDTOList)
+            {
+                task.pName = tasksDictionary[task.ProjectId];
+            }
+            taskDTOList = TreeGrid(taskDTOList);
             var data = new
             {
-                rows = tasks,
+                rows = taskDTOList,
                 total = pagination.total,
                 page = pagination.page,
                 records = pagination.records
             };
             return Content(data.ToJson());
+        }
+        
+        /// <summary>
+        ///  任务树列图
+        /// </summary>
+        /// <param name="tasks"></param>
+        /// <returns></returns>
+        private List<TaskEntityDTO> TreeGrid(List<TaskEntityDTO> tasks)
+        {
+            List<TaskEntityDTO> taskList = tasks.FindAll(t => t.ParentId == "0");
+            List<TaskEntityDTO> childNodeList = tasks.FindAll(t => t.ParentId != "0");
+            foreach(TaskEntityDTO task in childNodeList)
+            {
+                int index = taskList.FindIndex(x => x.ID == task.ParentId);
+                if (index >= 0)
+                {
+                    task.subclass = true;
+                    taskList.Insert(index+1, task);
+                }
+                else
+                {
+                    index = taskList.FindLastIndex(x => x.ProjectId == task.ProjectId);
+                    if (index >= 0)
+                    {
+                        taskList.Insert(index+1, task);
+                    }
+                    else
+                    {
+                        taskList.Add(task);
+                    }
+                }
+
+            }
+            return taskList;
         }
 
         /// <summary>
@@ -157,10 +198,14 @@ namespace YMOA.WorkWeb.Controllers
         /// <returns></returns>
         public ActionResult BatchAddTask(List<TaskEntity> tasks)
         {
+            if (tasks == null)
+            {
+                return OperationReturn(true);
+            }
             string user = UserId;
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = user;
-            // 获取用户可添加任务
+            // 获取用户可添加项目
             List<ProjectEntity> projects = DALCore.GetInstance().TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
             // 赛选用户可添加任务
             List<TaskEntity> listTask = tasks.Where(a => projects.Exists(t => a.ProjectId.Contains(t.ID))).ToList();
@@ -180,6 +225,10 @@ namespace YMOA.WorkWeb.Controllers
         /// <returns></returns>
         public ActionResult BatchChildToAddTask(List<TaskEntity> tasks, string pId)
         {
+            if (tasks == null)
+            {
+                return OperationReturn(true);
+            }
             string user = UserId;
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["ProductId"] = pId;
@@ -243,7 +292,15 @@ namespace YMOA.WorkWeb.Controllers
             bool boo = DALCore.GetInstance().TaskCore.TaskUpdateJudge(paras);
             if (boo)
             {
-                return OperationReturn(DALCore.GetInstance().TaskCore.TaskDelete(ID));
+                boo = DALCore.GetInstance().TaskCore.ExistSubtask(ID);
+                if (!boo)
+                {
+                    return OperationReturn(DALCore.GetInstance().TaskCore.TaskDelete(ID));
+                }
+                else
+                {
+                    return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_taskExistSubtask"));
+                }
             }
             return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_taskAdd"));
         }
@@ -286,19 +343,28 @@ namespace YMOA.WorkWeb.Controllers
             return OperationReturn(DALCore.GetInstance().TaskCore.TaskUpdate(paras));
         }
 
-        private List<TaskEntity> SetPermissions(List<TaskEntity> listTask)
+        /// <summary>
+        ///  设定可修改任务
+        /// </summary>
+        /// <param name="listTask"></param>
+        /// <returns></returns>
+        private List<TaskEntityDTO> SetPermissions(List<TaskEntity> listTask)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = UserId;
             List<TaskEntity> tasks = DALCore.GetInstance().TaskCore.QryUpdateTask<TaskEntity>(paras).ToList();
+            List<TaskEntityDTO> taskDTOList = new List<TaskEntityDTO>();
+            TaskEntityDTO dTO = null;
             foreach (TaskEntity task in listTask)
             {
-                if(tasks.Exists( t => t.ID == task.ID))
+                dTO = new TaskEntityDTO(task);
+                if (tasks.Exists( t => t.ID == task.ID))
                 {
-                    task.update = 1;
+                    dTO.update = 1;
                 }
+                taskDTOList.Add(dTO);
             }
-            return listTask;
+            return taskDTOList;
         }
 
 

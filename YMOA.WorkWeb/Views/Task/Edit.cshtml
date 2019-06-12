@@ -13,6 +13,7 @@
                 <tr>
                     <th class="formTitle">任务名称</th>
                     <td class="formValue">
+                        <input id="txtParentId" name="txtParentId" type="hidden" value="@Model.ParentId"/>
                         <input id="txtName" name="txtName" type="text" class="form-control required" placeholder="请输入名称" autocomplete="off" value="@Model.Name" />
                     </td>
                     <th class="formTitle">优先级</th>
@@ -45,7 +46,7 @@
                     </td>
                     <th class="formTitle">截止日期</th>
                     <td class="formValue">
-                        <input id="txtEndTime" name="txtEndTime" type="text" class="form-control required greaterDate input-wdatepicker" autocomplete="off" onfocus="WdatePicker()" data-val="@Model.EndTime" />
+                        <input id="txtEndTime" name="txtEndTime" type="text" class="form-control greaterDate input-wdatepicker" autocomplete="off" onfocus="WdatePicker()" data-val="@Model.EndTime" />
                     </td>
                 </tr>
                 @*<tr>

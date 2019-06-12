@@ -168,8 +168,20 @@ namespace YMOA.DAL
             }
         }
 
+        /// <summary>
+        ///  根据用户查询任务
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pagination"></param>
+        /// <param name="paras"></param>
+        /// <returns></returns>
         public IEnumerable<T> QryTask<T>(Pagination pagination, Dictionary<string, object> paras)
         {
+            bool boo = pagination.sidx.IndexOf("ProjectId", StringComparison.OrdinalIgnoreCase) >= 0;
+            if (!boo)
+            {
+                pagination.sidx = "ProjectId," + pagination.sidx;
+            }
             WhereBuilder builder = new WhereBuilder();
             builder.FromSql = "tbTask";
             builder.AddWhere(" ProjectId IN (" +
@@ -179,11 +191,12 @@ namespace YMOA.DAL
                 ")");
             builder.AddParameter("userName", paras["userName"]);
             builder.AddWhereAndParameter(paras, "ProjectId");
-            if (int.Parse(paras["qryTag"].ToString()) == 1)
+            int tag = int.Parse(paras["qryTag"].ToString());
+            if (tag == 1)
             {
                 builder.AddWhere(" CreateBy = @userName");
             }
-            if (int.Parse(paras["qryTag"].ToString()) == 2)
+            if (tag == 2)
             {
                 builder.AddWhere(" FinishBy = @userName");
             }
@@ -229,6 +242,17 @@ namespace YMOA.DAL
                 }
             }
             return list;
+        }
+
+        /// <summary>
+        ///  判断是否存在子任务
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool ExistSubtask(string id)
+        {
+            string sql = "SELECT COUNT(0) FROM tbTask WHERE ParentId = @ID";
+            return QuerySingle<int>(sql, new { ID = id }) > 0;
         }
 
         #endregion

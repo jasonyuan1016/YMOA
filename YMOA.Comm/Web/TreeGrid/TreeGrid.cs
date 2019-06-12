@@ -19,19 +19,6 @@ namespace YMOA.Comm
             sb.Append("]}");
             return sb.ToString();
         }
-        
-        public static string TreeGridPagingJson(List<TreeGridModel> data, int total, int page, int records)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("{ \"rows\": [");
-            sb.Append(TreeGridJson(data, -1, "0"));
-            sb.Append("]");
-            sb.Append(",\"total\":"+ total);
-            sb.Append(",\"page\":" + page);
-            sb.Append(",\"records\":" + records);
-            sb.Append("}");
-            return sb.ToString();
-        }
 
         private static string TreeGridJson(List<TreeGridModel> data, int index, string parentId)
         {
@@ -41,6 +28,7 @@ namespace YMOA.Comm
             foreach (TreeGridModel entity in ChildNodeList)
             {
                 string strJson = entity.entityJson;
+                strJson = strJson.Insert(1, "\"id\":\"" + entity.id + "\",");
                 strJson = strJson.Insert(1, "\"loaded\":" + (entity.loaded == true ? false : true).ToString().ToLower() + ",");
                 strJson = strJson.Insert(1, "\"expanded\":" + (entity.expanded).ToString().ToLower() + ",");
                 strJson = strJson.Insert(1, "\"isLeaf\":" + (entity.isLeaf == true ? false : true).ToString().ToLower() + ",");
@@ -51,5 +39,20 @@ namespace YMOA.Comm
             }
             return sb.ToString().Replace("}{", "},{");
         }
+
+        public static string TreeGridPagingJson(this List<TreeGridModel> data, int total, int page, int records)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{ \"rows\": [");
+            sb.Append(TreeGridJson(data, -1, "0"));
+            sb.Append("]");
+            sb.Append(",\"total\":" + total);
+            sb.Append(",\"page\":" + page);
+            sb.Append(",\"records\":" + records);
+            sb.Append("}");
+            return sb.ToString();
+        }
+
+
     }
 }
