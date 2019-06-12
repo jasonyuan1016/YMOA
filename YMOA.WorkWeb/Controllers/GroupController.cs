@@ -71,15 +71,18 @@ namespace YMOA.WorkWeb.Controllers
             dtCheckInfo.Columns.Add("rm_update", typeof(int));
             dtCheckInfo.Columns.Add("rm_delete", typeof(bool));
             dtCheckInfo.Columns.Add("rm_other", typeof(bool));
-            foreach (var item in roleMenuEntity.allowOperations)
+            if (roleMenuEntity.allowOperations != null && roleMenuEntity.allowOperations.Count > 0)
             {
-                var row = dtCheckInfo.NewRow();
-                row[0] = item.id;
-                row[1] = item.add;
-                row[2] = item.update;
-                row[3] = item.delete;
-                row[4] = item.other;
-                dtCheckInfo.Rows.Add(row);
+                foreach (var item in roleMenuEntity.allowOperations)
+                {
+                    var row = dtCheckInfo.NewRow();
+                    row[0] = item.id;
+                    row[1] = item.add;
+                    row[2] = item.update;
+                    row[3] = item.delete;
+                    row[4] = item.other;
+                    dtCheckInfo.Rows.Add(row);
+                }
             }
             paras["rolemenu"] = dtCheckInfo;
             return OperationReturn(DALUtility.SystemCore.RoleSave(paras) == 0);
