@@ -64,11 +64,6 @@ function gridList() {
             postData: { Person: 1 },
         }).trigger('reloadGrid');
     });
-    $gridList.dblclick(function () {
-        var ID = $("#gridList").jqGridRowValue().ID;
-        var Name = $("#gridList").jqGridRowValue().Name;
-        location.href = "/Item/Task?ID=" + ID + "&Name=" + Name;
-    })
 }
 function btn_add() {
     $.modalOpen({
