@@ -205,7 +205,7 @@ $.submitForm = function (options) {
                         }, 500);
                         return;
                     }
-                    $.modalAlert(data.msg, data.success);
+                    $.modalAlert("系统发生错误，请重新操作！", data.state);
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
