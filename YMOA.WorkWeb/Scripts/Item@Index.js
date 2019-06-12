@@ -12,20 +12,20 @@ function gridList() {
         height: $(window).height() - 128,
         colModel: [
             { label: 'ID', name: 'ID', hidden: true },
-            { label: '项目名称', name: 'Name', width: 140, align: 'left' },
-            { label: '项目描述', name: 'Describe', width: 140, align: 'left' },
-            { label: '负责人', name: 'DutyPerson', width: 140, align: 'left' },
-            { label: '创建人', name: 'CreateBy', width: 140, align: 'left' },
+            { label: PageResx.col_Name, name: 'Name', width: 140, align: 'left' },
+            { label: PageResx.col_Describe, name: 'Describe', width: 140, align: 'left' },
+            { label: PageResx.col_DutyPerson, name: 'DutyPerson', width: 140, align: 'left' },
+            { label: PageResx.col_CreateBy, name: 'CreateBy', width: 140, align: 'left' },
             {
-                label: '开始日期', name: 'StartTime', width: 140, align: 'left',
+                label: PageResx.col_StartTime, name: 'StartTime', width: 140, align: 'left',
                 formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
             },
             {
-                label: '结束日期', name: 'EndTime', width: 140, align: 'left',
+                label: PageResx.col_EndTime, name: 'EndTime', width: 140, align: 'left',
                 formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
             },
             {
-                label: '操作', name: 'ID', width: 200, align: 'center',
+                label: PageResx.col_oper, name: 'ID', width: 200, align: 'center',
                 formatter: function (cellvalue, options, rowObject) {
                     var update = '<a id="update" authorize="yes" data-id="' + cellvalue + '"><i class="fa fa-pencil-square-o"></i>编辑</a>';
                     update += "&nbsp;&nbsp;" + '<a id="delete" authorize="yes" data-id="' + cellvalue + '"><i class="fa fa-trash-o"></i>删除</a>';

@@ -591,6 +591,7 @@
     <Content Include="Scripts\resx\en-us\User%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\global.js" />
     <Content Include="Scripts\resx\zh-cn\Group%40Index.js" />
+    <Content Include="Scripts\resx\zh-cn\Item%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Item%40Task.js" />
     <Content Include="Scripts\resx\zh-cn\Library%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Login%40Index.js" />
