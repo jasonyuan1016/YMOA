@@ -14,6 +14,7 @@ namespace YMOA.Model
     /// </summary>
     public class TaskEntity
     {
+
         /// <summary>
         ///  任务编号
         /// </summary>
@@ -126,7 +127,57 @@ namespace YMOA.Model
         /// </summary>
         public List<AccessoryEntity> listAccessory { get; set; }
 
+    }
+
+    public class TaskEntityDTO : TaskEntity
+    {
+        public TaskEntityDTO() { }
+
+        public TaskEntityDTO(TaskEntity task)
+        {
+            ID = task.ID;
+            Name = task.Name;
+            ProjectId = task.ProjectId;
+            ParentId = task.ParentId;
+            EndTime = task.EndTime;
+            Describe = task.Describe;
+            Remarks = task.Remarks;
+            Estimate = task.Estimate;
+            Consume = task.Consume;
+            Sort = task.Sort;
+            State = task.State;
+            Send = task.Send;
+            CreateBy = task.CreateBy;
+            CreateTime = task.CreateTime;
+            StartBy = task.StartBy;
+            StartTime = task.StartTime;
+            FinishBy = task.FinishBy;
+            FinishTime = task.FinishTime;
+            CancelBy = task.CancelBy;
+            CancelTime = task.CancelTime;
+            CloseBy = task.CloseBy;
+            CloseTime = task.CloseTime;
+            CloseReason = task.CloseReason;
+            UpdateBy = task.UpdateBy;
+            UpdateTime = task.UpdateTime;
+            this.listTeam = task.listTeam;
+            this.listAccessory = task.listAccessory;
+        }
+
+        /// <summary>
+        ///  是否可修改
+        /// </summary>
         public int update { get; set; } = 0;
+
+        /// <summary>
+        ///  项目名
+        /// </summary>
+        public string pName { get; set; }
+
+        /// <summary>
+        ///  是否是子类
+        /// </summary>
+        public bool subclass { get; set; } = false;
     }
     
 }

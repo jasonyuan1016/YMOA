@@ -358,6 +358,15 @@ namespace YMOA.WorkWeb.Resources {
         }
         
         /// <summary>
+        ///   查找类似 该任务下存在子任务 的本地化字符串。
+        /// </summary>
+        public static string ormsg_taskExistSubtask {
+            get {
+                return ResourceManager.GetString("ormsg_taskExistSubtask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 账号重复 的本地化字符串。
         /// </summary>
         public static string ormsg_user_1 {

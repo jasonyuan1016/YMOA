@@ -52,30 +52,60 @@ function gridList() {
     var $gridList = $("#gridList");
     $gridList.dataGrid({
         url: "GetGridJson",
+        //treeGrid: true,
+        //treeGridModel: "adjacency",
+        //ExpandColumn: "pName",
+        pager: "#gridPager",
+        sortname: 'ProjectId',
+        //sortorder: "desc", // 倒叙
+        rowNum: 20,
+        rowList: [10, 20, 30, 40, 50],
+        viewrecords: true,
         height: $(window).height() - 128,
         colModel: [
             { label: 'ID', name: 'ID', hidden: true },
-            { label: PageResx.col_Name, name: 'Name', width: 120, align: 'left' },
+            {
+                label: PageResx.col_Name, name: 'Name', width: 100, align: 'left',
+                formatter: function (cellvalue, options, rowObject) {
+                    if (rowObject.subclass) {
+                        return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+cellvalue;
+                    }
+                    return cellvalue;
+                }
+            },
+            {
+                label: PageResx.col_project, name: 'ProjectId', width: 100, align: 'center',
+                formatter: function (cellvalue, options, rowObject) {
+                    return rowObject.pName;
+                }
+            },
             {
                 label: PageResx.col_Sort, name: 'Sort', width: 40, align: 'center',
                 formatter: function (cellvalue, options, rowObject) {
-                    for (var i = 0; i < top.clients.prioritys.length; i++) {
-                        if (top.clients.prioritys[i].id == cellvalue) {
-                            return top.clients.prioritys[i].name;
+                    var prioritys = top.clients.prioritys;
+                    for (var i = 0; i < prioritys.length; i++) {
+                        if (prioritys[i].id == cellvalue) {
+                            return prioritys[i].name;
                         }
                     }
                     return "";
                 }
             },
-            { label: PageResx.col_EndTime, name: 'EndTime', width: 140, align: 'center' },
-            { label: PageResx.col_Estimate, name: 'Estimate', width: 80, align: 'center' },
+            {
+                label: PageResx.col_EndTime, name: 'EndTime', width: 100, align: 'center',
+                formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+            },
+            {
+                label: PageResx.col_Estimate, name: 'Estimate', width: 80, align: 'center'
+            },
             { label: PageResx.col_Consume, name: 'Consume', width: 80, align: 'center' },
             {
                 label: PageResx.col_State, name: 'State', width: 80, align: 'center',
                 formatter: function (cellvalue, options, rowObject) {
-                    for (var i = 0; i < top.clients.taskStatus.length; i++) {
-                        if (top.clients.taskStatus[i].id == cellvalue) {
-                            return top.clients.taskStatus[i].name;
+                    var taskStatus = top.clients.taskStatus;
+                    for (var i = 0; i < taskStatus.length; i++) {
+                        if (taskStatus[i].id == cellvalue) {
+                            return taskStatus[i].name;
                         }
                     }
                     return "";
@@ -98,23 +128,17 @@ function gridList() {
                 label: PageResx.col_oper, name: 'ID', width: 200, align: 'center',
                 formatter: function (cellvalue, options, rowObject) {
                     var str = "";
-                    if (rowObject.update==1) {
+                    if (rowObject.update == 1) {
                         str = TaskState(cellvalue, rowObject.State);
                         if (rowObject.ParentId == "0") {
-                            str += "&nbsp;&nbsp;" + '<a href="javascript:;" class="childToAdd" data-pid="' + rowObject.ProjectId + '" data-id="' + cellvalue+'" >子添加</a>';
+                            str += "&nbsp;&nbsp;" + '<a href="javascript:;" class="childToAdd" data-pid="' + rowObject.ProjectId + '" data-id="' + cellvalue+'" >子任务</a>';
                         }
                     }
                     return str;
                 }
             },
             { label: "", name: '', width: 10, align: 'left' }
-        ],
-        pager: "#gridPager",
-        sortname: 'ID',
-        //sortorder: "desc", // 倒叙
-        rowNum: 20,
-        rowList: [10, 20, 30, 40, 50],
-        viewrecords: true
+        ]
     });
     $("#taskSelect").on("click", ".btn", function () {
         var qryTag = $(this).data("val");
@@ -132,7 +156,7 @@ function btn_batchAdd() {
         title: GlobalResx.add,
         url: "/Task/BatchAdd",
         width: "1200px",
-        height: "510px",
+        height: "400px",
         callBack: function (iframeId) {
             top.frames[iframeId].submitForm();
         }
@@ -210,7 +234,7 @@ function ClickChildToAdd() {
             title: GlobalResx.add,
             url: "/Task/BatchChildToAdd?pid=" + pid+"&id="+id,
             width: "1100px",
-            height: "450px",
+            height: "400px",
             callBack: function (iframeId) {
                 top.frames[iframeId].submitForm();
             }

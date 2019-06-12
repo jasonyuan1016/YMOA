@@ -276,4 +276,8 @@
     <value>附件添加失败,如:</value>
     <comment>附件添加失败,如:</comment>
   </data>
+  <data name="ormsg_taskExistSubtask" xml:space="preserve">
+    <value>该任务下存在子任务</value>
+    <comment>该任务下存在子任务</comment>
+  </data>
 </root>

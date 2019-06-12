@@ -1,5 +1,6 @@
 ﻿var PageResx = {
     col_Name: '任务',
+    col_project : '项目',
     col_EndTime: '截至时间',
     col_Estimate: '预计工时',
     col_Consume: '消耗工时',

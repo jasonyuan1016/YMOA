@@ -126,6 +126,13 @@ namespace YMOA.IDAL
         /// <returns></returns>
         List<TaskEntity> GetTeams(List<TaskEntity> list);
 
+        /// <summary>
+        ///  判断是否存在子任务
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        bool ExistSubtask(string id);
+
         #endregion
 
         #region 成员相关

@@ -11,7 +11,7 @@ function batchTaskTemplate(i) {
     var template = '<tr>'
         + '<td>' + i + '</td>'
         + '<td class="formValue">'
-        + '<input type="text" class="form-control required txtName" placeholder="请输入名称" autocomplete="off" id="txtName_' + i + '" name="txtName_' + i + '"/>'
+        + '<input type="text" class="form-control txtName" placeholder="请输入名称" autocomplete="off" id="txtName_' + i + '" />'
         + '</td>'
         + '<td class="formValue bor-radius">'
         + '<select class="form-control teams" multiple data-actions-box="true" id="sltTeams" name="sltTeams">($)</select>'
@@ -20,7 +20,7 @@ function batchTaskTemplate(i) {
         + '<textarea class="form-control texDescribe" rows="1" id="texDescribe"></textarea>'
         + '</td>'
         + '<td class="formValue">'
-        + '<input type="text" class="form-control required input-wdatepicker greaterDate txtEndTime" autocomplete="off" onfocus="WdatePicker()" id="txtEndTime_' + i + '" name="txtEndTime_' + i + '"/>'
+        + '<input type="text" class="form-control input-wdatepicker greaterDate txtEndTime" autocomplete="off" onfocus="WdatePicker()" id="txtEndTime_' + i + '" name="txtEndTime_' + i + '"/>'
         + '</td>'
         + '<td class="formValue">'
         + '<select class="form-control input-select sltSort" id="sltSort">(%)</select>'
@@ -118,18 +118,20 @@ function getFormVal() {
     $.each(chils, function (i) {
         var that = chils[i];
         var name = $($(that).find(".txtName")).val();
-        var endTime = $($(that).find(".txtEndTime")).val();
-        var describe = $($(that).find(".texDescribe")).val();
-        var sort = $($(that).find(".sltSort")).val();
-        var estimate = $($(that).find(".txtEstimate")).val();
-        var teams = $($(that).find("select.teams")[0]).selectpicker('val');
-        var listTeam = [];
-        if (teams != null) {
-            $.each(teams, function (i, val) {
-                listTeam.push(new TeamEntity(val));
-            });
+        if (name != "") {
+            var endTime = $($(that).find(".txtEndTime")).val();
+            var describe = $($(that).find(".texDescribe")).val();
+            var sort = $($(that).find(".sltSort")).val();
+            var estimate = $($(that).find(".txtEstimate")).val();
+            var teams = $($(that).find("select.teams")[0]).selectpicker('val');
+            var listTeam = [];
+            if (teams != null) {
+                $.each(teams, function (i, val) {
+                    listTeam.push(new TeamEntity(val));
+                });
+            }
+            listTask.push(new TaskEntity(name, endTime, describe, sort, estimate, listTeam));
         }
-        listTask.push(new TaskEntity(name, endTime, describe, sort, estimate, listTeam));
     })
     return listTask;
 }
@@ -139,10 +141,13 @@ function submitForm() {
         return false;
     }
     var tasks = getFormVal();
-    console.log(tasks);
+    if (tasks.length == 0 || tasks == null) {
+        $.modalClose();
+        return false;
+    }
     $.submitForm({
         url: "/Task/BatchChildToAddTask",
-        param: { tasks,pId },
+        param: { tasks, pId },
         success: function () {
             $.currentWindow().$("#gridList").trigger("reloadGrid");
         }

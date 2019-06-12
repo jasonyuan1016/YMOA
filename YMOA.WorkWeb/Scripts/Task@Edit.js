@@ -6,7 +6,10 @@ $(function () {
         getTeams(pid,"");
         $("#sltSort").val($("#sltSort").data("val"));
         $("#sltProjectId").val(pid);
-        $("#txtEndTime").val(new Date($("#txtEndTime").data("val")).Format("yyyy-MM-dd"));
+        var endTime = $("#txtEndTime").data("val");
+        if (endTime != null && endTime != "") {
+            $("#txtEndTime").val(new Date(endTime).Format("yyyy-MM-dd"));
+        }
         getTeams("", ID, true);
     }
     else {
