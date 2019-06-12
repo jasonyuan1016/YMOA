@@ -61,7 +61,21 @@ function gridList() {
         height: $(window).height() - 128,
         colModel: [
             { label: 'ID', name: 'ID', hidden: true },
-            { label: PageResx.col_Name, name: 'Name', width: 120, align: 'left' },
+            {
+                label: PageResx.col_Name, name: 'Name', width: 100, align: 'left',
+                formatter: function (cellvalue, options, rowObject) {
+                    if (rowObject.subclass) {
+                        return "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + cellvalue;
+                    }
+                    return cellvalue;
+                }
+            },
+            {
+                label: PageResx.col_project, name: 'ProjectId', width: 100, align: 'center',
+                formatter: function (cellvalue, options, rowObject) {
+                    return rowObject.pName;
+                }
+            },
             {
                 label: PageResx.col_Sort, name: 'Sort', width: 40, align: 'center',
                 formatter: function (cellvalue, options, rowObject) {
@@ -110,7 +124,7 @@ function gridList() {
                     if (rowObject.update == 1) {
                         str = TaskState(cellvalue, rowObject.State);
                         if (rowObject.ParentId == "0") {
-                            str += "&nbsp;&nbsp;" + '<a href="javascript:;" class="childToAdd" data-pid="' + rowObject.ProjectId + '" data-id="' + cellvalue + '" >子添加</a>';
+                            str += "&nbsp;&nbsp;" + '<a href="javascript:;" class="childToAdd" data-pid="' + rowObject.ProjectId + '" data-id="' + cellvalue + '" >子任务</a>';
                         }
                     }
                     return str;
@@ -119,7 +133,7 @@ function gridList() {
             { label: "", name: '', width: 10, align: 'left' }
         ],
         pager: "#gridPager",
-        sortname: 'ID',
+        sortname: 'ProjectId',
         //sortorder: "desc", // 倒叙
         rowNum: 20,
         rowList: [10, 20, 30, 40, 50],
@@ -143,7 +157,7 @@ function btn_batchAdd() {
         title: GlobalResx.add,
         url: "/Task/BatchAdd",
         width: "1200px",
-        height: "510px",
+        height: "400px",
         callBack: function (iframeId) {
             top.frames[iframeId].submitForm();
         }
