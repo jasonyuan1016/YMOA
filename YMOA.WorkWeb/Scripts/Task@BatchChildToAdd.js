@@ -20,7 +20,7 @@ function batchTaskTemplate(i) {
         + '<textarea class="form-control texDescribe" rows="1" id="texDescribe"></textarea>'
         + '</td>'
         + '<td class="formValue">'
-        + '<input type="text" class="form-control input-wdatepicker greaterDate txtEndTime" autocomplete="off" onfocus="WdatePicker()" id="txtEndTime_' + i + '" name="txtEndTime_' + i + '"/>'
+        + '<input type="text" class="form-control input-wdatepicker txtEndTime" autocomplete="off" onfocus="WdatePicker()" id="txtEndTime_' + i + '" name="txtEndTime_' + i + '"/>'
         + '</td>'
         + '<td class="formValue">'
         + '<select class="form-control input-select sltSort" id="sltSort">(%)</select>'
