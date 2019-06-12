@@ -33,11 +33,11 @@
                 <tr>
                     <th class="formTitle">开始日期</th>
                     <td class="formValue">
-                        <input id="txtStartTime" type="text" class="form-control input-wdatepicker" autocomplete="off" onfocus="WdatePicker()" value="@Model.StartTime" />
+                        <input id="txtStartTime" type="text" class="form-control input-wdatepicker required" autocomplete="off" onfocus="WdatePicker()" value="@Model.StartTime" />
                     </td>
                     <th class="formTitle">结束日期</th>
                     <td class="formValue">
-                        <input id="txtEndTime" type="text" class="form-control input-wdatepicker" autocomplete="off" onfocus="WdatePicker()" value="@Model.EndTime" />
+                        <input id="txtEndTime" type="text" class="form-control input-wdatepicker required" autocomplete="off" onfocus="WdatePicker()" value="@Model.EndTime" />
                     </td>
                 </tr>
                 <tr>
@@ -45,7 +45,7 @@
                         项目描述
                     </th>
                     <td class="formValue" colspan="3">
-                        <textarea id="texDescribe" name="texDescribe" class="form-control" style="height: 60px;">@Model.Describe</textarea>
+                        <textarea id="texDescribe" name="texDescribe" class="form-control required" style="height: 60px;">@Model.Describe</textarea>
                     </td>
                 </tr>
                 <tr>
