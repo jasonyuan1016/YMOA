@@ -91,9 +91,8 @@ namespace YMOA.UnitTest
         public void TestTaskUpdateJudge()
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
-            paras["ProductId"] = "4adf5dfe42afa";
-            paras["TaskId"] = "17845c65344d4f3e";
-            paras["UpdateBy"] = "zxy";
+            paras["TaskId"] = "50e6d5bc11686281";
+            paras["userName"] = "lyl";
             bool result = DALCore.GetInstance().TaskCore.TaskUpdateJudge(paras);
             Assert.AreEqual(result, true);
         }
@@ -111,23 +110,21 @@ namespace YMOA.UnitTest
             Assert.AreEqual(result, true);
         }
 
+        /// <summary>
+        ///  查询用户任务
+        /// </summary>
         [TestMethod]
         public void TestTaskList()
         {
-            DynamicParameters pars = new DynamicParameters();
+            Dictionary<string, object> pars = new Dictionary<string, object>();
             pars.Add("qryTag", 0);
             pars.Add("userName", "admin");
-            pars.Add("page", 1);
-            pars.Add("rows", 2);
-            pars.Add("sidx", "CreateTime");
-            pars.Add("sord", "ASC");
-            //pars.Add("ProjectId", "");
             Pagination pagination = new Pagination();
             pagination.sidx = "CreateTime";
             pagination.sord = "ASC";
             pagination.rows = 20;
             pagination.page = 1;
-            var tasks = DALCore.GetInstance().TaskCore.QryTaskList<TaskEntity>(pars, pagination).ToList();
+            var tasks = DALCore.GetInstance().TaskCore.QryTask<TaskEntity>(pagination, pars).ToList();
             var data = new
             {
                 rows = tasks,
@@ -147,20 +144,6 @@ namespace YMOA.UnitTest
             // 查询任务团员
             var teamList = DALCore.GetInstance().TaskCore.GetTeams<TeamEntity>(strTeams);
             Assert.AreNotEqual(tasks.Count, 0);
-        }
-
-        [TestMethod]
-        public void TestQryTask()
-        {
-            Dictionary<string, object> pars = new Dictionary<string, object>();
-            pars.Add("qryTag", 0);
-            pars.Add("userName", "admin");
-            Pagination pagination = new Pagination();
-            pagination.sidx = "CreateTime";
-            pagination.sord = "ASC";
-            pagination.rows = 20;
-            pagination.page = 1;
-            var tasks = DALCore.GetInstance().TaskCore.QryTask<TaskEntity>(pagination, pars).ToList();
         }
 
         /// <summary>
