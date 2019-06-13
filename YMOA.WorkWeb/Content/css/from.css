@@ -5,3 +5,9 @@
     height: 30px !important;
     padding-top: 4px;
 }
+.empty-prompt {
+    height: 200px;
+    text-align: center;
+    color: darkgray;
+    font-size: 16px;
+}

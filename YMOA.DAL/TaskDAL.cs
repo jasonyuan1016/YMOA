@@ -121,7 +121,6 @@ namespace YMOA.DAL
             }
             string[] arrTask = new string[] { "ID","Name", "ProjectId", "ParentId", "EndTime",
                 "Describe", "Remarks", "Estimate", "Consume", "Sort", "State", "Send","CreateBy", "CreateTime"};
-            string[] arrTeam = new string[] { "ProjectId","TaskId", "Person"};
             DataTable dtTask = ToDatatable.ListToDataTable(listTask, arrTask);
             DataTable dtTeam = ToDatatable.ListToDataTable(teams);
             int result = Execute("P_Task_BatchInsert", new { task = dtTask, team = dtTeam }, CommandType.StoredProcedure);
@@ -177,18 +176,17 @@ namespace YMOA.DAL
         /// <returns></returns>
         public IEnumerable<T> QryTask<T>(Pagination pagination, Dictionary<string, object> paras)
         {
+            if (pagination.sidx == null || pagination.sidx == "")
+            {
+                pagination.sidx = "ProjectId";
+            }
             bool boo = pagination.sidx.IndexOf("ProjectId", StringComparison.OrdinalIgnoreCase) >= 0;
             if (!boo)
             {
                 pagination.sidx = "ProjectId," + pagination.sidx;
             }
             WhereBuilder builder = new WhereBuilder();
-            builder.FromSql = "tbTask";
-            builder.AddWhere(" ProjectId IN (" +
-                " SELECT ID FROM tbProduct WHERE DutyPerson = @userName or CreateBy = @userName" +
-                " UNION" +
-                " SELECT ProjectId FROM tbTeam WHERE Person = @userName" +
-                ")");
+            builder.FromSql = "fun_userTask(@userName)";
             builder.AddParameter("userName", paras["userName"]);
             builder.AddWhereAndParameter(paras, "ProjectId");
             int tag = int.Parse(paras["qryTag"].ToString());
@@ -325,7 +323,6 @@ namespace YMOA.DAL
         /// <returns></returns>
         public bool UpdateAccessory(Dictionary<string, object> accessory)
         {
-
             string id = accessory["ID"].ToString();
             int result = StandardUpdate("tbAccessory", accessory);
             return result > 0;
