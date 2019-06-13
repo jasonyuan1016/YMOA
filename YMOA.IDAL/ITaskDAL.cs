@@ -110,7 +110,7 @@ namespace YMOA.IDAL
         /// <param name="pagination"></param>
         /// <returns></returns>
         IEnumerable<T> QryTaskList<T>(DynamicParameters dp, Pagination pagination);
-
+        
         /// <summary>
         ///  根据编号查询任务
         /// </summary>
