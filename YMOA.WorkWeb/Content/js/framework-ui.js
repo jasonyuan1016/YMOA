@@ -201,7 +201,7 @@ $.submitForm = function (options) {
                     else if (data.code == "-101") {
                         $.modalAlert(data.msg, false);
                         window.setTimeout(function () {
-                            window.location.href = "/Home/Index";
+                            top.window.location.href = "/Home/Index";
                         }, 500);
                         return;
                     }

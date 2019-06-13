@@ -100,6 +100,9 @@ function qryProducts() {
             }
             refreshSelect();
         }
+        else {
+            $(".empty-prompt").prop("hidden", false);
+        }
     }, "json")
 }
 

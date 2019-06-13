@@ -163,6 +163,9 @@ namespace YMOA.UnitTest
             var tasks = DALCore.GetInstance().TaskCore.QryTask<TaskEntity>(pagination, pars).ToList();
         }
 
+        /// <summary>
+        ///  实体转DataTable
+        /// </summary>
         [TestMethod]
         public void TestToDatatable()
         {
