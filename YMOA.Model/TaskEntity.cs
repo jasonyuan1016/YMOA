@@ -172,7 +172,7 @@ namespace YMOA.Model
         /// <summary>
         ///  项目名
         /// </summary>
-        public string pName { get; set; }
+        public string ProjectIdName { get; set; }
 
         /// <summary>
         ///  是否是子类

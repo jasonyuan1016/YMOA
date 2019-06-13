@@ -148,25 +148,7 @@ namespace YMOA.DAL
         {
             return QueryList<T>("P_Task_UserUpdateTask", paras, CommandType.StoredProcedure);
         }
-
-        /// <summary>
-        ///  根据用户查询任务
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dp"></param>
-        /// <param name="pagination"></param>
-        /// <returns></returns>
-        public IEnumerable<T> QryTaskList<T>(DynamicParameters dp, Pagination pagination)
-        {
-            using (IDbConnection conn = GetConnection())
-            {
-                dp.Add("Count", null, DbType.Int32, ParameterDirection.Output);
-                var objRet = conn.Query<T>("P_Task_GetTask", dp, null, true, null, CommandType.StoredProcedure);
-                pagination.records = dp.Get<int>("Count");
-                return objRet;
-            }
-        }
-
+        
         /// <summary>
         ///  根据用户查询任务
         /// </summary>
@@ -217,10 +199,10 @@ namespace YMOA.DAL
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public List<TaskEntity> GetTeams(List<TaskEntity> list)
+        public List<TaskEntityDTO> GetTeams(List<TaskEntityDTO> list)
         {
             List<string> teams = new List<string>();
-            foreach (TaskEntity task in list)
+            foreach (TaskEntityDTO task in list)
             {
                 teams.Add(task.ID);
             }
@@ -228,7 +210,7 @@ namespace YMOA.DAL
             strTeams = "'" + strTeams + "'";
             // 查询任务团员
             List<TeamEntity> teamList = GetTeams<TeamEntity>(strTeams).ToList();
-            foreach (TaskEntity task in list)
+            foreach (TaskEntityDTO task in list)
             {
                 task.listTeam = new List<TeamEntity>();
                 foreach (TeamEntity team in teamList)

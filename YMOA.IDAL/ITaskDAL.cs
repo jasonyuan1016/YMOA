@@ -101,15 +101,6 @@ namespace YMOA.IDAL
         /// <param name="paras"></param>
         /// <returns></returns>
         IEnumerable<T> QryTask<T>(Pagination pagination, Dictionary<string, object> paras);
-
-        /// <summary>
-        ///  根据用户查询任务
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dp"></param>
-        /// <param name="pagination"></param>
-        /// <returns></returns>
-        IEnumerable<T> QryTaskList<T>(DynamicParameters dp, Pagination pagination);
         
         /// <summary>
         ///  根据编号查询任务
@@ -124,7 +115,7 @@ namespace YMOA.IDAL
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        List<TaskEntity> GetTeams(List<TaskEntity> list);
+        List<TaskEntityDTO> GetTeams(List<TaskEntityDTO> list);
 
         /// <summary>
         ///  判断是否存在子任务

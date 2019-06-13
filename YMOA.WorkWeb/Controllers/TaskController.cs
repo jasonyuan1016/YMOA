@@ -77,15 +77,9 @@ namespace YMOA.WorkWeb.Controllers
                 pars.Add("ProjectId", Request["ProjectId"]);
             }
             pars.Add("userName", UserId);
-            List<TaskEntity> tasks = DALUtility.TaskCore.QryTask<TaskEntity>(pagination, pars).ToList();
+            List<TaskEntityDTO> tasks = DALUtility.TaskCore.QryTask<TaskEntityDTO>(pagination, pars).ToList();
             tasks = DALCore.GetInstance().TaskCore.GetTeams(tasks);
             List<TaskEntityDTO> taskDTOList = SetPermissions(tasks);
-            List<ProjectEntity> projects = DALUtility.TaskCore.GetProject<ProjectEntity>().ToList();
-            Dictionary<string, string> tasksDictionary = projects.ToDictionary(key => key.ID, value => value.Name);
-            foreach (TaskEntityDTO task in taskDTOList)
-            {
-                task.pName = tasksDictionary[task.ProjectId];
-            }
             taskDTOList = TreeGrid(taskDTOList);
             var data = new
             {
@@ -251,8 +245,7 @@ namespace YMOA.WorkWeb.Controllers
         {
             TaskEntity task = Request.Form["task"].ToObject<TaskEntity>();
             Dictionary<string, object> paras = new Dictionary<string, object>();
-            paras["ProductId"] = task.ProjectId;
-            paras["UpdateBy"] = UserId;
+            paras["userName"] = UserId;
             paras["TaskId"] = task.ID;
             bool boo = DALCore.GetInstance().TaskCore.TaskUpdateJudge(paras);
             if (boo)
@@ -286,8 +279,7 @@ namespace YMOA.WorkWeb.Controllers
         public ActionResult Delete(string ID, string pId)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
-            paras["ProductId"] = pId;
-            paras["UpdateBy"] = UserId;
+            paras["userName"] = UserId;
             paras["TaskId"] = ID;
             bool boo = DALCore.GetInstance().TaskCore.TaskUpdateJudge(paras);
             if (boo)
@@ -348,23 +340,19 @@ namespace YMOA.WorkWeb.Controllers
         /// </summary>
         /// <param name="listTask"></param>
         /// <returns></returns>
-        private List<TaskEntityDTO> SetPermissions(List<TaskEntity> listTask)
+        private List<TaskEntityDTO> SetPermissions(List<TaskEntityDTO> listTask)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = UserId;
             List<TaskEntity> tasks = DALCore.GetInstance().TaskCore.QryUpdateTask<TaskEntity>(paras).ToList();
-            List<TaskEntityDTO> taskDTOList = new List<TaskEntityDTO>();
-            TaskEntityDTO dTO = null;
-            foreach (TaskEntity task in listTask)
+            foreach (TaskEntityDTO task in listTask)
             {
-                dTO = new TaskEntityDTO(task);
                 if (tasks.Exists( t => t.ID == task.ID))
                 {
-                    dTO.update = 1;
+                    task.update = 1;
                 }
-                taskDTOList.Add(dTO);
             }
-            return taskDTOList;
+            return listTask;
         }
 
 
