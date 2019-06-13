@@ -119,11 +119,7 @@ namespace YMOA.WorkWeb.Controllers
             pars["Remarks"] = projectEntity.Remarks;
             if (projectEntity.State <= 0)
             {
-                if(projectEntity.StartTime< DateTime.Now.ToDate())
-                {
-                    projectEntity.State = 1;
-                }
-                pars["State"] = projectEntity.State;
+                projectEntity.State = 1;
             }
             else
             {
