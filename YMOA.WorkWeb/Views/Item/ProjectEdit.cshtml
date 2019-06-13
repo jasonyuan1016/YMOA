@@ -14,23 +14,25 @@
         </ul>
         <div style="padding-top: 20px; margin-right: 30px;">
             <table class="form">
-                <tr>
+                <tr style="height:60px;">
                     <th class="formTitle">项目名称</th>
                     <td class="formValue" colspan="3">
                         <input id="txtName" name="txtName" type="text" class="form-control required" placeholder="请输入项目名称" value="@Model.Name" />
                     </td>
                 </tr>
-                <tr>
+                <tr style="height:60px;">
                     <th class="formTitle">负责人</th>
                     <td class="formValue" colspan="3">
                         <select id="sltDutyPerson" name="sltDutyPerson" class="form-control required" value="@Model.DutyPerson"></select>
                     </td>
                 </tr>
-                <tr>
+                <tr style="height:50px;">
                     <th class="formTitle" id="formTitle">团队</th>
-                    <td class="formValue" id="Team" colspan="3"></td>
+                    <td class="formValue" id="Team" colspan="3">
+                        <select id="sltTeam" class="form-control required" multiple></select>
+                    </td>
                 </tr>
-                <tr>
+                <tr style="height:70px;">
                     <th class="formTitle">开始日期</th>
                     <td class="formValue">
                         <input id="txtStartTime" type="text" class="form-control input-wdatepicker required" autocomplete="off" onfocus="WdatePicker()" value="@Model.StartTime" />
@@ -40,7 +42,7 @@
                         <input id="txtEndTime" type="text" class="form-control input-wdatepicker required" autocomplete="off" onfocus="WdatePicker()" value="@Model.EndTime" />
                     </td>
                 </tr>
-                <tr>
+                <tr style="height:70px;">
                     <th class="formTitle" valign="top" style="padding-top: 5px;">
                         项目描述
                     </th>
@@ -48,7 +50,7 @@
                         <textarea id="texDescribe" name="texDescribe" class="form-control required" style="height: 60px;">@Model.Describe</textarea>
                     </td>
                 </tr>
-                <tr>
+                <tr style="height:80px;">
                     <th class="formTitle">参观者</th>
                     <td class="formValue" style="padding-top: 1px;" id="victors" data-val="@Model.Victors" colspan="3"></td>
                 </tr>

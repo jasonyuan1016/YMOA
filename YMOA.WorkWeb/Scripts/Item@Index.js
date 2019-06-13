@@ -13,7 +13,7 @@ function gridList() {
         colModel: [
             { label: 'ID', name: 'ID', hidden: true },
             { label: PageResx.col_Name, name: 'Name', width: 140, align: 'left' },
-            { label: PageResx.col_Describe, name: 'Describe', width: 140, align: 'left' },
+            { label: PageResx.col_Describe, name: 'Describe', width: 240, align: 'left' },
             { label: PageResx.col_DutyPerson, name: 'DutyPerson', width: 140, align: 'left' },
             { label: PageResx.col_CreateBy, name: 'CreateBy', width: 140, align: 'left' },
             {
@@ -30,7 +30,7 @@ function gridList() {
                     var update = '<a id="update" authorize="yes" data-id="' + cellvalue + '"><i class="fa fa-pencil-square-o"></i>编辑</a>';
                     update += "&nbsp;&nbsp;" + '<a id="delete" authorize="yes" data-id="' + cellvalue + '"><i class="fa fa-trash-o"></i>删除</a>';
                     update += "&nbsp;&nbsp;" + '<a id="team" authorize="yes" data-id="' + cellvalue + '"><i class="fa fa-product-hunt"></i>团队</a>';
-                    update += "&nbsp;&nbsp;" + '<a id="task" authorize="yes" class="btn btn-primary dropdown-text" data-id="' + cellvalue + '" data-pid="' + rowObject.Name + '">进入</a>'
+                    update += "&nbsp;&nbsp;" + '<a id="task" authorize="yes" data-id="' + cellvalue + '" data-pid="' + rowObject.Name + '">进入</a>'
                     return update;
                 }
             }

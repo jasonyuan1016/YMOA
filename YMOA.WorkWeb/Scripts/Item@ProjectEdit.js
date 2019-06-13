@@ -1,6 +1,7 @@
 ﻿var ID = $.request("ID");
 $(function () {
     initControl();
+    refreshSelect();
     if (!!ID) {
         var projectStatus = top.clients.projectStatus;
         var roles = top.clients.groups;
@@ -34,7 +35,7 @@ function initControl() {
     var name = topData.users;
     var index;
     var $tvictors = $("#victors");
-    var $tTeam = $("#Team");
+    var $tTeam = $("#sltTeam");
     for (index in roles) {
         $tvictors.append("<input id='" + roles[index] + "' name='F_AllowVictor' type='checkbox' value='" + index + "'/>" + roles[index]);
     };
@@ -44,18 +45,30 @@ function initControl() {
     });
     index = 0;
     for (index in name) {
-        $tTeam.append("<input id='" + name[index] + "' name='F_AllowAdd' type='checkbox' value='" + name[index] + "'/>" + name[index]);
+        $tTeam.append($("<option></option>").val(name[index]).html(name[index]));
     };
+}
+// 重置多选
+function refreshSelect() {
+    $('#sltTeam').selectpicker({
+        'selectedText': 'cat',
+        'noneSelectedText': '没有选中任何项',
+        'deselectAllText': '全不选',
+        'selectAllText': '全选',
+    });
 }
 function submitForm() {
     if (!$('#ProjectEdit').formValid()) {
         return false;
     }
+    var teams = $("#sltTeam").selectpicker('val');
     var team = [];
-    $("input[name='F_AllowAdd']:checked").each(function (index,ele) {
-        var _p = { "Person": $(ele).val() };
+    $.each(teams, function (index, ele) {
+        var _p = { "Person": ele };
+        console.log(_p);
         team.push(_p);
     });
+    console.log(team);
     var victor = "";
     $("input[name='F_AllowVictor']:checked").each(function () {
         victor += $(this).val()+",";
