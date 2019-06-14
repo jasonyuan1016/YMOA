@@ -8,6 +8,7 @@
     col_CreateTime: '创建时间',
     col_listTeam: '成员',
     col_oper: '操作',
-    confirm: "你确定设置该项为:",
+    confirm: '你确定设置该项为:',
+    col_project: '项目'
 
 }
