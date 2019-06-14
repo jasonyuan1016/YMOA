@@ -196,12 +196,15 @@ $.submitForm = function (options) {
                 } else {
                     if (data.code == "-100") {
                         $.modalAlert(data.msg, false);
+                        window.setTimeout(function () {
+                            top.window.location.href = "/Login/Index";
+                        }, 500);
                         return;
                     }
                     else if (data.code == "-101") {
                         $.modalAlert(data.msg, false);
                         window.setTimeout(function () {
-                            top.window.location.href = "/Home/Index";
+                            top.window.location.href = "/Login/Index";
                         }, 500);
                         return;
                     }
@@ -254,7 +257,7 @@ $.submitFormFile = function (options, param) {
                     else if (data.code == "-101") {
                         $.modalAlert(data.msg, false);
                         window.setTimeout(function () {
-                            window.location.href = "/Home/Index";
+                            top.window.location.href = "/Login/Index";
                         }, 500);
                         return;
                     }
