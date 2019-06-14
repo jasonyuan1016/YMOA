@@ -196,9 +196,6 @@ $.submitForm = function (options) {
                 } else {
                     if (data.code == "-100") {
                         $.modalAlert(data.msg, false);
-                        window.setTimeout(function () {
-                            top.window.location.href = "/Login/Index";
-                        }, 500);
                         return;
                     }
                     else if (data.code == "-101") {

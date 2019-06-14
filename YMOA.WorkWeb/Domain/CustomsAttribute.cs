@@ -103,7 +103,11 @@ namespace YMOA.WorkWeb.Domain
                 //filterContext.HttpContext.Request.IsAjaxRequest
                 if (isViewPage)
                 {
-                    filterContext.RequestContext.HttpContext.Response.Redirect("~/Login/Index");
+                    // 修改时间: 2019年6月14日; 修改人: 朱星宇; 修改原因:页面跳转可能存在嵌套页面
+                    // 原代码: filterContext.RequestContext.HttpContext.Response.Redirect("~/Login/Index");
+                    // 修改后: 页面跳转到登录页面
+                    var obj = new { success = false, msg = Resource.ResourceManager.GetString("ormsg_distanceLogin"), code = "-101" };
+                    filterContext.Result = new ContentResult() { Content = JsonConvert.SerializeObject(obj) };
                 }
                 else
                 {

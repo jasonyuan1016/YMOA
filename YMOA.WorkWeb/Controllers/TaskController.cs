@@ -354,8 +354,7 @@ namespace YMOA.WorkWeb.Controllers
             }
             return listTask;
         }
-
-
+        
         #endregion
 
         #region 附件相关
@@ -439,7 +438,6 @@ namespace YMOA.WorkWeb.Controllers
         /// <returns></returns>
         public ActionResult DeleteFile(string id, string url)
         {
-            // 判断用户是否可添加任务
             string folder = "~/file";
             string path = string.Format("{0}\\{1}", Server.MapPath(folder), url);
             // 文件是否存在
