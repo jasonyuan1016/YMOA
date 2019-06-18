@@ -1,4 +1,5 @@
 ﻿var ID = $.request("ID");
+var template = ""; // 模板
 $(function () {
     initControl();
     if (!!ID) {
@@ -18,23 +19,15 @@ $(function () {
     }
 });
 
-function accTemplate(i) {
-    var template = '<div class="formValue"><div class="input-group">'
-        + '<input type = "file" class="form-control accessoryFile isFile isFileSize" id="accessoryFile_'+i+'" name="accessoryFile_'+i+'" placeholder = "附件" />'
-        + '<div class="input-group-addon">标题</div>'
-        + '<input type="text" class="form-control accessoryName" id="accessoryName" autocomplete="off" placeholder="标题名">'
-        + '<span class="input-group-btn">'
-        + '<button class="btn btn-default plus" type="button">'
-        + '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>'
-        + '</button>'
-        + '</span>'
-        + '<span class="input-group-btn">'
-        + '<button class="btn btn-default minus" type="button">'
-        + '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>'
-        + '</button>'
-        + '</span>'
-        + '</div></div>';
-    return template;
+function accTemplate() {
+    if (template == "") {
+        template = $("#accessory").html();
+        $("#accessory").html("");
+    }
+    var i = $("#accessory").children().length + 1;
+    var temp = template.replace('hidden="">', ">").replace(/\(i\)/g, i);
+    console.log(temp);
+    return temp;
 }
 
 function initControl() {
@@ -47,10 +40,10 @@ function initControl() {
         getTeams(id, "");
     });
     for (var i = 0; i < 2; i++) {
-        $("#accessory").append(accTemplate($("#accessory").children().length + 1));
+        $("#accessory").append(accTemplate());
     }
     $("#accessory").on("click", ".plus", function () {
-        $("#accessory").append(accTemplate($("#accessory").children().length+1));
+        $("#accessory").append(accTemplate());
     });
     $("#accessory").on("click", ".minus", function () {
         if ($("#accessory").children().length != 1) {

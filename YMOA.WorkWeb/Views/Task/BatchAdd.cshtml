@@ -22,7 +22,36 @@
                     </tr>
                 </thead>
                 <tbody id="batchTbody">
-                    
+                    <tr hidden>
+                        <td>(i)</td>
+                        <td class="formValue">
+                            <input type="text" class="form-control txtName" placeholder="请输入名称" autocomplete="off" id="txtName" />
+                        </td>
+                        <td class="formValue">
+                            <select class="form-control input-select sltProject" id="sltProject">(#)</select>
+                        </td>
+                        <td class="formValue bor-radius">
+                            <select class="form-control teams" multiple data-actions-box="true" name="sltTeams">($)</select>
+                        </td>
+                        <td class="formValue">
+                            <textarea class="form-control texDescribe" rows="1" id="texDescribe"></textarea>
+                        </td>
+                        <td class="formValue">
+                            <input type="text" class="form-control input-wdatepicker txtEndTime" autocomplete="off" onfocus="WdatePicker()" name="txtEndTime" />
+                        </td>
+                        <td class="formValue">
+                            <select class="form-control input-select sltSort" id="sltSort">(%)</select>
+                        </td>
+                        <td class="formValue">
+                            <input type="text" class="form-control txtEstimate isFloatGteZero" id="txtEstimate_(i)" name="txtEstimate_(i)" />
+                        </td>
+                        <td class="formValue">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default plus"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                <button type="button" class="btn btn-default minus"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
                 <tfoot>
                     <tr>

@@ -216,17 +216,13 @@ namespace YMOA.DAL
         public IEnumerable<T> GetTeams<T>(Dictionary<string, object> paras)
         {
             string sql = "SELECT * FROM tbTeam";
+            WhereBuilder builder = new WhereBuilder();
             if (paras != null)
             {
-                WhereBuilder builder = new WhereBuilder();
                 builder.AddWhereAndParameter(paras, "projectId");
                 builder.AddWhereAndParameter(paras, "taskId");
-                if (builder.Wheres.Count > 0)
-                {
-                    sql += " WHERE " + String.Join(" and ", builder.Wheres);
-                }
             }
-            return QueryList<T>(sql, paras);
+            return QueryList<T>(sql, builder);
         }
 
         /// <summary>

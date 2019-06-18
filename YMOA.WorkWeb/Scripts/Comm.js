@@ -5,12 +5,22 @@ $.fn.bindSlt = function (data) {
         $element.append($("<option></option>").val(i).html(data[i]));
     });
 }
+
  // 绑定下拉框，指定id,name
 $.fn.bindSltSpe = function (obj) {
     var $element = $(this);
     $.each(obj.data, function (i, n) {
         $element.append($("<option></option>").val(n[obj.id]).html(n[obj.name]));
     });
+}
+
+// 生成下拉选项
+$.generateSlt = function (obj) {
+    var strSlt = "";
+    $.each(obj.data, function (i, val) {
+        strSlt += '<option value="' + val[obj.val] + '" >' + val[obj.name] + '</option>';
+    });
+    return strSlt;
 }
 
 //表单验证

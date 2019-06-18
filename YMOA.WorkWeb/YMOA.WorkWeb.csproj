@@ -151,10 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Configs\log4net.config" />
-    <Content Include="Content\bootstrap-grid.css" />
-    <Content Include="Content\bootstrap-grid.min.css" />
-    <Content Include="Content\bootstrap-reboot.css" />
-    <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap-select\css\bootstrap-select.css" />
     <Content Include="Content\bootstrap-select\css\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap-select\js\bootstrap-select.js" />
@@ -235,10 +231,6 @@
     <Content Include="Content\bootstrap-select\js\i18n\defaults-zh_CN.min.js" />
     <Content Include="Content\bootstrap-select\js\i18n\defaults-zh_TW.js" />
     <Content Include="Content\bootstrap-select\js\i18n\defaults-zh_TW.min.js" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\framework-about.css" />
     <Content Include="Content\css\framework-font.css" />
     <Content Include="Content\css\framework-login.css" />
@@ -330,10 +322,6 @@
     <Content Include="Content\js\jqgrid\grid.locale.en-us.js" />
     <Content Include="Content\js\jqgrid\grid.locale.zh-cn.js" />
     <Content Include="HtmlPage1.html" />
-    <Content Include="Scripts\bootstrap.bundle.js" />
-    <Content Include="Scripts\bootstrap.bundle.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Comm.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
@@ -480,7 +468,6 @@
     <Content Include="Content\js\zsign\jquery.zsign.css" />
     <Content Include="Content\js\zsign\jquery.zsign.js" />
     <Content Include="Content\js\zsign\signet.gif" />
-    <Content Include="Content\Site.css" />
     <Content Include="Content\User\User%40AlterPwd.css" />
     <Content Include="Content\User\User%40login.css" />
     <Content Include="Content\User\UserInfo.css" />
@@ -507,16 +494,6 @@
     <Content Include="Scripts\Group%40Edit.js" />
     <Content Include="Scripts\Group%40Index.js" />
     <Content Include="Scripts\Home%40Index.js" />
-    <Content Include="Scripts\bootstrap.min.js.map" />
-    <Content Include="Scripts\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\bootstrap-reboot.css.map" />
-    <Content Include="Content\bootstrap-grid.min.css.map" />
-    <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Scripts\esm\popper.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
@@ -563,26 +540,15 @@
     <Content Include="Content\bootstrap-select\js\i18n\defaults-zh_CN.js.map" />
     <Content Include="Content\bootstrap-select\js\i18n\defaults-zh_TW.js.map" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Item%40Index.js" />
     <Content Include="Scripts\Item%40ProjectEdit.js" />
     <Content Include="Scripts\Item%40Task.js" />
     <Content Include="Scripts\Item%40Team.js" />
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Library%40Edit.js" />
     <Content Include="Scripts\Library%40Index.js" />
     <Content Include="Scripts\Login%40Index.js" />
     <Content Include="Scripts\Memu%40Index.js" />
     <Content Include="Scripts\Memu%40Edit.js" />
-    <Content Include="Scripts\popper-utils.js" />
-    <Content Include="Scripts\popper-utils.min.js" />
-    <Content Include="Scripts\popper.js" />
-    <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\resx\en-us\global.js" />
     <Content Include="Scripts\resx\en-us\Group%40Index.js" />
     <Content Include="Scripts\resx\en-us\Library%40Index.js" />
@@ -602,10 +568,6 @@
     <Content Include="Scripts\Task%40BatchChildToAdd.js" />
     <Content Include="Scripts\Task%40Edit.js" />
     <Content Include="Scripts\Task%40Index.js" />
-    <Content Include="Scripts\umd\popper-utils.js" />
-    <Content Include="Scripts\umd\popper-utils.min.js" />
-    <Content Include="Scripts\umd\popper.js" />
-    <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\User%40Index.js" />
     <Content Include="Scripts\User%40UserEdit.js" />
     <Content Include="Web.config" />
@@ -627,15 +589,6 @@
     <Content Include="Views\Login\BackPwd.cshtml" />
     <Content Include="Views\Login\ChangePassword.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Scripts\umd\popper.min.js.map" />
-    <Content Include="Scripts\umd\popper.js.map" />
-    <Content Include="Scripts\umd\popper-utils.min.js.map" />
-    <Content Include="Scripts\umd\popper-utils.js.map" />
-    <Content Include="Scripts\README.md" />
-    <Content Include="Scripts\popper.min.js.map" />
-    <Content Include="Scripts\popper.js.map" />
-    <Content Include="Scripts\popper-utils.min.js.map" />
-    <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Task\Index.cshtml" />
     <Content Include="Views\Task\Edit.cshtml" />
     <Content Include="Views\Task\BatchAdd.cshtml" />
@@ -662,8 +615,6 @@
     <Content Include="Views\Memu\Edit.cshtml" />
     <Content Include="Views\Library\Index.cshtml" />
     <Content Include="Views\Library\Edit.cshtml" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YMOA.Comm\YMOA.Comm.csproj">
@@ -699,9 +650,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
