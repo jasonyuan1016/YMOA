@@ -120,6 +120,7 @@ namespace YMOA.WorkWeb.Controllers
             if (projectEntity.State <= 0)
             {
                 projectEntity.State = 1;
+                pars["State"] = projectEntity.State;
             }
             else
             {

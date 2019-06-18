@@ -47,12 +47,14 @@
                         项目描述
                     </th>
                     <td class="formValue" colspan="3">
-                        <textarea id="texDescribe" name="texDescribe" class="form-control required" style="height: 60px;">@Model.Describe</textarea>
+                        <textarea id="texDescribe" name="texDescribe" class="form-control" style="height: 60px;">@Model.Describe</textarea>
                     </td>
                 </tr>
                 <tr style="height:80px;">
                     <th class="formTitle">参观者</th>
-                    <td class="formValue" style="padding-top: 1px;" id="victors" data-val="@Model.Victors" colspan="3"></td>
+                    <td class="formValue" id="victors" data-val="@Model.Victors" colspan="3">
+                        <select id="sltVictors" class="form-control required" multiple></select>
+                    </td>
                 </tr>
             </table>
         </div>
