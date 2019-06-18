@@ -79,5 +79,13 @@ namespace YMOA.IDAL
         /// <param name="idList">需要删除的id集</param>
         /// <returns></returns>
         bool OnlyDeleteUser(string idList);
+
+        /// <summary>
+        ///  查询真实姓名
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        IEnumerable<T> QryRealName<T>(Dictionary<string, object> paras);
     }
 }

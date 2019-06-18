@@ -193,41 +193,6 @@ namespace YMOA.DAL
         {
             return QuerySingle<T>("SELECT * FROM tbTask WHERE ID=@ID", paras, CommandType.Text);
         }
-        
-        /// <summary>
-        ///  多任务查询成员并写入相应任务
-        /// </summary>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        public List<TaskEntityDTO> GetTeams(List<TaskEntityDTO> list)
-        {
-            List<string> teams = new List<string>();
-            foreach (TaskEntityDTO task in list)
-            {
-                teams.Add(task.ID);
-            }
-            string strTeams = String.Join("','", teams);
-            strTeams = "'" + strTeams + "'";
-            // 查询任务团员
-            List<TeamEntity> teamList = GetTeams<TeamEntity>(strTeams).ToList();
-
-            string[] arr = teamList.Select(x => x.Person).ToArray();
-            var users = QryRealName<UserEntity>(arr).ToList();
-            Dictionary<string, string> ListToDictionary = users.ToDictionary(key => key.AccountName, value => value.RealName);
-            foreach (TaskEntityDTO task in list)
-            {
-                task.listTeam = new List<TeamEntity>();
-                foreach (TeamEntity team in teamList)
-                {
-                    if (task.ID == team.TaskId)
-                    {
-                        team.Person = ListToDictionary[team.Person];
-                        task.listTeam.Add(team);
-                    }
-                }
-            }
-            return list;
-        }
 
         /// <summary>
         ///  判断是否存在子任务
@@ -353,18 +318,6 @@ namespace YMOA.DAL
             paras["team"] = dtTeam.AsTableValuedParameter();
             paras["accessory"] = dtAccessory.AsTableValuedParameter();
             QuerySingle<int>("P_TeamAndAccessory_SaveBatch", paras, CommandType.StoredProcedure);
-        }
-
-        /// <summary>
-        ///  查询真实姓名
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ids"></param>
-        /// <returns></returns>
-        public IEnumerable<T> QryRealName<T>(string[] names)
-        {
-            string sql = "SELECT AccountName,RealName FROM tbUser WHERE AccountName IN @names";
-            return QueryList<T>(sql, new { names });
         }
 
         #endregion

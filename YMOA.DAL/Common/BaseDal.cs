@@ -100,6 +100,21 @@ namespace YMOA.DAL
             }
         }
 
+        /// <summary>
+        ///  组合条件查询
+        /// </summary>
+        protected IEnumerable<T> QueryList<T>(string sql, WhereBuilder builder, bool buffered = true)
+        {
+            if (builder.Wheres.Count > 0)
+            {
+                sql += " WHERE " + String.Join(" AND ", builder.Wheres);
+            }
+            using (IDbConnection conn = GetConnection())
+            {
+                return conn.Query<T>(sql, builder.Parameters, null, buffered, CommandTimeout, CommandType.Text);
+            }
+        }
+
         protected int Execute(string sql, object param = null, CommandType commandType = CommandType.Text)
         {
             using (IDbConnection conn = GetConnection())

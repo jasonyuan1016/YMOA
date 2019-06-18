@@ -29,15 +29,16 @@ namespace YMOA.WorkWeb.Controllers
             paras["userName"] = UserId;
             // 获取用户可添加项目
             List<ProjectEntity> products = DALCore.GetInstance().TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
-            List<TeamEntity> teams = null;
+            List<UserEntity> users = null;
             if (products != null && products.Count > 0)
             {
                 paras = new Dictionary<string, object>();
                 paras["projectId"] = products[0].ID;
                 paras["taskId"] = "0";
-                teams = DALCore.GetInstance().TaskCore.GetTeams<TeamEntity>(paras).ToList();
+                var teams = DALCore.GetInstance().TaskCore.GetTeams<TeamEntity>(paras).ToList();
+                users = ToUsers(teams);
             }
-            return Content(JsonConvert.SerializeObject(new { total = products.Count, products, teams }));
+            return Content(JsonConvert.SerializeObject(new { total = products.Count, products, users }));
         }
 
         #endregion
@@ -58,6 +59,10 @@ namespace YMOA.WorkWeb.Controllers
             return View();
         }
 
+        /// <summary>
+        ///  子添加
+        /// </summary>
+        /// <returns></returns>
         public ActionResult BatchChildToAdd()
         {
             return View();
@@ -80,7 +85,7 @@ namespace YMOA.WorkWeb.Controllers
             // 查询任务
             List<TaskEntityDTO> tasks = DALUtility.TaskCore.QryTask<TaskEntityDTO>(pagination, pars).ToList();
             // 写入成员
-            tasks = DALCore.GetInstance().TaskCore.GetTeams(tasks);
+            tasks = JoinTeams(tasks);
             // 设定用户可修改任务
             List<TaskEntityDTO> taskDTOList = SetPermissions(tasks);
             // 分布树列图
@@ -93,39 +98,6 @@ namespace YMOA.WorkWeb.Controllers
                 records = pagination.records
             };
             return Content(data.ToJson());
-        }
-        
-        /// <summary>
-        ///  任务树列图
-        /// </summary>
-        /// <param name="tasks"></param>
-        /// <returns></returns>
-        private List<TaskEntityDTO> TreeGrid(List<TaskEntityDTO> tasks)
-        {
-            List<TaskEntityDTO> taskList = tasks.FindAll(t => t.ParentId == "0");
-            List<TaskEntityDTO> childNodeList = tasks.FindAll(t => t.ParentId != "0");
-            foreach(TaskEntityDTO task in childNodeList)
-            {
-                int index = taskList.FindIndex(x => x.ID == task.ParentId);
-                if (index >= 0)
-                {
-                    task.subclass = true;
-                    taskList.Insert(index+1, task);
-                }
-                else
-                {
-                    index = taskList.FindLastIndex(x => x.ProjectId == task.ProjectId);
-                    if (index >= 0)
-                    {
-                        taskList.Insert(index+1, task);
-                    }
-                    else
-                    {
-                        taskList.Add(task);
-                    }
-                }
-            }
-            return taskList;
         }
 
         /// <summary>
@@ -275,32 +247,6 @@ namespace YMOA.WorkWeb.Controllers
         }
 
         /// <summary>
-        ///  任务删除
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <returns></returns>
-        public ActionResult Delete(string ID, string pId)
-        {
-            Dictionary<string, object> paras = new Dictionary<string, object>();
-            paras["userName"] = UserId;
-            paras["TaskId"] = ID;
-            bool boo = DALCore.GetInstance().TaskCore.TaskUpdateJudge(paras);
-            if (boo)
-            {
-                boo = DALCore.GetInstance().TaskCore.ExistSubtask(ID);
-                if (!boo)
-                {
-                    return OperationReturn(DALCore.GetInstance().TaskCore.TaskDelete(ID));
-                }
-                else
-                {
-                    return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_taskExistSubtask"));
-                }
-            }
-            return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_taskAdd"));
-        }
-
-        /// <summary>
         ///  任务修改状态
         /// </summary>
         /// <param name="id"></param>
@@ -336,6 +282,100 @@ namespace YMOA.WorkWeb.Controllers
                 paras[action + "Time"] = DateTime.Now;
             }
             return OperationReturn(DALCore.GetInstance().TaskCore.TaskUpdate(paras));
+        }
+
+        /// <summary>
+        ///  任务删除
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public ActionResult Delete(string ID, string pId)
+        {
+            Dictionary<string, object> paras = new Dictionary<string, object>();
+            paras["userName"] = UserId;
+            paras["TaskId"] = ID;
+            bool boo = DALCore.GetInstance().TaskCore.TaskUpdateJudge(paras);
+            if (boo)
+            {
+                boo = DALCore.GetInstance().TaskCore.ExistSubtask(ID);
+                if (!boo)
+                {
+                    return OperationReturn(DALCore.GetInstance().TaskCore.TaskDelete(ID));
+                }
+                else
+                {
+                    return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_taskExistSubtask"));
+                }
+            }
+            return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_taskAdd"));
+        }
+
+        /// <summary>
+        ///  任务树列图
+        /// </summary>
+        /// <param name="tasks"></param>
+        /// <returns></returns>
+        private List<TaskEntityDTO> TreeGrid(List<TaskEntityDTO> tasks)
+        {
+            List<TaskEntityDTO> taskList = tasks.FindAll(t => t.ParentId == "0");
+            List<TaskEntityDTO> childNodeList = tasks.FindAll(t => t.ParentId != "0");
+            foreach (TaskEntityDTO task in childNodeList)
+            {
+                int index = taskList.FindIndex(x => x.ID == task.ParentId);
+                if (index >= 0)
+                {
+                    task.subclass = true;
+                    taskList.Insert(index + 1, task);
+                }
+                else
+                {
+                    index = taskList.FindLastIndex(x => x.ProjectId == task.ProjectId);
+                    if (index >= 0)
+                    {
+                        taskList.Insert(index + 1, task);
+                    }
+                    else
+                    {
+                        taskList.Add(task);
+                    }
+                }
+            }
+            return taskList;
+        }
+
+        /// <summary>
+        ///  任务加入成员
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        private List<TaskEntityDTO> JoinTeams(List<TaskEntityDTO> list)
+        {
+            List<string> teams = new List<string>();
+            foreach (TaskEntityDTO task in list)
+            {
+                teams.Add(task.ID);
+            }
+            string strTeams = String.Join("','", teams);
+            strTeams = "'" + strTeams + "'";
+            // 查询任务团员
+            List<TeamEntity> teamList = DALUtility.TaskCore.GetTeams<TeamEntity>(strTeams).ToList();
+            // 查询成员姓名
+            var users = ToUsers(teamList);
+            // List -> Dictionary
+            Dictionary<string, string> ListToDictionary = users.ToDictionary(key => key.AccountName, value => value.RealName);
+            foreach (TaskEntityDTO task in list)
+            {
+                task.listTeam = new List<TeamEntity>();
+                foreach (TeamEntity team in teamList)
+                {
+                    if (task.ID == team.TaskId)
+                    {
+                        team.Person = ListToDictionary[team.Person];
+                        task.listTeam.Add(team);
+                    }
+                }
+            }
+            return list;
         }
 
         /// <summary>
@@ -488,9 +528,21 @@ namespace YMOA.WorkWeb.Controllers
                 para["taskId"] = "0";
             }
             var teams = DALCore.GetInstance().TaskCore.GetTeams<TeamEntity>(para).ToList();
+            return PagerData(teams.Count, ToUsers(teams));
+        }
+
+        /// <summary>
+        ///  根据账号获取姓名
+        /// </summary>
+        /// <param name="teams"></param>
+        /// <returns></returns>
+        private List<UserEntity> ToUsers(List<TeamEntity> teams)
+        {
             string[] arr = teams.Select(x => x.Person).ToArray();
-            var users = DALCore.GetInstance().TaskCore.QryRealName<UserEntity>(arr);
-            return PagerData(teams.Count, users);
+            Dictionary<string, object> paras = new Dictionary<string, object>();
+            paras["names"] = arr;
+            var users = DALCore.GetInstance().UserCore.QryRealName<UserEntity>(paras).ToList();
+            return users;
         }
 
         #endregion

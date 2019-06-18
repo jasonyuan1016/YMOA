@@ -73,7 +73,7 @@ function qryProducts() {
     // 成员
     $.get("/Task/GetTeams", { projectId: pId }, function (data) {
         $.each(data.rows, function (i, val) {
-            strTeams += '<option value="' + val.Person + '" >' + val.Person + '</option>';
+            strTeams += '<option value="' + val.AccountName + '" >' + val.RealName + '</option>';
         });
         for (var i = 0; i < 5; i++) {
             addTask();

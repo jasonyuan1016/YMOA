@@ -214,8 +214,10 @@ namespace YMOA.UnitTest
         [TestMethod]
         public void TestQryRealName()
         {
+            Dictionary<string, object> paras = new Dictionary<string, object>();
             string[] strs = { "admin", "zxy" };
-            var users = DALCore.GetInstance().TaskCore.QryRealName<UserEntity>(strs).ToList();
+            paras["names"] = strs;
+            var users = DALCore.GetInstance().UserCore.QryRealName<UserEntity>(paras).ToList();
             Assert.AreNotEqual(users.Count, 0);
         }
 

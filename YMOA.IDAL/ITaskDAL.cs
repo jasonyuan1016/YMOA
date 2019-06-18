@@ -111,13 +111,6 @@ namespace YMOA.IDAL
         T QryTask<T>(Dictionary<string, object> paras);
 
         /// <summary>
-        ///  多任务查询成员并写入相应任务
-        /// </summary>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        List<TaskEntityDTO> GetTeams(List<TaskEntityDTO> list);
-
-        /// <summary>
         ///  判断是否存在子任务
         /// </summary>
         /// <param name="id"></param>
@@ -180,14 +173,6 @@ namespace YMOA.IDAL
         /// <param name="teams">团员</param>
         /// <param name="accessories">附件</param>
         void SaveTeamAndAccessory(string projectId, string taskId, List<TeamEntity> teams, List<AccessoryEntity> accessories);
-
-        /// <summary>
-        ///  查询真实姓名
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ids"></param>
-        /// <returns></returns>
-        IEnumerable<T> QryRealName<T>(string[] ids);
 
         #endregion
     }

@@ -153,5 +153,22 @@ namespace YMOA.DAL
                 return retObj;
             }
         }
+
+        /// <summary>
+        ///  查询真实姓名
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public IEnumerable<T> QryRealName<T>(Dictionary<string, object> paras)
+        {
+            string sql = "SELECT AccountName,RealName FROM tbUser";
+            WhereBuilder builder = new WhereBuilder();
+            if (paras != null)
+            {
+                builder.AddWhereAndParameter(paras, "names", "AccountName", "IN");
+            }
+            return QueryList<T>(sql, builder);
+        }
     }
 }

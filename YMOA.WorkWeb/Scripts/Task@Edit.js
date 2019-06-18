@@ -100,7 +100,7 @@ function getTeams(projectId, taskId, boo = false) {
         if (boo) {
             var arr = [];
             $.each(data.rows, function (i, val) {
-                arr.push(val.RealName);
+                arr.push(val.AccountName);
             })
             $("#sltTeam").selectpicker('val', arr);
             return false;

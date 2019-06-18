@@ -65,7 +65,7 @@ function batchGetTeams(projectId, taskId, that) {
     $.get("/Task/GetTeams", { projectId, taskId }, function (data) {
         if (data.total > 0) {
             $(that).bindSltSpe({
-                id: "Person", name: "Person", data: data.rows
+                id: "AccountName", name: "RealName", data: data.rows
             });
         }
         // 重新渲染
@@ -93,7 +93,7 @@ function qryProducts() {
                 strProject += '<option value="' + val.ID + '" >' + val.Name + '</option>';
             });
             $.each(data.teams, function (i, val) {
-                strTeams += '<option value="' + val.Person + '" >' + val.Person + '</option>';
+                strTeams += '<option value="' + val.AccountName + '" >' + val.RealName + '</option>';
             });
             for (var i = 0; i < 5; i++) {
                 addTask()
