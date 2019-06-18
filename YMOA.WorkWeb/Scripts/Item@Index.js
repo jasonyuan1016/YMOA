@@ -7,6 +7,7 @@
 })
 function gridList() {
     var $gridList = $("#gridList");
+    var name = top.clients.users;
     $gridList.dataGrid({
         url: "GetItem",
         height: $(window).height() - 128,
@@ -14,8 +15,30 @@ function gridList() {
             { label: 'ID', name: 'ID', hidden: true },
             { label: PageResx.col_Name, name: 'Name', width: 140, align: 'left' },
             { label: PageResx.col_Describe, name: 'Describe', width: 240, align: 'left' },
-            { label: PageResx.col_DutyPerson, name: 'DutyPerson', width: 140, align: 'left' },
-            { label: PageResx.col_CreateBy, name: 'CreateBy', width: 140, align: 'left' },
+            {
+                label: PageResx.col_DutyPerson, name: 'DutyPerson', width: 140, align: 'left',
+                formatter: function (cellvalue, options, rowObject) {
+                    var duty = "";
+                    $.each(name, function (i, val) {
+                        if ($.trim(cellvalue) == $.trim(val.AccountName)) {
+                            return duty = val.RealName;
+                        }
+                    });
+                    return duty;
+                }
+            },
+            {
+                label: PageResx.col_CreateBy, name: 'CreateBy', width: 140, align: 'left',
+                formatter: function (cellvalue, options, rowObject) {
+                    var duty = "";
+                    $.each(name, function (i, val) {
+                        if ($.trim(cellvalue) == $.trim(val.AccountName)) {
+                            return duty = val.RealName;
+                        }
+                    });
+                    return duty;
+                }
+            },
             {
                 label: PageResx.col_StartTime, name: 'StartTime', width: 140, align: 'left',
                 formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }

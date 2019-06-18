@@ -1,7 +1,4 @@
-﻿var strProject = ""; // 项目字符串
-var strTeams = ""; // 成员字符串
-var sltSort = ""; // 优先级字符串
-var ID = $.request("ID");
+﻿var ID = $.request("ID");
 $(function () {
     initControl();
 });
@@ -16,7 +13,7 @@ function batchTaskTemplate() {
         for (var j = 0; j < 5; j++) {
             if (name[(i * 5) + j] != null) {
                 template += '<td class="formValue">'
-                    + "<input id='" + name[(i * 5) + j] + "' name='F_AllowTeam' type='checkbox' value='" + name[(i * 5) + j] + "'/>" + name[(i * 5) + j]
+                    + "<input id='" + name[(i * 5) + j] + "' name='F_AllowTeam' type='checkbox' value='" + name[(i * 5) + j].AccountName + "'/>" + name[(i * 5) + j].RealName
                     + '</td>';
             }
         }
@@ -58,7 +55,6 @@ function getFormVal() {
         var taskId = "0";
         var that = inputs[i];
         var person = $(that).val();
-        console.log(person);
         listTeam.push(new TeamEntity(projectId, taskId, person));
     });
     return listTeam;
@@ -68,7 +64,6 @@ function submitForm() {
         return false;
     }
     var teams = getFormVal();
-    console.log(teams);
     $.submitForm({
         url: "/Item/AddTeam",
         param: { teams },

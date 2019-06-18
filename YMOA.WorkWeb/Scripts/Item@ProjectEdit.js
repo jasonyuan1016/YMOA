@@ -35,11 +35,11 @@ function initControl() {
     };
     var $element = $("#sltDutyPerson");
     $.each(name, function (i) {
-        $element.append($("<option></option>").val(name[i]).html(name[i]));
+        $element.append($("<option></option>").val(name[i].AccountName).html(name[i].RealName));
     });
     index = 0;
     for (index in name) {
-        $tTeam.append($("<option></option>").val(name[index]).html(name[index]));
+        $tTeam.append($("<option></option>").val(name[index].AccountName).html(name[index].RealName));
     };
     refreshSelect($tTeam);
     refreshSelect($tvictors);
