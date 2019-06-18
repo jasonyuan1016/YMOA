@@ -1,7 +1,4 @@
 ﻿$(function () {
-    $.get("", function () {
-
-    })
     gridList();
     ClickUpdate();
     ClickDelete();
@@ -52,9 +49,6 @@ function gridList() {
     var $gridList = $("#gridList");
     $gridList.dataGrid({
         url: "GetGridJson",
-        //treeGrid: true,
-        //treeGridModel: "adjacency",
-        //ExpandColumn: "pName",
         pager: "#gridPager",
         sortname: 'ProjectId',
         //sortorder: "desc", // 倒叙
@@ -76,7 +70,7 @@ function gridList() {
             {
                 label: PageResx.col_project, name: 'ProjectId', width: 100, align: 'center',
                 formatter: function (cellvalue, options, rowObject) {
-                    return rowObject.pName;
+                    return rowObject.ProjectIdName;
                 }
             },
             {

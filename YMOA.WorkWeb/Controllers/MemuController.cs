@@ -108,7 +108,7 @@ namespace YMOA.WorkWeb.Controllers
         /// <param name="ID"></param>
         /// <param name="state">状态</param>
         /// <returns></returns>
-        [PermissionFilter("memu", "Update", Operationype.Update)]
+        [PermissionFilter("memu", "index", Operationype.Update)]
         public ActionResult UpdateState(int ID, int state)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
@@ -122,7 +122,7 @@ namespace YMOA.WorkWeb.Controllers
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        [PermissionFilter("memu", "Delete", Operationype.Add)]
+        [PermissionFilter("memu", "index", Operationype.Delete)]
         public ActionResult Delete(int ID)
         {
             return OperationReturn(DALUtility.SystemCore.DeleteMemu(ID.ToString()));

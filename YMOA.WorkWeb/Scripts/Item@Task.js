@@ -3,10 +3,6 @@ var ProjectName = urlinfo.split("&")[1].split("=")[1];//拆分url得到”=”�
 var ProjectId = $.request("ID");
 
 $(function () {
-    $.get("", function () {
-
-    })
-    console.log(ProjectName);
     $("#projectName").val(decodeURI(ProjectName));
     gridList();
     ClickUpdate();
@@ -73,7 +69,7 @@ function gridList() {
             {
                 label: PageResx.col_project, name: 'ProjectId', width: 100, align: 'center',
                 formatter: function (cellvalue, options, rowObject) {
-                    return rowObject.pName;
+                    return rowObject.ProjectIdName;
                 }
             },
             {

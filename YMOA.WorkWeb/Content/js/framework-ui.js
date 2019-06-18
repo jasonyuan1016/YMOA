@@ -196,13 +196,16 @@ $.submitForm = function (options) {
                 } else {
                     if (data.code == "-100") {
                         $.modalAlert(data.msg, false);
+                        window.setTimeout(function () {
+                            top.window.location.href = "/Login/Index";
+                        }, 1000);
                         return;
                     }
                     else if (data.code == "-101") {
                         $.modalAlert(data.msg, false);
                         window.setTimeout(function () {
-                            top.window.location.href = "/Home/Index";
-                        }, 500);
+                            top.window.location.href = "/Login/Index";
+                        }, 1000);
                         return;
                     }
                     $.modalAlert("系统发生错误，请重新操作！", data.state);
@@ -249,13 +252,16 @@ $.submitFormFile = function (options, param) {
                 } else {
                     if (data.code == "-100") {
                         $.modalAlert(data.msg, false);
+                        window.setTimeout(function () {
+                            top.window.location.href = "/Login/Index";
+                        }, 1000);
                         return;
                     }
                     else if (data.code == "-101") {
                         $.modalAlert(data.msg, false);
                         window.setTimeout(function () {
-                            window.location.href = "/Home/Index";
-                        }, 500);
+                            top.window.location.href = "/Login/Index";
+                        }, 1000);
                         return;
                     }
                     $.modalAlert(data.msg, data.success);

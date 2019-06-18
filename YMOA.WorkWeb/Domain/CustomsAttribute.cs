@@ -100,7 +100,7 @@ namespace YMOA.WorkWeb.Domain
             if (!allowAccess)
             {
                 filterContext.HttpContext.Session.Clear();
-                //filterContext.HttpContext.Request.IsAjaxRequest
+                // filterContext.HttpContext.Request.IsAjaxRequest()
                 if (isViewPage)
                 {
                     filterContext.RequestContext.HttpContext.Response.Redirect("~/Login/Index");

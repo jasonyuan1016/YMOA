@@ -100,7 +100,7 @@ function getTeams(projectId, taskId, boo = false) {
         if (boo) {
             var arr = [];
             $.each(data.rows, function (i, val) {
-                arr.push(val.Person);
+                arr.push(val.RealName);
             })
             $("#sltTeam").selectpicker('val', arr);
             return false;
@@ -108,7 +108,7 @@ function getTeams(projectId, taskId, boo = false) {
         $("#sltTeam option").remove();
         if (data.total > 0) {
             $("#sltTeam").bindSltSpe({
-                id: "Person", name: "Person", data: data.rows
+                id: "AccountName", name: "RealName", data: data.rows
             });
         }
         // 刷新
@@ -144,7 +144,6 @@ function getFromVal() {
             task.listAccessory.push(new AccessoryEntity(name));
         }
     }
-    console.log(task);
     return task;
 }
 
