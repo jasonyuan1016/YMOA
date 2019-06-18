@@ -280,4 +280,8 @@
     <value>该任务下存在子任务</value>
     <comment>该任务下存在子任务</comment>
   </data>
+  <data name="role_BOSS" xml:space="preserve">
+    <value>董事长</value>
+    <comment>董事长</comment>
+  </data>
 </root>

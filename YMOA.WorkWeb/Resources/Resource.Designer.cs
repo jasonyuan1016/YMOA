@@ -403,6 +403,15 @@ namespace YMOA.WorkWeb.Resources {
         }
         
         /// <summary>
+        ///   查找类似 董事长 的本地化字符串。
+        /// </summary>
+        public static string role_BOSS {
+            get {
+                return ResourceManager.GetString("role_BOSS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 员工 的本地化字符串。
         /// </summary>
         public static string role_emp {

@@ -1,7 +1,7 @@
 ﻿var ID = $.request("ID");
 $(function () {
     initControl();
-    refreshSelect();
+    refreshSelect($("#sltVictors"));
     if (!!ID) {
         var projectStatus = top.clients.projectStatus;
         var roles = top.clients.groups;
@@ -12,13 +12,7 @@ $(function () {
         var data = $("#victors").data("val");
         var arr = new Array();
         arr = data.split(',');
-        $.each($("input[name='F_AllowVictor']"), function (i, val) {
-            for (var j = 0; j < arr.length; j++) {
-                if ($(val).val() == arr[j]) {
-                    $(val).attr("checked", true);
-                }
-            }
-        });
+        $("#sltVictors").selectpicker('val', arr);
         $("#formTitle").html("状态");
         var html = "<select id='sltState'>";
         $.each(projectStatus, function (i,n) {
@@ -34,23 +28,25 @@ function initControl() {
     var roles = topData.groups;
     var name = topData.users;
     var index;
-    var $tvictors = $("#victors");
+    var $tvictors = $("#sltVictors");
     var $tTeam = $("#sltTeam");
     for (index in roles) {
-        $tvictors.append("<input id='" + roles[index] + "' name='F_AllowVictor' type='checkbox' value='" + index + "'/>" + roles[index]);
+        $tvictors.append($("<option></option>").val(index).html(roles[index]));
     };
     var $element = $("#sltDutyPerson");
     $.each(name, function (i) {
-        $element.append($("<option></option>").val(name[i]).html(name[i]));
+        $element.append($("<option></option>").val(name[i].AccountName).html(name[i].RealName));
     });
     index = 0;
     for (index in name) {
-        $tTeam.append($("<option></option>").val(name[index]).html(name[index]));
+        $tTeam.append($("<option></option>").val(name[index].AccountName).html(name[index].RealName));
     };
+    refreshSelect($tTeam);
+    refreshSelect($tvictors);
 }
 // 重置多选
-function refreshSelect() {
-    $('#sltTeam').selectpicker({
+function refreshSelect($element) {
+    $element.selectpicker({
         'selectedText': 'cat',
         'noneSelectedText': '没有选中任何项',
         'deselectAllText': '全不选',
@@ -68,10 +64,11 @@ function submitForm() {
         console.log(_p);
         team.push(_p);
     });
-    console.log(team);
+    var victors = $("#sltVictors").selectpicker('val');
+    console.log(victors);
     var victor = "";
-    $("input[name='F_AllowVictor']:checked").each(function () {
-        victor += $(this).val()+",";
+    $.each(victors,function (i,val) {
+        victor += val+",";
     });
     var projectEntity = $("#ProjectEdit").dataSerialize();
     projectEntity.Teams = team;

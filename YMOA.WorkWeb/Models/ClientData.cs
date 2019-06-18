@@ -32,7 +32,7 @@ namespace YMOA.WorkWeb.Models
         /// <summary>
         /// 所有用户
         /// </summary>
-        public List<string> users { get; set; }
+        public List<UserEntity> users { get; set; }
     }
 
     public class group
