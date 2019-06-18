@@ -210,6 +210,10 @@ namespace YMOA.DAL
             strTeams = "'" + strTeams + "'";
             // 查询任务团员
             List<TeamEntity> teamList = GetTeams<TeamEntity>(strTeams).ToList();
+
+            string[] arr = teamList.Select(x => x.Person).ToArray();
+            var users = QryRealName<UserEntity>(arr).ToList();
+            Dictionary<string, string> ListToDictionary = users.ToDictionary(key => key.AccountName, value => value.RealName);
             foreach (TaskEntityDTO task in list)
             {
                 task.listTeam = new List<TeamEntity>();
@@ -217,6 +221,7 @@ namespace YMOA.DAL
                 {
                     if (task.ID == team.TaskId)
                     {
+                        team.Person = ListToDictionary[team.Person];
                         task.listTeam.Add(team);
                     }
                 }
@@ -350,8 +355,19 @@ namespace YMOA.DAL
             QuerySingle<int>("P_TeamAndAccessory_SaveBatch", paras, CommandType.StoredProcedure);
         }
 
-        #endregion
+        /// <summary>
+        ///  查询真实姓名
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public IEnumerable<T> QryRealName<T>(string[] names)
+        {
+            string sql = "SELECT AccountName,RealName FROM tbUser WHERE AccountName IN @names";
+            return QueryList<T>(sql, new { names });
+        }
 
+        #endregion
 
     }
 }

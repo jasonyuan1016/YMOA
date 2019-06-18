@@ -90,7 +90,7 @@ namespace YMOA.Comm
             }
             return tb;
         }
-
+        
         /// <summary>
         ///  返回基础类型(如果类型为空)，否则返回该类型
         /// </summary>

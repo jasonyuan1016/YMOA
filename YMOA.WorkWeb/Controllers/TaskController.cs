@@ -77,9 +77,13 @@ namespace YMOA.WorkWeb.Controllers
                 pars.Add("ProjectId", Request["ProjectId"]);
             }
             pars.Add("userName", UserId);
+            // 查询任务
             List<TaskEntityDTO> tasks = DALUtility.TaskCore.QryTask<TaskEntityDTO>(pagination, pars).ToList();
+            // 写入成员
             tasks = DALCore.GetInstance().TaskCore.GetTeams(tasks);
+            // 设定用户可修改任务
             List<TaskEntityDTO> taskDTOList = SetPermissions(tasks);
+            // 分布树列图
             taskDTOList = TreeGrid(taskDTOList);
             var data = new
             {
@@ -120,7 +124,6 @@ namespace YMOA.WorkWeb.Controllers
                         taskList.Add(task);
                     }
                 }
-
             }
             return taskList;
         }
@@ -485,7 +488,9 @@ namespace YMOA.WorkWeb.Controllers
                 para["taskId"] = "0";
             }
             var teams = DALCore.GetInstance().TaskCore.GetTeams<TeamEntity>(para).ToList();
-            return PagerData(teams.Count, teams);
+            string[] arr = teams.Select(x => x.Person).ToArray();
+            var users = DALCore.GetInstance().TaskCore.QryRealName<UserEntity>(arr);
+            return PagerData(teams.Count, users);
         }
 
         #endregion

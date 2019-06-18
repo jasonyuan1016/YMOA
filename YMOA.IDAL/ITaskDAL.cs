@@ -181,6 +181,14 @@ namespace YMOA.IDAL
         /// <param name="accessories">附件</param>
         void SaveTeamAndAccessory(string projectId, string taskId, List<TeamEntity> teams, List<AccessoryEntity> accessories);
 
+        /// <summary>
+        ///  查询真实姓名
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        IEnumerable<T> QryRealName<T>(string[] ids);
+
         #endregion
     }
 }

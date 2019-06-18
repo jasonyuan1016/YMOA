@@ -211,5 +211,13 @@ namespace YMOA.UnitTest
             //DataTable teamDT = ToDatatable.ListToDataTable(teams);
         }
 
+        [TestMethod]
+        public void TestQryRealName()
+        {
+            string[] strs = { "admin", "zxy" };
+            var users = DALCore.GetInstance().TaskCore.QryRealName<UserEntity>(strs).ToList();
+            Assert.AreNotEqual(users.Count, 0);
+        }
+
     }
 }
