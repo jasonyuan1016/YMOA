@@ -1,44 +1,20 @@
-﻿
-var strProject = ""; // 项目字符串
+﻿var strProject = ""; // 项目字符串
 var strTeams = ""; // 成员字符串
 var sltSort = ""; // 优先级字符串
+var template = ""; // 模板
 $(function () {
     initControl();
 });
 
 // 批量任务模板
-function batchTaskTemplate(i) {
-    var template = '<tr>'
-        + '<td>'+i+'</td>'
-        + '<td class="formValue">'
-        + '<input type="text" class="form-control txtName" placeholder="请输入名称" autocomplete="off" id="txtName_' + i + '"/>'
-        + '</td>'
-        + '<td class="formValue">'
-        + '<select class="form-control input-select sltProject" id="sltProject">(#)</select>'
-        + '</td>'
-        + '<td class="formValue bor-radius">'
-        + '<select class="form-control teams" multiple data-actions-box="true" id="sltTeams" name="sltTeams">($)</select>'
-        + '</td>'
-        + '<td class="formValue">'
-        + '<textarea class="form-control texDescribe" rows="1" id="texDescribe"></textarea>'
-        + '</td>'
-        + '<td class="formValue">'
-        + '<input type="text" class="form-control input-wdatepicker txtEndTime" autocomplete="off" onfocus="WdatePicker()" id="txtEndTime_' + i + '" name="txtEndTime_' + i +'"/>'
-        + '</td>'
-        + '<td class="formValue">'
-        + '<select class="form-control input-select sltSort" id="sltSort">(%)</select>'
-        + '</td>'
-        + '<td class="formValue">'
-        + '<input type="text" class="form-control txtEstimate isFloatGteZero" id="txtEstimate" />'
-        + '</td>'
-        + '<td class="formValue">'
-        + '<div class="btn-group" role="group">'
-        + '<button type="button" class="btn btn-default plus"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>'
-        + '<button type="button" class="btn btn-default minus"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>'
-        + '</div>'
-        + '</td>'
-        + '</tr >';
-    return template;
+function batchTaskTemplate() {
+    if (template == "") {
+        template = $("#batchTbody").html();
+        $("#batchTbody").html("");
+    }
+    var i = $("#batchTbody").children().length + 1;
+    var temp = template.replace('tr hidden', "tr").replace(/\(i\)/g, i);
+    return temp;
 }
 
 // 刷新序号
@@ -75,7 +51,7 @@ function batchGetTeams(projectId, taskId, that) {
 
 // 添加任务行
 function addTask() {
-    var tem = batchTaskTemplate($("#batchTbody").children().length + 1);
+    var tem = batchTaskTemplate();
     tem = tem.replace('(#)', strProject).replace('($)', strTeams).replace('(%)', sltSort);
     $("#batchTbody").append(tem);
     refreshSelect();
@@ -83,18 +59,18 @@ function addTask() {
 
 // 获取项目
 function qryProducts() {
-    $.each(top.clients.prioritys, function (i, val) {
-        sltSort += '<option value="' + val.id + '" >' + val.name + '</option>';
-    });
+    sltSort = $.generateSlt({
+        data: top.clients.prioritys, val: "id", name: "name"
+    })
     // 查询项目
     $.get("/Task/QryProducts", function (data) {
         if (data.total > 0) {
-            $.each(data.products, function (i, val) {
-                strProject += '<option value="' + val.ID + '" >' + val.Name + '</option>';
-            });
-            $.each(data.teams, function (i, val) {
-                strTeams += '<option value="' + val.AccountName + '" >' + val.RealName + '</option>';
-            });
+            strProject = $.generateSlt({
+                data: data.products, val: "ID", name: "Name"
+            })
+            strTeams = $.generateSlt({
+                data: data.users, val: "AccountName", name: "RealName"
+            })
             for (var i = 0; i < 5; i++) {
                 addTask()
             }
