@@ -28,14 +28,14 @@ namespace YMOA.WorkWeb.Controllers
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = UserId;
             // 获取用户可添加项目
-            List<ProjectEntity> products = DALCore.GetInstance().TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
+            List<ProjectEntity> products = DALUtility.TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
             List<UserEntity> users = null;
             if (products != null && products.Count > 0)
             {
                 paras = new Dictionary<string, object>();
                 paras["projectId"] = products[0].ID;
                 paras["taskId"] = "0";
-                var teams = DALCore.GetInstance().TaskCore.GetTeams<TeamEntity>(paras).ToList();
+                var teams = DALUtility.TaskCore.GetTeams<TeamEntity>(paras).ToList();
                 users = ToUsers(teams);
             }
             return Content(JsonConvert.SerializeObject(new { total = products.Count, products, users }));
@@ -109,7 +109,7 @@ namespace YMOA.WorkWeb.Controllers
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = UserId;
-            List<ProjectEntity> products = DALCore.GetInstance().TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
+            List<ProjectEntity> products = DALUtility.TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
             ViewData["products"] = products;
             TaskEntity taskEntity = new TaskEntity();
             paras = new Dictionary<string, object>();
@@ -117,8 +117,8 @@ namespace YMOA.WorkWeb.Controllers
             {
                 paras = new Dictionary<string, object>();
                 paras["ID"] = ID;
-                taskEntity = DALCore.GetInstance().TaskCore.QryTask<TaskEntity>(paras);
-                var accessorys = DALCore.GetInstance().TaskCore.GetAccessory<AccessoryEntity>(paras);
+                taskEntity = DALUtility.TaskCore.QryTask<TaskEntity>(paras);
+                var accessorys = DALUtility.TaskCore.GetAccessory<AccessoryEntity>(paras);
                 ViewData["accessorys"] = accessorys;
             }
             return View(taskEntity);
@@ -136,7 +136,7 @@ namespace YMOA.WorkWeb.Controllers
             paras["ProductId"] = task.ProjectId;
             paras["userName"] = UserId;
             // 判断用户是否可添加任务
-            bool boo = DALCore.GetInstance().TaskCore.TaskInsertJudge(paras);
+            bool boo = DALUtility.TaskCore.TaskInsertJudge(paras);
             if (boo)
             {
                 paras = new Dictionary<string, object>();
@@ -154,7 +154,7 @@ namespace YMOA.WorkWeb.Controllers
                 paras["Send"] = null;
                 paras["CreateBy"] = UserId;
                 paras["CreateTime"] = DateTime.Now;
-                boo = DALCore.GetInstance().TaskCore.TaskInsert(paras);
+                boo = DALUtility.TaskCore.TaskInsert(paras);
                 return AddFailure(boo, task);
             }
             return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_taskAdd"));
@@ -175,14 +175,14 @@ namespace YMOA.WorkWeb.Controllers
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = user;
             // 获取用户可添加项目
-            List<ProjectEntity> projects = DALCore.GetInstance().TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
+            List<ProjectEntity> projects = DALUtility.TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
             // 赛选用户可添加任务
             List<TaskEntity> listTask = tasks.Where(a => projects.Exists(t => a.ProjectId.Contains(t.ID))).ToList();
             if (listTask.Count == 0)
             {
                 return OperationReturn(false);
             }
-            int count = DALCore.GetInstance().TaskCore.BatchInsert(listTask, user);
+            int count = DALUtility.TaskCore.BatchInsert(listTask, user);
             return OperationReturn(count > 0);
         }
 
@@ -203,10 +203,10 @@ namespace YMOA.WorkWeb.Controllers
             paras["ProductId"] = pId;
             paras["userName"] = user;
             // 判断用户是否可添加任务
-            bool boo = DALCore.GetInstance().TaskCore.TaskInsertJudge(paras);
+            bool boo = DALUtility.TaskCore.TaskInsertJudge(paras);
             if (boo)
             {
-                int count = DALCore.GetInstance().TaskCore.BatchInsert(tasks, user);
+                int count = DALUtility.TaskCore.BatchInsert(tasks, user);
                 return OperationReturn(count > 0);
             }
             return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_taskAdd"));
@@ -222,7 +222,7 @@ namespace YMOA.WorkWeb.Controllers
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = UserId;
             paras["TaskId"] = task.ID;
-            bool boo = DALCore.GetInstance().TaskCore.TaskUpdateJudge(paras);
+            bool boo = DALUtility.TaskCore.TaskUpdateJudge(paras);
             if (boo)
             {
                 paras = new Dictionary<string, object>();
@@ -240,7 +240,7 @@ namespace YMOA.WorkWeb.Controllers
                 paras["Send"] = null;
                 paras["UpdateBy"] = UserId;
                 paras["UpdateTime"] = DateTime.Now;
-                boo = DALCore.GetInstance().TaskCore.TaskUpdate(paras);
+                boo = DALUtility.TaskCore.TaskUpdate(paras);
                 return AddFailure(boo, task);
             }
             return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_taskAdd"));
@@ -256,17 +256,28 @@ namespace YMOA.WorkWeb.Controllers
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["ID"] = id;
+            TaskEntity task = DALUtility.TaskCore.QryTask<TaskEntity>(paras);
+            DateTime date = DateTime.Now;
+            paras = new Dictionary<string, object>();
+            paras["ID"] = id;
             paras["State"] = state;
             paras["UpdateBy"] = UserId;
-            paras["UpdateTime"] = DateTime.Now;
+            paras["UpdateTime"] = date;
             string action = "";
-            if (state == 2)
+            if (state == 1)
+            {
+                paras["Consume"] = 0.0;
+            }
+            else if (state == 2)
             {
                 action = "Start";
             }
             else if (state == 3)
             {
                 action = "Finish";
+                TimeSpan manHour = date - (DateTime)task.StartTime;
+                // 消耗工时
+                paras["Consume"] = (Decimal)manHour.TotalHours;
             }
             else if (state == 4)
             {
@@ -281,7 +292,12 @@ namespace YMOA.WorkWeb.Controllers
                 paras[action + "By"] = UserId;
                 paras[action + "Time"] = DateTime.Now;
             }
-            return OperationReturn(DALCore.GetInstance().TaskCore.TaskUpdate(paras));
+            bool boo = DALUtility.TaskCore.TaskUpdate(paras);
+            if (boo)
+            {
+                AddManHour(task, state, date);
+            }
+            return OperationReturn(boo);
         }
 
         /// <summary>
@@ -294,13 +310,13 @@ namespace YMOA.WorkWeb.Controllers
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = UserId;
             paras["TaskId"] = ID;
-            bool boo = DALCore.GetInstance().TaskCore.TaskUpdateJudge(paras);
+            bool boo = DALUtility.TaskCore.TaskUpdateJudge(paras);
             if (boo)
             {
-                boo = DALCore.GetInstance().TaskCore.ExistSubtask(ID);
+                boo = DALUtility.TaskCore.ExistSubtask(ID);
                 if (!boo)
                 {
-                    return OperationReturn(DALCore.GetInstance().TaskCore.TaskDelete(ID));
+                    return OperationReturn(DALUtility.TaskCore.TaskDelete(ID));
                 }
                 else
                 {
@@ -387,7 +403,7 @@ namespace YMOA.WorkWeb.Controllers
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = UserId;
-            List<TaskEntity> tasks = DALCore.GetInstance().TaskCore.QryUpdateTask<TaskEntity>(paras).ToList();
+            List<TaskEntity> tasks = DALUtility.TaskCore.QryUpdateTask<TaskEntity>(paras).ToList();
             foreach (TaskEntityDTO task in listTask)
             {
                 if (tasks.Exists( t => t.ID == task.ID))
@@ -488,7 +504,7 @@ namespace YMOA.WorkWeb.Controllers
             {
                 System.IO.File.Delete(path);
             }
-            return OperationReturn(DALCore.GetInstance().TaskCore.DeleteAccessory(id));
+            return OperationReturn(DALUtility.TaskCore.DeleteAccessory(id));
         }
 
         /// <summary>
@@ -502,7 +518,7 @@ namespace YMOA.WorkWeb.Controllers
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["ID"] = id;
             paras["Name"] = name;
-            return OperationReturn(DALCore.GetInstance().TaskCore.UpdateAccessory(paras));
+            return OperationReturn(DALUtility.TaskCore.UpdateAccessory(paras));
         }
 
         #endregion
@@ -527,7 +543,7 @@ namespace YMOA.WorkWeb.Controllers
                 para["projectId"] = projectId;
                 para["taskId"] = "0";
             }
-            var teams = DALCore.GetInstance().TaskCore.GetTeams<TeamEntity>(para).ToList();
+            var teams = DALUtility.TaskCore.GetTeams<TeamEntity>(para).ToList();
             return PagerData(teams.Count, ToUsers(teams));
         }
 
@@ -541,7 +557,7 @@ namespace YMOA.WorkWeb.Controllers
             string[] arr = teams.Select(x => x.Person).ToArray();
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["names"] = arr;
-            var users = DALCore.GetInstance().UserCore.QryRealName<UserEntity>(paras).ToList();
+            var users = DALUtility.UserCore.QryRealName<UserEntity>(paras).ToList();
             return users;
         }
 
@@ -561,13 +577,30 @@ namespace YMOA.WorkWeb.Controllers
             if (boo)
             {
                 List<AccessoryEntity> list = FileUpload(Request.Files, task.listAccessory, out failure);
-                DALCore.GetInstance().TaskCore.SaveTeamAndAccessory(task.ProjectId, task.ID, task.listTeam, list);
+                DALUtility.TaskCore.SaveTeamAndAccessory(task.ProjectId, task.ID, task.listTeam, list);
             }
             if (failure.Count > 0)
             {
                 return OperationReturn(boo, Resource.ResourceManager.GetString("ormsg_accessoryAdd") + String.Join(",", failure));
             }
             return OperationReturn(boo);
+        }
+
+        private void AddManHour(TaskEntity task, int state, DateTime date)
+        {
+            if (task.State == 3)
+            {
+                // 根据任务编号删除工时
+            }
+            else if (state == 3)
+            {
+                TimeSpan manHour = date - (DateTime)task.StartTime;
+                // 工时
+                Decimal getHours = (Decimal)manHour.TotalHours;
+                // 根据任务编号判断工时是否存在 
+                // 添加工时
+                // 修改工时
+            }
         }
 
         #endregion
