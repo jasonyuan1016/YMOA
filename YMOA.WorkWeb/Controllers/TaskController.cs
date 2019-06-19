@@ -594,12 +594,11 @@ namespace YMOA.WorkWeb.Controllers
             }
             else if (state == 3)
             {
+                // 获取员工
                 TimeSpan manHour = date - (DateTime)task.StartTime;
                 // 工时
                 Decimal getHours = (Decimal)manHour.TotalHours;
-                // 根据任务编号判断工时是否存在 
-                // 添加工时
-                // 修改工时
+                // 批量添加工时
             }
         }
 
