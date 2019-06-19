@@ -4,8 +4,6 @@ $(function () {
     refreshSelect($("#sltVictors"));
     if (!!ID) {
         var projectStatus = top.clients.projectStatus;
-        var roles = top.clients.groups;
-        var index;
         $("#sltDutyPerson").val($("#sltDutyPerson").attr("value"));
         $("#txtStartTime").val(new Date($("#txtStartTime").val()).Format("yyyy-MM-dd"));
         $("#txtEndTime").val(new Date($("#txtEndTime").val()).Format("yyyy-MM-dd"));
@@ -13,13 +11,9 @@ $(function () {
         var arr = new Array();
         arr = data.split(',');
         $("#sltVictors").selectpicker('val', arr);
-        $("#formTitle").html("状态");
-        var html = "<select id='sltState'>";
-        $.each(projectStatus, function (i,n) {
-            html += "<option value='" + n.id + "'>" + n.name + "</option>";
+        $("#sltState").bindSltSpe({
+            id: "id", name: "name", data: projectStatus
         });
-        html += "</select>";
-        $("#Team").html(html);
     }
 });
 

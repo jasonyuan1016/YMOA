@@ -8,7 +8,7 @@
 
 <form id="ProjectEdit">
     <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
-        <ul class="nav nav-tabs">
+        <ul class="nav">
             <input id="hidID" type="hidden" value="@Model.ID" />
             @*<li ><a href="#">扩展信息</a></li>*@
         </ul>
@@ -26,12 +26,26 @@
                         <select id="sltDutyPerson" name="sltDutyPerson" class="form-control required" value="@Model.DutyPerson"></select>
                     </td>
                 </tr>
-                <tr>
-                    <th class="formTitle" id="formTitle">团队</th>
-                    <td class="formValue" id="Team" colspan="3">
-                        <select id="sltTeam" class="form-control required" multiple></select>
-                    </td>
-                </tr>
+                @{
+                    if (ViewData["boo"] != null)
+                    {
+                        <tr>
+                            <th class="formTitle">状态</th>
+                            <td class="formValue">
+                                <select id="sltState" class="form-control input-select"></select>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <th class="formTitle" id="formTitle">团队</th>
+                            <td class="formValue" id="Team" colspan="3">
+                                <select id="sltTeam" class="form-control required" multiple></select>
+                            </td>
+                        </tr>
+                    }
+                }
                 <tr>
                     <th class="formTitle">开始日期</th>
                     <td class="formValue">
