@@ -148,7 +148,7 @@ namespace YMOA.WorkWeb.Controllers
                 paras["Describe"] = task.Describe;
                 paras["Remarks"] = task.Remarks;
                 paras["Estimate"] = Math.Round(task.Estimate, 1);
-                paras["Consume"] = task.Consume;
+                paras["Consume"] = Math.Round(task.Consume, 1);
                 paras["Sort"] = task.Sort;
                 paras["State"] = task.State;
                 paras["Send"] = null;
@@ -234,7 +234,7 @@ namespace YMOA.WorkWeb.Controllers
                 paras["Describe"] = task.Describe;
                 paras["Remarks"] = task.Remarks;
                 paras["Estimate"] = Math.Round(task.Estimate, 1);
-                paras["Consume"] = task.Consume;
+                paras["Consume"] = Math.Round(task.Consume, 1);
                 paras["Sort"] = task.Sort;
                 paras["State"] = task.State;
                 paras["Send"] = null;
@@ -586,11 +586,18 @@ namespace YMOA.WorkWeb.Controllers
             return OperationReturn(boo);
         }
 
+        /// <summary>
+        ///  完成任务时添加工时
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="state"></param>
+        /// <param name="date"></param>
         private void AddManHour(TaskEntity task, int state, DateTime date)
         {
             if (task.State == 3)
             {
                 // 根据任务编号删除工时
+                DALUtility.HoursCore.DeleteTaskHours(task.ID);
             }
             else if (state == 3)
             {
@@ -598,7 +605,21 @@ namespace YMOA.WorkWeb.Controllers
                 TimeSpan manHour = date - (DateTime)task.StartTime;
                 // 工时
                 Decimal getHours = (Decimal)manHour.TotalHours;
+                // 查询成员
+                Dictionary<string, object> para = new Dictionary<string, object>();
+                para["taskId"] = task.ID;
+                List<TeamEntity> teams = DALUtility.TaskCore.GetTeams<TeamEntity>(para).ToList();
                 // 批量添加工时
+                List<HoursEntity> hours = (from team in teams
+                                          select new HoursEntity
+                                          {
+                                              ProjectId = team.ProjectId,
+                                              TaskId = team.TaskId,
+                                              Hour = getHours,
+                                              Person = team.Person,
+                                              Date = date
+                                          }).ToList();
+                DALUtility.HoursCore.BatchInsert(hours, task.ID);
             }
         }
 

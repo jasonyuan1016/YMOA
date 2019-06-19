@@ -20,5 +20,13 @@ namespace YMOA.IDAL
         /// <returns></returns>
         bool BatchInsert(List<HoursEntity> hours, string taskId);
 
+
+        /// <summary>
+        ///  根据任务编号删除
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
+        bool DeleteTaskHours(string taskId);
+
     }
 }
