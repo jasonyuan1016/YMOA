@@ -26,6 +26,12 @@ namespace YMOA.WorkWeb.Controllers
         {
             return View();
         }
+        /// <summary>
+        /// 获取项目的基本信息
+        /// </summary>
+        /// <param name="pagination">页面参数</param>
+        /// <param name="keywords">查询条件</param>
+        /// <returns></returns>
         public ActionResult GetItem(Pagination pagination, string keywords)
         {
             string person = Request["Person"];
@@ -59,7 +65,15 @@ namespace YMOA.WorkWeb.Controllers
             return Content(data.ToJson());
         }
         #endregion
+
         #region 项目的新增和修改
+
+        /// <summary>
+        /// 新增/修改页面
+        /// </summary>
+        /// <param name="ID">项目ID</param>
+        /// <returns></returns>
+        
         public ActionResult ProjectEdit(string ID = "")
         {
             var projectInfo = new ProjectEntity();
@@ -82,6 +96,11 @@ namespace YMOA.WorkWeb.Controllers
         {
             return SubmitForm(project);
         }
+        /// <summary>
+        /// 提交方法
+        /// </summary>
+        /// <param name="projectEntity"></param>
+        /// <returns></returns>
         public ActionResult SubmitForm(ProjectEntity projectEntity)
         {
             Dictionary<string, object> pars = new Dictionary<string, object>();
@@ -105,7 +124,6 @@ namespace YMOA.WorkWeb.Controllers
             else
             {
                 pars["ID"] = projectEntity.ID;
-                //pars["Team"] = null;
             }
 
             pars["Name"] = projectEntity.Name;
@@ -127,15 +145,21 @@ namespace YMOA.WorkWeb.Controllers
                 pars["State"] = projectEntity.State;
             }
             
-            int rows = DALCore.GetInstance().ProjectCore.Save(pars);
+            int rows = DALUtility.ProjectCore.Save(pars);
             return OperationReturn(rows == 0);
         }
         #endregion
+
         #region 团队的查看和批量添加
         public ActionResult Team()
         {
             return View();
         }
+        /// <summary>
+        /// 获取当前项目下团队人员
+        /// </summary>
+        /// <param name="Id">项目ID</param>
+        /// <returns></returns>
         public ActionResult GetTeam(string Id = "")
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
@@ -144,11 +168,17 @@ namespace YMOA.WorkWeb.Controllers
             var team = DALUtility.TeamCore.QryTeam<TeamEntity>(paras);
             return Content(JsonConvert.SerializeObject(team));
         }
+        /// <summary>
+        /// 添加团队人员
+        /// </summary>
+        /// <param name="teams">团队人员</param>
+        /// <returns></returns>
         public ActionResult AddTeam(List<TeamEntity> teams)
         {
             return OperationReturn(DALUtility.TeamCore.Save(teams) > 0);
         }
         #endregion
+
         #region 删除项目、任务及团队
         public ActionResult Delete()
         {
@@ -157,6 +187,7 @@ namespace YMOA.WorkWeb.Controllers
             return OperationReturn(DALUtility.ProjectCore.DeleteProject(param));
         }
         #endregion
+
         public ActionResult Task()
         {
             return View();

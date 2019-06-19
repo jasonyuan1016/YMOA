@@ -65,7 +65,6 @@ function submitForm() {
         team.push(_p);
     });
     var victors = $("#sltVictors").selectpicker('val');
-    console.log(victors);
     var victor = "";
     $.each(victors,function (i,val) {
         victor += val+",";

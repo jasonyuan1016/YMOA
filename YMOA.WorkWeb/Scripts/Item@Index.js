@@ -94,7 +94,7 @@ function btn_add() {
         title: GlobalResx.add,
         url: "/Item/ProjectEdit",
         width: "700px",
-        height: "510px",
+        height: "410px",
         callBack: function (iframeId) {
             top.frames[iframeId].submitForm();
         }
@@ -108,7 +108,7 @@ function btn_edit() {
             title: GlobalResx.edit,
             url: "/Item/ProjectEdit?ID=" + ID,
             width: "700px",
-            height: "510px",
+            height: "410px",
             callBack: function (iframeId) {
                 top.frames[iframeId].submitForm();
             }

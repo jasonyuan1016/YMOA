@@ -17,9 +17,9 @@ namespace YMOA.DAL
     public class ProjectDAL : BaseDal, IProjectDAL
     {
         /// <summary>
-        /// 删除项目
+        /// 删除项目，任务以及团队
         /// </summary>
-        /// <param name="idList">id</param>
+        /// <param name="paras"></param>
         /// <returns></returns>
         public bool DeleteProject(Dictionary<string,object>paras)
         {
