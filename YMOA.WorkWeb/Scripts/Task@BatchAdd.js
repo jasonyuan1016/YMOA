@@ -39,13 +39,9 @@ function refreshSelect() {
 function batchGetTeams(projectId, taskId, that) {
     $(that).empty();
     $.get("/Task/GetTeams", { projectId, taskId }, function (data) {
-        if (data.total > 0) {
-            $(that).bindSltSpe({
-                id: "AccountName", name: "RealName", data: data.rows
-            });
-        }
-        // 重新渲染
-        $(that).selectpicker('refresh');
+        $.renderSlt({
+            ele: that, data: data.rows, val: "AccountName", name: "RealName"
+        })
     }, "json")
 }
 

@@ -98,14 +98,10 @@ function getTeams(projectId, taskId, boo = false) {
             $("#sltTeam").selectpicker('val', arr);
             return false;
         }
-        $("#sltTeam option").remove();
-        if (data.total > 0) {
-            $("#sltTeam").bindSltSpe({
-                id: "AccountName", name: "RealName", data: data.rows
-            });
-        }
-        // 刷新
-        $("#sltTeam").selectpicker('refresh');
+        // 充值渲染
+        $.renderSlt({
+            ele: $("#sltTeam"), data: data.rows, val: "AccountName", name: "RealName"
+        })
     }, "json")
 }
 
