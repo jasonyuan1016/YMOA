@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YMOA.Model;
 
 namespace YMOA.IDAL
 {
@@ -11,6 +12,13 @@ namespace YMOA.IDAL
     /// </summary>
     public interface IHoursDAL
     {
+        /// <summary>
+        ///  批量添加
+        /// </summary>
+        /// <param name="hours"></param>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
+        bool BatchInsert(List<HoursEntity> hours, string taskId);
 
     }
 }
