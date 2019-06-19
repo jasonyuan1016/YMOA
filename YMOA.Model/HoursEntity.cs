@@ -11,7 +11,7 @@ namespace YMOA.Model
     ///  作者:zxy
     ///  创建时间:2019年6月19日
     /// </summary>
-    public class Hours
+    public class HoursEntity
     {
         /// <summary>
         ///  编号
