@@ -23,6 +23,18 @@ $.generateSlt = function (obj) {
     return strSlt;
 }
 
+// 依赖bootstrap-select重新渲染
+$.renderSlt = function (obj) {
+    $(obj.ele).children().remove();
+    if (obj.data != null && obj.data.length > 0) {
+        $(obj.ele).bindSltSpe({
+            id: obj.val, name: obj.name, data: obj.data
+        });
+    }
+    // 刷新
+    $(obj.ele).selectpicker('refresh');
+}
+
 //表单验证
 $.fn.formValid = function () {
     return $(this).valid({
