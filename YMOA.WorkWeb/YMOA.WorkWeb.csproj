@@ -123,6 +123,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ClientsDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HoursController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -597,6 +598,7 @@
     <Content Include="Views\Item\Team.cshtml" />
     <Content Include="Views\Task\BatchChildToAdd.cshtml" />
     <Content Include="Views\Item\Task.cshtml" />
+    <Content Include="Views\Hours\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

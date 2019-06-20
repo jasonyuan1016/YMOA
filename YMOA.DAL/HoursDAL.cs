@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YMOA.Comm;
 using YMOA.IDAL;
 using YMOA.Model;
 
@@ -34,10 +35,32 @@ namespace YMOA.DAL
             string sql = "DELETE FROM tbHours WHERE TaskId = @TaskId";
             return Execute(sql, new { taskId }) > 0;
         }
-        
+        /// <summary>
+        /// 获取所有项目工时
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pagination"></param>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetAllProject<T>()
+        {
+            string sql = "select tbProduct.Name as ProjectId ,sum(Consume) as Hour from tbTask join tbTeam on tbTask.ID = tbTeam.TaskId join tbProduct on tbTask.ProjectId = tbProduct.ID group by tbProduct.Name";
+            return QueryList<T>(sql);
+        }
+        /// <summary>
+        /// 获取项目中子任务工时详情
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ProName">项目名称</param>
+        /// <returns></returns>
+        public IEnumerable<T> GetProjectByPerson<T>(string ProName)
+        {
+            string sql = "select tbTask.Name TaskId ,tbTask.Consume Hour ,tbTeam.Person Person from tbTask  join tbTeam on tbTask.ID = tbTeam.TaskId  join tbProduct on tbTask.ProjectId = tbProduct.ID where tbProduct.Name = @ProName";
+            return QueryList<T>(sql,new { ProName });
+        }
         //public bool BatchInsert(List<HoursEntity> hours)
         //{
-            
+
         //}
 
 
