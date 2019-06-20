@@ -576,7 +576,9 @@
     <Content Include="Scripts\Task%40Index.js" />
     <Content Include="Scripts\User%40Index.js" />
     <Content Include="Scripts\User%40UserEdit.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
