@@ -289,23 +289,6 @@ namespace YMOA.DAL
         /// <param name="accessories">附件</param>
         public void SaveTeamAndAccessory(string projectId, string taskId, List<TeamEntity> teams, List<AccessoryEntity> accessories)
         {
-            if (teams == null)
-            {
-                teams = new List<TeamEntity>();
-            }
-            if (accessories == null)
-            {
-                accessories = new List<AccessoryEntity>();
-            }
-            foreach (var item in teams)
-            {
-                item.ProjectId = projectId;
-                item.TaskId = taskId;
-            }
-            foreach (var item in accessories)
-            {
-                item.TaskId = taskId;
-            }
             DataTable dtTeam = ToDatatable.ListToDataTable(teams);
             DataTable dtAccessory = ToDatatable.ListToDataTable(accessories);
             Dictionary<string, object> paras = new Dictionary<string, object>();

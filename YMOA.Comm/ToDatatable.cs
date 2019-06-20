@@ -79,6 +79,10 @@ namespace YMOA.Comm
                 Type t = GetCoreType(prop.PropertyType);
                 tb.Columns.Add(prop.Name, t);
             }
+            if (items == null || items.Count < 1)
+            {
+                return tb;
+            }
             foreach (T item in items)
             {
                 var values = new object[props.Length];
