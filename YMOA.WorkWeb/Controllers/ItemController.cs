@@ -118,6 +118,7 @@ namespace YMOA.WorkWeb.Controllers
                     row[1] = "0";
                     row[2] = item.Person;
                     dtCheckInfo.Rows.Add(row);
+                    
                 }
                 pars["Team"] = dtCheckInfo;
             }
