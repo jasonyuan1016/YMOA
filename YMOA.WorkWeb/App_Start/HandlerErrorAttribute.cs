@@ -16,8 +16,6 @@ namespace YMOA.WorkWeb.App_Start
         {
             if (context == null)
                 return;
-            //var log = LogFactory.GetLogger(context.Controller.ToString());
-            //log.Error(context.Exception);
         }
     }
 }

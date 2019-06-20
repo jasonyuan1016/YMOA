@@ -123,6 +123,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ClientsDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HoursController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LibraryController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -540,6 +541,7 @@
     <Content Include="Content\bootstrap-select\js\i18n\defaults-zh_CN.js.map" />
     <Content Include="Content\bootstrap-select\js\i18n\defaults-zh_TW.js.map" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Scripts\Hours%40ProHours.js" />
     <Content Include="Scripts\Item%40Index.js" />
     <Content Include="Scripts\Item%40ProjectEdit.js" />
     <Content Include="Scripts\Item%40Task.js" />
@@ -551,12 +553,16 @@
     <Content Include="Scripts\Memu%40Edit.js" />
     <Content Include="Scripts\resx\en-us\global.js" />
     <Content Include="Scripts\resx\en-us\Group%40Index.js" />
+    <Content Include="Scripts\resx\en-us\Hours%40Index.js" />
     <Content Include="Scripts\resx\en-us\Library%40Index.js" />
     <Content Include="Scripts\resx\en-us\Login%40Index.js" />
     <Content Include="Scripts\resx\en-us\Memu%40Index.js" />
     <Content Include="Scripts\resx\en-us\User%40Index.js" />
+    <Content Include="Scripts\Hours%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\global.js" />
     <Content Include="Scripts\resx\zh-cn\Group%40Index.js" />
+    <Content Include="Scripts\resx\zh-cn\Hours%40ProHours.js" />
+    <Content Include="Scripts\resx\zh-cn\Hours%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Item%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Item%40Task.js" />
     <Content Include="Scripts\resx\zh-cn\Library%40Index.js" />
@@ -597,6 +603,8 @@
     <Content Include="Views\Item\Team.cshtml" />
     <Content Include="Views\Task\BatchChildToAdd.cshtml" />
     <Content Include="Views\Item\Task.cshtml" />
+    <Content Include="Views\Hours\Index.cshtml" />
+    <Content Include="Views\Hours\ProHours.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
