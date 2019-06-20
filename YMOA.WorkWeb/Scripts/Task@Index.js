@@ -22,7 +22,6 @@ function TaskState(id, state) {
         str.push(close);
     }
     else if (state == 2) {
-        str.push(reset);
         str.push(complete);
         str.push(cancel);
         str.push(close);

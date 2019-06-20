@@ -115,6 +115,7 @@ namespace YMOA.WorkWeb.Controllers
             paras = new Dictionary<string, object>();
             if (ID != "")
             {
+                ViewData["Update"] = true;
                 paras = new Dictionary<string, object>();
                 paras["ID"] = ID;
                 taskEntity = DALUtility.TaskCore.QryTask<TaskEntity>(paras);
@@ -236,7 +237,6 @@ namespace YMOA.WorkWeb.Controllers
                 paras["Estimate"] = Math.Round(task.Estimate, 1);
                 paras["Consume"] = Math.Round(task.Consume, 1);
                 paras["Sort"] = task.Sort;
-                paras["State"] = task.State;
                 paras["Send"] = null;
                 paras["UpdateBy"] = UserId;
                 paras["UpdateTime"] = DateTime.Now;
@@ -254,30 +254,20 @@ namespace YMOA.WorkWeb.Controllers
         /// <returns></returns>
         public ActionResult UpdateTaskState(string id, int state)
         {
-            Dictionary<string, object> paras = new Dictionary<string, object>();
-            paras["ID"] = id;
-            TaskEntity task = DALUtility.TaskCore.QryTask<TaskEntity>(paras);
             DateTime date = DateTime.Now;
-            paras = new Dictionary<string, object>();
+            Dictionary<string, object>  paras = new Dictionary<string, object>();
             paras["ID"] = id;
             paras["State"] = state;
             paras["UpdateBy"] = UserId;
             paras["UpdateTime"] = date;
             string action = "";
-            if (state == 1)
-            {
-                paras["Consume"] = 0.0;
-            }
-            else if (state == 2)
+            if (state == 2)
             {
                 action = "Start";
             }
             else if (state == 3)
             {
                 action = "Finish";
-                TimeSpan manHour = date - (DateTime)task.StartTime;
-                // 消耗工时
-                paras["Consume"] = (Decimal)manHour.TotalHours;
             }
             else if (state == 4)
             {
@@ -295,7 +285,8 @@ namespace YMOA.WorkWeb.Controllers
             bool boo = DALUtility.TaskCore.TaskUpdate(paras);
             if (boo)
             {
-                AddManHour(task, state, date);
+                paras = new Dictionary<string, object>();
+                paras["ID"] = id;
             }
             return OperationReturn(boo);
         }
@@ -601,10 +592,6 @@ namespace YMOA.WorkWeb.Controllers
             }
             else if (state == 3)
             {
-                // 获取员工
-                TimeSpan manHour = date - (DateTime)task.StartTime;
-                // 工时
-                Decimal getHours = (Decimal)manHour.TotalHours;
                 // 查询成员
                 Dictionary<string, object> para = new Dictionary<string, object>();
                 para["taskId"] = task.ID;
@@ -615,10 +602,11 @@ namespace YMOA.WorkWeb.Controllers
                                           {
                                               ProjectId = team.ProjectId,
                                               TaskId = team.TaskId,
-                                              Hour = getHours,
+                                              Hour = task.Consume,
                                               Person = team.Person,
                                               Date = date
                                           }).ToList();
+                // 添加工时
                 DALUtility.HoursCore.BatchInsert(hours, task.ID);
             }
         }
