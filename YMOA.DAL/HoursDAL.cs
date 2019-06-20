@@ -44,7 +44,7 @@ namespace YMOA.DAL
         /// <returns></returns>
         public IEnumerable<T> GetAllProject<T>()
         {
-            string sql = "select tbProduct.Name as ProjectId ,sum(Consume) as Hour from tbTask join tbTeam on tbTask.ID = tbTeam.TaskId join tbProduct on tbTask.ProjectId = tbProduct.ID group by tbProduct.Name";
+            string sql = "select tbProduct.ID TaskId, tbProduct.Name as ProjectId ,sum(Consume) as Hour from tbTask join tbTeam on tbTask.ID = tbTeam.TaskId join tbProduct on tbTask.ProjectId = tbProduct.ID group by tbProduct.Name ,tbProduct.ID";
             return QueryList<T>(sql);
         }
         /// <summary>
@@ -55,7 +55,7 @@ namespace YMOA.DAL
         /// <returns></returns>
         public IEnumerable<T> GetProjectByPerson<T>(string ProName)
         {
-            string sql = "select tbTask.Name TaskId ,tbTask.Consume Hour ,tbTeam.Person Person from tbTask  join tbTeam on tbTask.ID = tbTeam.TaskId  join tbProduct on tbTask.ProjectId = tbProduct.ID where tbProduct.Name = @ProName";
+            string sql = "SELECT TName TaskId , Consume Hour , RealName Person FROM v_hour_statistics where TID is not null and PID =  @ProName";
             return QueryList<T>(sql,new { ProName });
         }
         //public bool BatchInsert(List<HoursEntity> hours)
