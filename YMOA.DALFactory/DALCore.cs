@@ -99,5 +99,9 @@ namespace YMOA.DALFactory
         {
             get { return LoadAssamblyType<ITeamDAL>("TeamDAL"); }
         }
+
+        public IHoursDAL HoursCore {
+            get { return LoadAssamblyType<IHoursDAL>("HoursDAL"); }
+        }
     }
 }

@@ -79,6 +79,7 @@ namespace YMOA.WorkWeb.Controllers
             var projectInfo = new ProjectEntity();
             if (!ID.IsEmpty())
             {
+                ViewData["boo"] = true;
                 DynamicParameters dp = new DynamicParameters();
                 dp.Add("keywords", "");
                 dp.Add("State", 1);

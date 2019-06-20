@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="AccessoryEntity.cs" />
     <Compile Include="DBLogEntity.cs" />
+    <Compile Include="HoursEntity.cs" />
     <Compile Include="LibraryEntity.cs" />
     <Compile Include="MenuPermission.cs" />
     <Compile Include="LoginIpLogEntity.cs" />
