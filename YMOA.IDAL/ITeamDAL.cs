@@ -16,5 +16,19 @@ namespace YMOA.IDAL
     {
         IEnumerable<T> QryTeam<T>(Dictionary<string, object> paras);
         int Save(List<TeamEntity>listModels);
+        
+        /// <summary>
+        ///  查询成员
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<T> GetTeams<T>(Dictionary<string, object> paras);
+
+        /// <summary>
+        ///  多任务查询成员
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tasks"></param>
+        /// <returns></returns>
+        IEnumerable<T> GetTeams<T>(string tasks);
     }
 }

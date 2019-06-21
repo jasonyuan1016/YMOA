@@ -56,5 +56,16 @@ namespace YMOA.DAL
             }
             return QuerySingle<int>("P_Product_Save", paras, CommandType.StoredProcedure);
         }
+
+        /// <summary>
+        ///  查询用户可添加项目
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        public IEnumerable<T> QryInsertTask<T>(Dictionary<string, object> paras)
+        {
+            return QueryList<T>("P_Product_UserAdd", paras, CommandType.StoredProcedure);
+        }
     }
 }

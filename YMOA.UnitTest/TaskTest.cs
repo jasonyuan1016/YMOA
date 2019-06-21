@@ -142,7 +142,7 @@ namespace YMOA.UnitTest
             string strTeams = String.Join("','", teams);
             strTeams = "'" + strTeams + "'";
             // 查询任务团员
-            var teamList = DALCore.GetInstance().TaskCore.GetTeams<TeamEntity>(strTeams);
+            var teamList = DALCore.GetInstance().TeamCore.GetTeams<TeamEntity>(strTeams);
             Assert.AreNotEqual(tasks.Count, 0);
         }
 
