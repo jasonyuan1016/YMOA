@@ -8,14 +8,14 @@ $(function () {
     gridList();
 })
 function gridList() {
-    var now = new Date();
-    var startday = ("0" + (now.getDate() - 7)).slice(-2);
-    var endday = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-    var start = now.getFullYear() + "-" + (month) + "-" + (startday);
-    var end = now.getFullYear() + "-" + (month) + "-" + (endday);
-    $("#StartTime").val(start);
-    $("#EndTime").val(end);
+    //var now = new Date();
+    //var startday = ("0" + (now.getDate() - 7)).slice(-2);
+    //var endday = ("0" + now.getDate()).slice(-2);
+    //var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    //var start = now.getFullYear() + "-" + (month) + "-" + (startday);
+    //var end = now.getFullYear() + "-" + (month) + "-" + (endday);
+    //$("#StartTime").val(start);
+    //$("#EndTime").val(end);
     var $gridList = $("#gridList");
     $gridList.dataGrid({
         url: "/Hours/GetProjectByPerson?ProName=" + ProjectId,
