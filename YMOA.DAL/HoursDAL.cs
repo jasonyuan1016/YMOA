@@ -56,7 +56,7 @@ namespace YMOA.DAL
         /// <returns></returns>
         public IEnumerable<T> GetProjectByPerson<T>(Dictionary<string, object> paras)
         {
-            string sql = "SELECT PID ProjectId , PName TaskId  ,RealName Person ,COUNT(TID) TaskCount,SUM(Consume) Hour,MAX(FinishTime) FinishTime FROM v_hour_statistics WHERE PID = @ProName AND FinishTime > @StartTime AND FinishTime < @EndTime GROUP BY PName,RealName,PID ORDER BY PName,TaskCount,Hour";
+            string sql = "SELECT PName TaskId  ,RealName Person ,SUM(Consume) Hour,MAX(FinishTime) FinishTime FROM v_hour_statistics WHERE PID = @ProName AND FinishTime >= @StartTime AND FinishTime <= @EndTime GROUP BY PName,RealName";
             return QueryList<T>(sql,paras);
         }
         //public bool BatchInsert(List<HoursEntity> hours)

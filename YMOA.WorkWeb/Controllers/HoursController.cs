@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -51,8 +52,8 @@ namespace YMOA.WorkWeb.Controllers
 
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["ProName"] = proName;
-            paras["StartTime"] = startTime == null ? "2019-06-20 10:43":startTime;
-            paras["EndTime"] = endTime == null ? "2019-06-20 12:12":endTime;
+            paras["StartTime"] = startTime == null ? DateTime.Now.AddDays(-7):DateTime.Parse(startTime);
+            paras["EndTime"] = endTime == null ? DateTime.Now.ToDate() :DateTime.Parse(endTime);
             var hoursList = DALUtility.HoursCore.GetProjectByPerson<HoursEntity>(paras);
             return Content(hoursList.ToJson());
         }
