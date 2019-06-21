@@ -21,21 +21,6 @@ namespace YMOA.IDAL
         /// <param name="paras"></param>
         /// <returns></returns>
         IEnumerable<T> GetAllProject<T>();
-        /// <summary>
-        ///  批量添加
-        /// </summary>
-        /// <param name="hours"></param>
-        /// <param name="taskId"></param>
-        /// <returns></returns>
-        bool BatchInsert(List<HoursEntity> hours, string taskId);
-
-
-        /// <summary>
-        ///  根据任务编号删除
-        /// </summary>
-        /// <param name="taskId"></param>
-        /// <returns></returns>
-        bool DeleteTaskHours(string taskId);
 
         /// <summary>
         /// 获取项目中子任务工时详情

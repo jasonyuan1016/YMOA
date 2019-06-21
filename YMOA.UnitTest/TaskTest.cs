@@ -224,30 +224,5 @@ namespace YMOA.UnitTest
             Assert.AreNotEqual(users.Count, 0);
         }
 
-        /// <summary>
-        ///  批量添加工时
-        /// </summary>
-        [TestMethod]
-        public void TestHoursBatchInsert()
-        {
-            List<HoursEntity> hours = new List<HoursEntity>();
-            HoursEntity entity = new HoursEntity();
-            entity.ProjectId = "597d6f967b075ee9";
-            entity.TaskId = "3d2d2bd1fb017571";
-            entity.Person = "zxy";
-            entity.Hour = (Decimal)20.0;
-            entity.Date = DateTime.Now;
-            hours.Add(entity);
-            entity = new HoursEntity();
-            entity.ProjectId = "597d6f967b075ee9";
-            entity.TaskId = "3d2d2bd1fb017571";
-            entity.Person = "lyl";
-            entity.Hour = (Decimal)20.0;
-            entity.Date = DateTime.Now;
-            hours.Add(entity);
-            bool boo = DALCore.GetInstance().HoursCore.BatchInsert(hours, "3d2d2bd1fb017571");
-            Assert.AreNotEqual(boo, false);
-        }
-
     }
 }
