@@ -22,8 +22,8 @@ function gridList() {
         height: $(window).height() - 128,
         colModel: [
             { label: PageResx.col_Name, name: 'TaskId', width: 80, align: 'left' },
-            { label: PageResx.col_Describe, name: 'Hour', width: 80, align: 'left' },
-            { label: PageResx.col_oper, name: 'Person', width: 80, align: 'left' }
+            { label: PageResx.col_oper, name: 'Person', width: 80, align: 'left' },
+            { label: PageResx.col_Describe, name: 'Hour', width: 80, align: 'left' }
 
         ],
         pager: "#gridPager",
