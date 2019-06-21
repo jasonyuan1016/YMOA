@@ -51,9 +51,9 @@ namespace YMOA.WorkWeb.Controllers
 
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["ProName"] = proName;
-            string key = startTime == null ? "1" : "StartTime";
+            string key = startTime == null ? "" : "StartTime";
             paras[key] = startTime;
-            key = startTime == null ? "1" : "EndTime";
+            key = startTime == null ? "" : "EndTime";
             paras[key] = endTime;
             var hoursList = DALUtility.HoursCore.GetProjectByPerson<HoursEntity>(paras);
             return Content(hoursList.ToJson());
