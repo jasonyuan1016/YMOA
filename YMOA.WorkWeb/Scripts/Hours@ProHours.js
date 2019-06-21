@@ -34,21 +34,22 @@ function gridList() {
         viewrecords: true
     });
     $("#btn_search").click(function () {
-        start = new Date($("#StartTime").val()).Format("yyyy-MM-dd");
-        end = new Date($("#EndTime").val());
-        console.log(start);
-        var time = (end - start) / (1000 * 60 * 60 * 24);
-        if (time >= 7) {
+        start = $("#StartTime").val();
+        end = $("#EndTime").val();
+        //start = new Date($("#StartTime").val()).Format("yyyy-MM-dd");
+        //end = new Date($("#EndTime").val());
+        //var time = (end - start) / (1000 * 60 * 60 * 24);
+        //if (time >= 7) {
             $gridList.jqGrid('setGridParam', {
                 postData: {
                     startTime: start,
                     endTime: end
                 }
             }).trigger('reloadGrid');
-        }
-        else {
-            alert("七天内无法查询！");
-        }
+        //}
+        //else {
+        //    alert("七天内无法查询！");
+        //}
     });
 }
 //function ChangeDateFormat(date) {

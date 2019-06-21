@@ -40,20 +40,21 @@ namespace YMOA.WorkWeb.Controllers
             var hoursList = DALUtility.HoursCore.GetAllProject<HoursEntity>();
             return Content(hoursList.ToJson());
         }
+
         /// <summary>
         /// 获取项目中子任务工时详情
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetProjectByPerson()
+        public ActionResult GetProjectByPerson(DateTime? startTime = null, DateTime? endTime = null)
         {
             string proName = Request["ProName"];
-            string startTime = Request["startTime"];
-            string endTime = Request["endTime"];
 
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["ProName"] = proName;
-            paras["StartTime"] = startTime == null ? DateTime.Now.AddDays(-7):DateTime.Parse(startTime);
-            paras["EndTime"] = endTime == null ? DateTime.Now.ToDate() :DateTime.Parse(endTime);
+            string key = startTime == null ? "1" : "StartTime";
+            paras[key] = startTime;
+            key = startTime == null ? "1" : "EndTime";
+            paras[key] = endTime;
             var hoursList = DALUtility.HoursCore.GetProjectByPerson<HoursEntity>(paras);
             return Content(hoursList.ToJson());
         }
