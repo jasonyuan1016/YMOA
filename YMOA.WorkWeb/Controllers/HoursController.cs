@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using YMOA.Comm;
@@ -45,12 +46,14 @@ namespace YMOA.WorkWeb.Controllers
         public ActionResult GetProjectByPerson()
         {
             string proName = Request["ProName"];
-            //var by = Encoding.ASCII.GetBytes(proName);
-            //proName = Encoding.UTF8.GetString(by);
-            //string aa = Server.UrlEncode(proName);
-            //string aa = HttpUtility.UrlEncode(proName, Encoding.GetEncoding("GB2312"));
+            string startTime = Request["startTime"];
+            string endTime = Request["endTime"];
 
-             var hoursList = DALUtility.HoursCore.GetProjectByPerson<HoursEntity>(proName);
+            Dictionary<string, object> paras = new Dictionary<string, object>();
+            paras["ProName"] = proName;
+            paras["StartTime"] = startTime == null ? "2019-06-20 10:43":startTime;
+            paras["EndTime"] = endTime == null ? "2019-06-20 12:12":endTime;
+            var hoursList = DALUtility.HoursCore.GetProjectByPerson<HoursEntity>(paras);
             return Content(hoursList.ToJson());
         }
 

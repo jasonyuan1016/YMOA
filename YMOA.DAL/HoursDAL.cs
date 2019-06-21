@@ -54,10 +54,10 @@ namespace YMOA.DAL
         /// <typeparam name="T"></typeparam>
         /// <param name="ProName">项目名称</param>
         /// <returns></returns>
-        public IEnumerable<T> GetProjectByPerson<T>(string ProName)
+        public IEnumerable<T> GetProjectByPerson<T>(Dictionary<string, object> paras)
         {
-            string sql = "SELECT TName TaskId , Consume Hour , RealName Person FROM v_hour_statistics where TID is not null and PID =  @ProName";
-            return QueryList<T>(sql,new { ProName });
+            string sql = "SELECT PID ProjectId , PName TaskId  ,RealName Person ,COUNT(TID) TaskCount,SUM(Consume) Hour,MAX(FinishTime) FinishTime FROM v_hour_statistics WHERE PID = @ProName AND FinishTime > @StartTime AND FinishTime < @EndTime GROUP BY PName,RealName,PID ORDER BY PName,TaskCount,Hour";
+            return QueryList<T>(sql,paras);
         }
         //public bool BatchInsert(List<HoursEntity> hours)
         //{

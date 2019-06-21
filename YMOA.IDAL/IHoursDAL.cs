@@ -43,6 +43,6 @@ namespace YMOA.IDAL
         /// <typeparam name="T"></typeparam>
         /// <param name="ProName">项目名称</param>
         /// <returns></returns>
-        IEnumerable<T> GetProjectByPerson<T>(string ProName);
+        IEnumerable<T> GetProjectByPerson<T>(Dictionary<string, object> paras);
     }
 }
