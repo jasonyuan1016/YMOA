@@ -26,7 +26,6 @@ function accTemplate() {
     }
     var i = $("#accessory").children().length + 1;
     var temp = template.replace('hidden="">', ">").replace(/\(i\)/g, i);
-    console.log(temp);
     return temp;
 }
 
