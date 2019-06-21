@@ -36,22 +36,11 @@ function gridList() {
     $("#btn_search").click(function () {
         start = $("#StartTime").val();
         end = $("#EndTime").val();
-        //start = new Date($("#StartTime").val()).Format("yyyy-MM-dd");
-        //end = new Date($("#EndTime").val());
-        //var time = (end - start) / (1000 * 60 * 60 * 24);
-        //if (time >= 7) {
             $gridList.jqGrid('setGridParam', {
                 postData: {
                     startTime: start,
                     endTime: end
                 }
             }).trigger('reloadGrid');
-        //}
-        //else {
-        //    alert("七天内无法查询！");
-        //}
     });
 }
-//function ChangeDateFormat(date) {
-//    return date.Format("yyyy-MM-dd hh:mm:ss");
-//}
