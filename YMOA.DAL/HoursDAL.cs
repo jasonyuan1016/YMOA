@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,6 +63,20 @@ namespace YMOA.DAL
         //{
 
         //}
+
+        /// <summary>
+        ///  批量添加
+        /// </summary>
+        /// <param name="hours"></param>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
+        public bool BatchInsert(List<HoursEntity> hours, string taskId)
+        {
+            string[] arr = new string[] { "ProjectId", "TaskId", "Hour", "Person", "Date" };
+            DataTable dt = ToDatatable.ListToDataTable(hours, arr);
+            int result = Execute("P_Hours_BatchInsert", new { TaskId = taskId, hours = dt }, CommandType.StoredProcedure);
+            return result > 0;
+        }
 
 
 
