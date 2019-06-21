@@ -53,5 +53,33 @@ namespace YMOA.DAL
             }
             return ret;
         }
+        
+        /// <summary>
+        ///  查询成员
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<T> GetTeams<T>(Dictionary<string, object> paras)
+        {
+            string sql = "SELECT * FROM tbTeam";
+            WhereBuilder builder = new WhereBuilder();
+            if (paras != null)
+            {
+                builder.AddWhereAndParameter(paras, "projectId");
+                builder.AddWhereAndParameter(paras, "taskId");
+            }
+            return QueryList<T>(sql, builder);
+        }
+
+        /// <summary>
+        ///  多任务查询成员
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tasks"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetTeams<T>(string tasks)
+        {
+            string sql = "SELECT * FROM tbTeam WHERE TaskId IN (" + tasks + ")";
+            return QueryList<T>(sql);
+        }
     }
 }

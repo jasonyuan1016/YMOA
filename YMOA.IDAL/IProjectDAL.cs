@@ -42,5 +42,14 @@ namespace YMOA.IDAL
         /// <param name="dp">查询条件</param>
         /// <returns></returns>
         T QryProjectInfo<T>(DynamicParameters dp);
+
+
+        /// <summary>
+        ///  查询用户可添加项目
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        IEnumerable<T> QryInsertTask<T>(Dictionary<string, object> paras);
     }
 }

@@ -19,32 +19,6 @@ namespace YMOA.DAL
     public class TaskDAL : BaseDal, ITaskDAL
     {
 
-        #region 项目相关
-
-        /// <summary>
-        ///  查询用户可添加项目
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="paras"></param>
-        /// <returns></returns>
-        public IEnumerable<T> QryInsertTask<T>(Dictionary<string, object> paras)
-        {
-            return QueryList<T>("P_Product_UserAdd", paras, CommandType.StoredProcedure);
-        }
-
-        /// <summary>
-        ///  查询项目
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public IEnumerable<T> GetProject<T>()
-        {
-            string sql = "SELECT ID,Name FROM tbProduct";
-            return QueryList<T>(sql);
-        }
-
-        #endregion
-
         #region 任务相关
 
         /// <summary>
@@ -203,38 +177,6 @@ namespace YMOA.DAL
         {
             string sql = "SELECT COUNT(0) FROM tbTask WHERE ParentId = @ID";
             return QuerySingle<int>(sql, new { ID = id }) > 0;
-        }
-
-        #endregion
-
-        #region 成员相关
-
-        /// <summary>
-        ///  查询成员
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<T> GetTeams<T>(Dictionary<string, object> paras)
-        {
-            string sql = "SELECT * FROM tbTeam";
-            WhereBuilder builder = new WhereBuilder();
-            if (paras != null)
-            {
-                builder.AddWhereAndParameter(paras, "projectId");
-                builder.AddWhereAndParameter(paras, "taskId");
-            }
-            return QueryList<T>(sql, builder);
-        }
-
-        /// <summary>
-        ///  多任务查询成员
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="tasks"></param>
-        /// <returns></returns>
-        public IEnumerable<T> GetTeams<T>(string tasks)
-        {
-            string sql = "SELECT * FROM tbTeam WHERE TaskId IN (" + tasks + ")";
-            return QueryList<T>(sql);
         }
 
         #endregion

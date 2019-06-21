@@ -28,14 +28,14 @@ namespace YMOA.WorkWeb.Controllers
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = UserId;
             // 获取用户可添加项目
-            List<ProjectEntity> products = DALUtility.TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
+            List<ProjectEntity> products = DALUtility.ProjectCore.QryInsertTask<ProjectEntity>(paras).ToList();
             List<UserEntity> users = null;
             if (products != null && products.Count > 0)
             {
                 paras = new Dictionary<string, object>();
                 paras["projectId"] = products[0].ID;
                 paras["taskId"] = "0";
-                var teams = DALUtility.TaskCore.GetTeams<TeamEntity>(paras).ToList();
+                var teams = DALUtility.TeamCore.GetTeams<TeamEntity>(paras).ToList();
                 users = ToUsers(teams);
             }
             return Content(JsonConvert.SerializeObject(new { total = products.Count, products, users }));
@@ -109,7 +109,7 @@ namespace YMOA.WorkWeb.Controllers
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = UserId;
-            List<ProjectEntity> products = DALUtility.TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
+            List<ProjectEntity> products = DALUtility.ProjectCore.QryInsertTask<ProjectEntity>(paras).ToList();
             ViewData["products"] = products;
             TaskEntity taskEntity = new TaskEntity();
             paras = new Dictionary<string, object>();
@@ -176,7 +176,7 @@ namespace YMOA.WorkWeb.Controllers
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = user;
             // 获取用户可添加项目
-            List<ProjectEntity> projects = DALUtility.TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
+            List<ProjectEntity> projects = DALUtility.ProjectCore.QryInsertTask<ProjectEntity>(paras).ToList();
             // 赛选用户可添加任务
             List<TaskEntity> listTask = tasks.Where(a => projects.Exists(t => a.ProjectId.Contains(t.ID))).ToList();
             if (listTask.Count == 0)
@@ -365,7 +365,7 @@ namespace YMOA.WorkWeb.Controllers
             string strTeams = String.Join("','", teams);
             strTeams = "'" + strTeams + "'";
             // 查询任务团员
-            List<TeamEntity> teamList = DALUtility.TaskCore.GetTeams<TeamEntity>(strTeams).ToList();
+            List<TeamEntity> teamList = DALUtility.TeamCore.GetTeams<TeamEntity>(strTeams).ToList();
             // 查询成员姓名
             var users = ToUsers(teamList);
             // List -> Dictionary
@@ -534,7 +534,7 @@ namespace YMOA.WorkWeb.Controllers
                 para["projectId"] = projectId;
                 para["taskId"] = "0";
             }
-            var teams = DALUtility.TaskCore.GetTeams<TeamEntity>(para).ToList();
+            var teams = DALUtility.TeamCore.GetTeams<TeamEntity>(para).ToList();
             return PagerData(teams.Count, ToUsers(teams));
         }
 
@@ -595,7 +595,7 @@ namespace YMOA.WorkWeb.Controllers
                 // 查询成员
                 Dictionary<string, object> para = new Dictionary<string, object>();
                 para["taskId"] = task.ID;
-                List<TeamEntity> teams = DALUtility.TaskCore.GetTeams<TeamEntity>(para).ToList();
+                List<TeamEntity> teams = DALUtility.TeamCore.GetTeams<TeamEntity>(para).ToList();
                 // 批量添加工时
                 List<HoursEntity> hours = (from team in teams
                                           select new HoursEntity
