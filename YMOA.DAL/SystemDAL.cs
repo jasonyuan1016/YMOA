@@ -80,7 +80,7 @@ namespace YMOA.DAL
         /// <param name="groups"></param>
         /// <param name="departments"></param>
         /// <param name="menuPermissions"></param>
-        public void SystemDataInit<T1, T2, T3>(int RoleId, ref List<T1> groups, ref List<T2> departments, ref List<T2> projects, ref List<T2> tasks, ref List<T2> prioritys, ref List<T3> menuPermissions)
+        public void SystemDataInit<T1, T2, T3>(int RoleId, ref List<T1> groups, ref List<T2> departments, ref List<T2> projects, ref List<T2> tasks, ref List<T2> prioritys,ref List<T2> expenses, ref List<T3> menuPermissions)
         {
             using (var connection = GetConnection())
             {
@@ -91,6 +91,7 @@ namespace YMOA.DAL
                     projects = multi.Read<T2>().ToList();
                     tasks = multi.Read<T2>().ToList();
                     prioritys = multi.Read<T2>().ToList();
+                    expenses = multi.Read<T2>().ToList();
                     menuPermissions = multi.Read<T3>().ToList();
                 }
             }

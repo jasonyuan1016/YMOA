@@ -11,6 +11,7 @@ $.clientsInit = function () {
         prioritys: [], // 优先级
         projectStatus: [], // 项目状态
         taskStatus: [], // 任务状态
+        expenses: [], // 报销状态
         users: []
     };
     var init = function () {
@@ -28,6 +29,7 @@ $.clientsInit = function () {
                 dataJson.projectStatus = data.projectStatus;
                 dataJson.taskStatus = data.taskStatus;
                 dataJson.users = data.users;
+                dataJson.expenses = data.expenses;
             }
         });
     }
