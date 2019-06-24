@@ -6,8 +6,10 @@ function gridList() {
     $gridList.dataGrid({
         url: "GetGridJson",
         height: $(window).height() - 128,
+        sortname: 'sort',
         colModel: [
             { label: 'ID', name: 'id', hidden: true },
+            { label: 'Tag', name: 'tag', hidden: true },
             { label: PageResx.col_name, name: 'name', width: 80, align: 'left' },
             { label: PageResx.col_code, name: 'code', width: 80, align: 'left' },
             { label: PageResx.col_sort, name: 'sort', width: 80, align: 'left' },
@@ -45,9 +47,10 @@ function btn_edit() {
     });
 }
 function btn_delete() {
+    var obj = $("#gridList").jqGridRowValue();
     $.deleteForm({
         url: "Delete",
-        param: { ID: $("#gridList").jqGridRowValue().id },
+        param: { ID: obj.id, tag: obj.tag },
         success: function () {
             $.currentWindow().$("#gridList").trigger("reloadGrid");
         }

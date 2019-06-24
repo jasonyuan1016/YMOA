@@ -75,7 +75,7 @@ namespace YMOA.IDAL
         /// </summary>
         /// <param name="idList"></param>
         /// <returns></returns>
-        bool DeleteLibrary(string idList);
+        bool DeleteLibrary(int id, int tag);
 
         #endregion
 

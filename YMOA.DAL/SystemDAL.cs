@@ -125,6 +125,7 @@ namespace YMOA.DAL
                 {
                     sql += " WHERE " + String.Join(" and ", builder.Wheres);
                 }
+                sql += " ORDER BY sort DESC";
             }
             return QueryList<T>(sql, paras);
         }
@@ -134,9 +135,9 @@ namespace YMOA.DAL
         /// </summary>
         /// <param name="idList"></param>
         /// <returns></returns>
-        public bool DeleteLibrary(string idList)
+        public bool DeleteLibrary(int id, int tag)
         {
-            return Execute("delete from tbLibrary where id in (" + idList + ")", null, CommandType.Text) > 0;
+            return Execute("delete from tbLibrary where id = @id AND tag = @tag", new { id, tag}, CommandType.Text) > 0;
         }
 
         #endregion

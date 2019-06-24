@@ -75,9 +75,9 @@ namespace YMOA.WorkWeb.Controllers
         /// <param name="ID"></param>
         /// <returns></returns>
         [PermissionFilter("library", "index", Operationype.Delete)]
-        public ActionResult Delete(int ID)
+        public ActionResult Delete(int ID, int tag)
         {
-            return OperationReturn(DALUtility.SystemCore.DeleteLibrary(ID.ToString()));
+            return OperationReturn(DALUtility.SystemCore.DeleteLibrary(ID, tag));
         }
 
     }
