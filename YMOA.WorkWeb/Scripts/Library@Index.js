@@ -22,12 +22,17 @@ function gridList() {
     });
 }
 function btn_add() {
+    var tag = $("input[name='tag']:checked").val();
+    var height = "280px";
+    if (tag == "1") {
+        height = "330px";
+    }
     $.modalOpen({
         id: "Edit",
         title: GlobalResx.add,
-        url: "/Library/Edit?tag=" + $("input[name='tag']:checked").val(),
+        url: "/Library/Edit?tag=" + tag,
         width: "420px",
-        height: "280px",
+        height: height,
         callBack: function (iframeId) {
             top.frames[iframeId].submitForm();
         }
@@ -35,12 +40,17 @@ function btn_add() {
 }
 function btn_edit() {
     var keyValue = $("#gridList").jqGridRowValue().id;
+    var height = "280px";
+    var tag = $("input[name='tag']:checked").val();
+    if (tag == "1") {
+        height = "330px";
+    }
     $.modalOpen({
         id: "Edit",
         title: GlobalResx.edit,
-        url: "/Library/Edit?ID=" + keyValue + "&tag=" + $("input[name='tag']:checked").val(),
+        url: "/Library/Edit?ID=" + keyValue + "&tag=" + tag,
         width: "420px",
-        height: "280px",
+        height: height,
         callBack: function (iframeId) {
             top.frames[iframeId].submitForm();
         }

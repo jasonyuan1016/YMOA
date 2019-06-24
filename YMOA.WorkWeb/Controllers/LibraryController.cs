@@ -19,13 +19,10 @@ namespace YMOA.WorkWeb.Controllers
         }
 
         [PermissionFilter("library", "index")]
-        public ActionResult GetGridJson(int tag=1)
+        public ActionResult GetGridJson(int tag = 1)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
-            if (tag > 0)
-            {
-                paras["tag"] = tag;
-            }
+            paras["tag"] = tag;
             var roles = DALUtility.SystemCore.LibraryGetList<LibraryEntity>(paras);
             var data = new { rows = roles };
             return Content(data.ToJson());
@@ -42,25 +39,28 @@ namespace YMOA.WorkWeb.Controllers
                 paras["id"] = ID;
                 List<LibraryEntity> list = DALUtility.SystemCore.LibraryGetList<LibraryEntity>(paras).ToList();
                 entity = list[0];
+                // 获取负责人
+                ViewData["DutyPerson"] = "zxy";
             }
             entity.tag = tag;
             return View(entity);
         }
 
         [PermissionFilter("library", "index", Operationype.Add)]
-        public ActionResult Add(LibraryEntity entity)
+        public ActionResult Add(LibraryEntity entity, string DutyPerson)
         {
-            return Save(entity);
+            return Save(entity, DutyPerson);
         }
 
         [PermissionFilter("library", "index", Operationype.Update)]
-        public ActionResult Update(LibraryEntity entity)
+        public ActionResult Update(LibraryEntity entity, string DutyPerson)
         {
-            return Save(entity);
+            return Save(entity, DutyPerson);
         }
 
-        private ActionResult Save(LibraryEntity entity)
+        private ActionResult Save(LibraryEntity entity,string DutyPerson)
         {
+            // 保存负责人
             int result = DALUtility.SystemCore.LibrarySave(entity);
             if (result != 0)
             {
