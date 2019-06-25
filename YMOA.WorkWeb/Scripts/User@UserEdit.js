@@ -7,8 +7,12 @@ $(function () {
         $("#sltDepartmentId").val($("#sltDepartmentId").attr("value"));
         $("#sltRoleId").val($("#sltRoleId").attr("value"));
         $("#sltIsAble").val($("#sltIsAble").attr("value") == undefined ? "false" : "true");
-        $("#txtEntrydate").val(new Date($("#txtEntrydate").val()).Format("yyyy-MM-dd"));
-        $("#txtBirthday").val(new Date($("#txtBirthday").val()).Format("yyyy-MM-dd"));
+        if ($("#txtEntrydate").data("value") != "") {
+            $("#txtEntrydate").val(new Date($("#txtEntrydate").data("value")).Format("yyyy-MM-dd"));
+        }
+        if ($("#txtBirthday").data("value") != "") {
+            $("#txtBirthday").val(new Date($("#txtBirthday").data("value")).Format("yyyy-MM-dd"));
+        }
         $("#txtRealName").val($.trim($("#txtRealName").val()));
     }
 });
