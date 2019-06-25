@@ -10,15 +10,6 @@ namespace YMOA.IDAL
     /// </summary>
     public interface IUserDAL
     {
-        /// <summary>
-        /// 根据用户id获取用户
-        /// </summary>
-        UserEntity GetUserByUserId(string userId);
-
-        /// <summary>
-        /// 根据id获取用户
-        /// </summary>
-        UserEntity GetUserById(string id);
 
         /// <summary>
         /// 首次登陆强制修改密码
@@ -87,5 +78,21 @@ namespace YMOA.IDAL
         /// <param name="ids"></param>
         /// <returns></returns>
         IEnumerable<T> QryRealName<T>(Dictionary<string, object> paras);
+
+        /// <summary>
+        ///  查询部门主管
+        /// </summary>
+        /// <param name="departmentId">部门编号</param>
+        /// <returns></returns>
+        string GetCharge(int departmentId);
+
+        /// <summary>
+        ///  设置部门主管(每个部门只存在一个主管)
+        /// </summary>
+        /// <param name="departmentId">部门编号</param>
+        /// <param name="accountName">部门主管登录名</param>
+        /// <returns></returns>
+        bool SetCharge(int departmentId, string accountName);
+
     }
 }

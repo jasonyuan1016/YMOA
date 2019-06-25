@@ -32,6 +32,23 @@
                         <input id="txtsort" name="txtsort" autocomplete="off" type="text" class="form-control isDigits" placeholder="请输入排序" value="@Model.sort" />
                     </td>
                 </tr>
+                @{
+                    if (Model.tag == 1)
+                    {
+                        var users = ViewData["users"] as List<YMOA.Model.UserEntity>;
+                        <tr>
+                            <th class="formTitle">主管</th>
+                            <td class="formValue">
+                                <select id="sltDutyPerson" name="sltDutyPerson" class="form-control" data-value="@ViewData["DutyPerson"]">
+                                    @foreach (var item in users)
+                                    {
+                                        <option value="@item.AccountName">@item.RealName</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                    }
+                }
             </table>
         </div>
     </div>

@@ -18,7 +18,7 @@ namespace YMOA.DAL
     /// </summary>
     public class UserDAL : BaseDal,IUserDAL
     {
-        
+
         /// <summary>
         /// 根据用户id获取用户
         /// </summary>
@@ -167,8 +167,33 @@ namespace YMOA.DAL
             if (paras != null)
             {
                 builder.AddWhereAndParameter(paras, "names", "AccountName", "IN");
+                builder.AddWhereAndParameter(paras, "DepartmentId");
             }
             return QueryList<T>(sql, builder);
         }
+
+        /// <summary>
+        ///  查询部门主管
+        /// </summary>
+        /// <param name="departmentId">部门编号</param>
+        /// <returns></returns>
+        public string GetCharge(int departmentId)
+        {
+            return QuerySingle<string>("P_User_GetCharge", new { DepartmentId = departmentId }, CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        ///  设置部门主管(每个部门只存在一个主管)
+        /// </summary>
+        /// <param name="departmentId">部门编号</param>
+        /// <param name="accountName">部门主管登录名</param>
+        /// <returns></returns>
+        public bool SetCharge(int departmentId, string accountName)
+        {
+            return Execute("P_User_SetCharge", new { DepartmentId = departmentId, AccountName = accountName }, CommandType.StoredProcedure) > 0;
+        }
+
+
+
     }
 }

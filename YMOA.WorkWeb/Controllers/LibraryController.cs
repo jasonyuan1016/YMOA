@@ -19,13 +19,10 @@ namespace YMOA.WorkWeb.Controllers
         }
 
         [PermissionFilter("library", "index")]
-        public ActionResult GetGridJson(int tag=1)
+        public ActionResult GetGridJson(int tag = 1)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
-            if (tag > 0)
-            {
-                paras["tag"] = tag;
-            }
+            paras["tag"] = tag;
             var roles = DALUtility.SystemCore.LibraryGetList<LibraryEntity>(paras);
             var data = new { rows = roles };
             return Content(data.ToJson());
@@ -42,29 +39,46 @@ namespace YMOA.WorkWeb.Controllers
                 paras["id"] = ID;
                 List<LibraryEntity> list = DALUtility.SystemCore.LibraryGetList<LibraryEntity>(paras).ToList();
                 entity = list[0];
+                // 获取负责人
+                ViewData["DutyPerson"] = DALUtility.UserCore.GetCharge(ID);
+            }
+            if (tag == 1)
+            {
+                // 获取部门用户
+                Dictionary<string, object> paras = new Dictionary<string, object>();
+                if (ID != 0)
+                {
+                    paras["DepartmentId"] = ID;
+                }
+                ViewData["users"] = DALUtility.UserCore.QryRealName<UserEntity>(paras);
             }
             entity.tag = tag;
             return View(entity);
         }
 
         [PermissionFilter("library", "index", Operationype.Add)]
-        public ActionResult Add(LibraryEntity entity)
+        public ActionResult Add(LibraryEntity entity, string DutyPerson)
         {
-            return Save(entity);
+            return Save(entity, DutyPerson);
         }
 
         [PermissionFilter("library", "index", Operationype.Update)]
-        public ActionResult Update(LibraryEntity entity)
+        public ActionResult Update(LibraryEntity entity, string DutyPerson)
         {
-            return Save(entity);
+            return Save(entity, DutyPerson);
         }
 
-        private ActionResult Save(LibraryEntity entity)
+        private ActionResult Save(LibraryEntity entity,string DutyPerson)
         {
             int result = DALUtility.SystemCore.LibrarySave(entity);
             if (result != 0)
             {
                 return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_codeexist"));
+            }
+            if (entity.tag == 1 && DutyPerson != null && DutyPerson != "")
+            {
+                // 保存负责人
+                DALUtility.UserCore.SetCharge(entity.id,DutyPerson);
             }
             return OperationReturn(true);
         }
@@ -75,9 +89,9 @@ namespace YMOA.WorkWeb.Controllers
         /// <param name="ID"></param>
         /// <returns></returns>
         [PermissionFilter("library", "index", Operationype.Delete)]
-        public ActionResult Delete(int ID)
+        public ActionResult Delete(int ID, int tag)
         {
-            return OperationReturn(DALUtility.SystemCore.DeleteLibrary(ID.ToString()));
+            return OperationReturn(DALUtility.SystemCore.DeleteLibrary(ID, tag));
         }
 
     }
