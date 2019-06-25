@@ -167,6 +167,7 @@ namespace YMOA.DAL
             if (paras != null)
             {
                 builder.AddWhereAndParameter(paras, "names", "AccountName", "IN");
+                builder.AddWhereAndParameter(paras, "DepartmentId");
             }
             return QueryList<T>(sql, builder);
         }
@@ -191,6 +192,8 @@ namespace YMOA.DAL
         {
             return Execute("P_User_SetCharge", new { DepartmentId = departmentId, AccountName = accountName }, CommandType.StoredProcedure) > 0;
         }
+
+
 
     }
 }

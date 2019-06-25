@@ -84,8 +84,6 @@ namespace YMOA.WorkWeb.Controllers
             {
                 paras["IfChangePwd"] = false;
             }
-            // 职务编号
-            paras["DutyId"] = 1;
             paras["RealName"] = userEntity.RealName;
             paras["RoleId"] = userEntity.RoleId;
             paras["DepartmentId"] = userEntity.DepartmentId;
@@ -94,7 +92,18 @@ namespace YMOA.WorkWeb.Controllers
             paras["Entrydate"] = userEntity.Entrydate;
             paras["IsAble"] = userEntity.IsAble;
             paras["Description"] = userEntity.Description == null ? "" : userEntity.Description;
-            return OperationReturn(DALUtility.UserCore.Save(paras) > 0);
+            // 改变部门时初始化职务
+            if (userEntity.ID != 0)
+            {
+                // 获取原部门
+                int departmentId = DALUtility.UserCore.GetUserById(userEntity.ID.ToString()).DepartmentId;
+                if (departmentId != userEntity.DepartmentId)
+                {
+                    paras["DutyId"] = 1;
+                }
+            }
+            bool boo = DALUtility.UserCore.Save(paras) > 0;
+            return OperationReturn(boo);
         }
 
         /// <summary>
