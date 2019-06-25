@@ -24,7 +24,7 @@ namespace YMOA.DAL
         /// </summary>
         public UserEntity GetUserByUserId(string userId)
         {
-            const string sql = "select top 1 ID,AccountName,[Password],RealName,MobilePhone,Email,IsAble,IfChangePwd,[Description],CreateTime,CreateBy,UpdateTime,UpdateBy from tbUser where AccountName = @UserId";
+            const string sql = "select top 1 ID,AccountName,[Password],RealName,MobilePhone,Email,IsAble,IfChangePwd,[Description],DepartmentId,DutyId,RoleId,Birthday from tbUser where AccountName = @UserId";
             return QuerySingle<UserEntity>(sql, new { UserId = userId });
         }
 

@@ -178,3 +178,17 @@ function GetLoadNav() {
     });
     $("#sidebar-nav ul").prepend(_html);
 }
+function Reimbursement() {
+    $.modalOpen({
+        id: "Reimbursement",
+        title: "报销单",
+        url: "/Reimbursement/Index",
+        width: "700px",
+        height: "410px",
+        callBack: function (iframeId) {
+            top.frames[iframeId].submitForm();
+        }
+    });
+    console.log(top.clients);
+    //location.href = "/Reimbursement/Index";
+}

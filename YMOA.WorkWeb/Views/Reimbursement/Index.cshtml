@@ -1,0 +1,59 @@
+﻿@model YMOA.Model.ReimbursementEntity
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+@*@Styles.Render("~/Content/bootstrap-select/css/bootstrap-select.min.css", "~/Content/css/from.css")*@
+
+<form id="Reimbursement">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <ul class="nav">
+            <input id="hidID" type="hidden" value="@Model.ID" />
+            @*<li ><a href="#">扩展信息</a></li>*@
+        </ul>
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle">所属部门</th>
+                    <td class="formValue">
+                        <span id="txtDepartment" name="txtDepartment" data-id="@Model.Department">1</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle" valign="top" style="padding-top: 5px;">
+                        报销用途
+                    </th>
+                    <td class="formValue" >
+                        <textarea id="texPurpose" name="texPurpose" class="form-control" placeholder="请输入报销用途" style="height: 60px; width:523px;">@Model.Purpose</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">报销金额</th>
+                    <td class="formValue" >
+                        <input id="txtApplicant" name="txtApplicant" type="number" placeholder="请输入报销金额" class="form-control required" value="@Model.Money" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">申请人</th>
+                    <td class="formValue">
+                        <input id="txtApplicant" name="txtApplicant" type="text" class="form-control required" value="@Model.Applicant" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">申请日期</th>
+                    <td class="formValue">
+                        <input id="txtApplicantTime" type="text" class="form-control input-wdatepicker required" autocomplete="off" onfocus="WdatePicker()" value="@Model.ApplicantTime" />
+                    </td>
+                    @*<th class="formTitle">批准日期</th>
+                    <td class="formValue">
+                        <input id="txtEndTime" type="text" class="form-control input-wdatepicker required" autocomplete="off" onfocus="WdatePicker()" value="@Model.ApprovalTime" />
+                    </td>*@
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>
+@section scripts {
+    @Scripts.Render("~/Content/js/datepicker/WdatePicker.js", "~/Content/bootstrap-select/js/bootstrap-select.min.js", "~/Content/bootstrap-select/js/i18n/defaults-zh_CN.min.js")
+}
