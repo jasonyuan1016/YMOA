@@ -28,6 +28,18 @@ namespace YMOA.DAL
             string sql = "select tbProduct.ID TaskId, tbProduct.Name as ProjectId ,sum(Consume) as Hour from tbTask join tbTeam on tbTask.ID = tbTeam.TaskId join tbProduct on tbTask.ProjectId = tbProduct.ID group by tbProduct.Name ,tbProduct.ID";
             return QueryList<T>(sql);
         }
+        /// <summary>
+        /// 获取所有成员工时
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pagination"></param>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetAllPerson<T>()
+        {
+            string sql = "SELECT RealName Person ,Person PersonName ,SUM(Consume) Hour FROM v_hour_statistics GROUP BY RealName,Person";
+            return QueryList<T>(sql);
+        }
 
         /// <summary>
         /// 获取项目中子任务工时详情

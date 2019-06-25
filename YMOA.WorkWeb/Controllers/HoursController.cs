@@ -29,10 +29,22 @@ namespace YMOA.WorkWeb.Controllers
         {
             return View();
         }
-
+        /// <summary>
+        /// 返回对应项目中成员的任务工时详情页
+        /// </summary>
+        /// <returns></returns>
         public ActionResult TaskHours() {
             return View();
         }
+        /// <summary>
+        /// 返回成员工时页
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult PerHours()
+        {
+            return View();
+        }
+
 
         /// <summary>
         /// 获取所有项目工时
@@ -45,7 +57,16 @@ namespace YMOA.WorkWeb.Controllers
             var hoursList = DALUtility.HoursCore.GetAllProject<HoursEntity>();
             return Content(hoursList.ToJson());
         }
-
+        /// <summary>
+        /// 获取所有成员工时
+        /// </summary>
+        /// <param name="pagination"></param>
+        /// <returns></returns>
+        public ActionResult GetAllPerson()
+        {
+            var hoursList = DALUtility.HoursCore.GetAllPerson<HoursEntity>();
+            return Content(hoursList.ToJson());
+        }
         /// <summary>
         /// 获取项目中子成员工时详情
         /// </summary>

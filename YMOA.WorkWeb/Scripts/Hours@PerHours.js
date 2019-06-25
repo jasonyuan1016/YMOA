@@ -2,27 +2,27 @@
     location.href = "/Hours/Index";
 }
 function btn_Per() {
-    console.log("a");
     location.href = "/Hours/PerHours";
 }
+
+
 $(function () {
     gridList();
     btn_task();
    
-
 })
 function gridList() {
     var $gridList = $("#gridList");
     $gridList.dataGrid({
-        url: "GetAllProject",
+        url: "GetAllPerson",
         height: $(window).height() - 128,
         colModel: [
-            { label: PageResx.col_Name, name: 'ProjectId', width: 80, align: 'left' },
+            { label: PageResx.col_Name, name: 'Person', width: 80, align: 'left' },
             { label: PageResx.col_Describe, name: 'Hour', width: 80, align: 'left' },
             {
-                label: PageResx.col_oper, name: 'ProjectId', width: 80, align: 'center',
+                label: PageResx.col_oper, name: 'Person', width: 80, align: 'center',
                 formatter: function (cellvalue, options, rowObject) {
-                    var update = '<a id="task" authorize="yes" data-id="' + cellvalue + '" data-pid="' + rowObject.TaskId + '">进入</a>'
+                    var update = '<a id="task" authorize="yes" data-id="' + cellvalue + '" data-pid="' + rowObject.PersonName + '">进入</a>'
                     return update;
                 }
             }
@@ -38,7 +38,7 @@ function gridList() {
 function btn_task() {
     $("#gridList").on("click", "#task", function () {
         var ID = $(this).data("pid");
-        console.log(ID )
+        //console.log(ID)
         location.href = "/Hours/ProHours?ID=" + ID;
     })
 };
