@@ -18,24 +18,6 @@ namespace YMOA.DAL
     /// </summary>
     public class UserDAL : BaseDal,IUserDAL
     {
-        
-        /// <summary>
-        /// 根据用户id获取用户
-        /// </summary>
-        public UserEntity GetUserByUserId(string userId)
-        {
-            const string sql = "select top 1 ID,AccountName,[Password],RealName,MobilePhone,Email,IsAble,IfChangePwd,[Description],CreateTime,CreateBy,UpdateTime,UpdateBy from tbUser where AccountName = @UserId";
-            return QuerySingle<UserEntity>(sql, new { UserId = userId });
-        }
-
-        /// <summary>
-        /// 根据id获取用户
-        /// </summary>
-        public UserEntity GetUserById(string id)
-        {
-            string sql = "select ID,AccountName,[Password],RealName,MobilePhone,Email,IsAble,IfChangePwd,[Description],CreateTime,CreateBy,UpdateTime,UpdateBy from tbUser where ID = @ID";
-            return QuerySingle<UserEntity>(sql, new { ID = id });
-        }
 
         /// <summary>
         /// 首次登陆强制修改密码

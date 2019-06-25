@@ -95,8 +95,10 @@ namespace YMOA.WorkWeb.Controllers
             // 改变部门时初始化职务
             if (userEntity.ID != 0)
             {
+                Dictionary<string, object> para = new Dictionary<string, object>();
+                para["ID"] = userEntity.ID;
                 // 获取原部门
-                int departmentId = DALUtility.UserCore.GetUserById(userEntity.ID.ToString()).DepartmentId;
+                int departmentId = DALUtility.UserCore.QryUserInfo<UserEntity>(paras).DepartmentId;
                 if (departmentId != userEntity.DepartmentId)
                 {
                     paras["DutyId"] = 1;

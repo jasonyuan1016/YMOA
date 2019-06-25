@@ -10,15 +10,6 @@ namespace YMOA.IDAL
     /// </summary>
     public interface IUserDAL
     {
-        /// <summary>
-        /// 根据用户id获取用户
-        /// </summary>
-        UserEntity GetUserByUserId(string userId);
-
-        /// <summary>
-        /// 根据id获取用户
-        /// </summary>
-        UserEntity GetUserById(string id);
 
         /// <summary>
         /// 首次登陆强制修改密码
