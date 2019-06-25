@@ -51,7 +51,7 @@ function initControl() {
     });
     $("#TaskEidt").on("click", ".remove", function () {
         var that = this;
-        $.modalConfirm("你确定要删除文件吗?", function (r) {
+        $.modalConfirm(PageResx.confirm_delete, function (r) {
             if (r) {
                 var id = $(that).data("id");
                 var url = $(that).data("name");

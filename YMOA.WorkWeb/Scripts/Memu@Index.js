@@ -20,9 +20,9 @@ function gridList() {
                 label: PageResx.col_state, name: "state", width: 80, align: "left",
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == 1) {
-                        return '<span class=\"label label-success\">已启用</span>';
+                        return '<span class=\"label label-success\">' + PageResx.col_startUsing+'</span>';
                     } else if (cellvalue == 0) {
-                        return '<span class=\"label label-default\">已禁用</span>';
+                        return '<span class=\"label label-default\">' + PageResx.col_forbidden+'</span>';
                     }
                 }
             }

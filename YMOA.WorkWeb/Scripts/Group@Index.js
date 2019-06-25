@@ -14,9 +14,9 @@ function gridList() {
                 label: PageResx.col_state, name: "state", width: 80, align: "left",
                 formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == true) {
-                        return '<span class=\"label label-success\">启用</span>';
+                        return '<span class=\"label label-success\">' + PageResx.col_startUsing+'</span>';
                     } else if (cellvalue == false) {
-                        return '<span class=\"label label-default\">禁用</span>';
+                        return '<span class=\"label label-default\">' + PageResx.col_forbidden+'</span>';
                     }
                 }
             }

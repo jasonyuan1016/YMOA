@@ -564,10 +564,15 @@
     <Content Include="Scripts\resx\zh-cn\Hours%40ProHours.js" />
     <Content Include="Scripts\resx\zh-cn\Hours%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Item%40Index.js" />
+    <Content Include="Scripts\resx\zh-cn\Item%40ProjectEdit.js" />
     <Content Include="Scripts\resx\zh-cn\Item%40Task.js" />
+    <Content Include="Scripts\resx\zh-cn\Item%40Team.js" />
     <Content Include="Scripts\resx\zh-cn\Library%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Login%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Memu%40Index.js" />
+    <Content Include="Scripts\resx\zh-cn\Task%40BatchAdd.js" />
+    <Content Include="Scripts\resx\zh-cn\Task%40BatchChildToAdd.js" />
+    <Content Include="Scripts\resx\zh-cn\Task%40Edit.js" />
     <Content Include="Scripts\resx\zh-cn\Task%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\User%40Index.js" />
     <Content Include="Scripts\Task%40BatchAdd.js" />

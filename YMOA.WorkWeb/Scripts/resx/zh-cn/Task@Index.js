@@ -10,5 +10,11 @@
     col_listTeam: '成员',
     col_oper: '操作',
     confirm: "你确定设置该项为:",
+    confirm_reset: "重置",
+    confirm_start: "启动",
+    confirm_accomplish: "完成",
+    confirm_cancel: "取消",
+    confirm_close: "关闭",
+    confirm_subtask: "子任务",
 
 }

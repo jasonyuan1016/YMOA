@@ -2,7 +2,6 @@
 $(function () {
     initControl();
 });
-
 // 批量任务模板
 function batchTaskTemplate() {
     var template = "";
@@ -74,6 +73,6 @@ function submitForm() {
         })
     }
     else {
-        $.modalAlert("请添加团队人员！", "error");
+        $.modalAlert(PageResx.confirm, "error");
     }
 }

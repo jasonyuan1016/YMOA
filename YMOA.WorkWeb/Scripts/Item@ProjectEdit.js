@@ -41,10 +41,10 @@ function initControl() {
 // 重置多选
 function refreshSelect($element) {
     $element.selectpicker({
-        'selectedText': 'cat',
-        'noneSelectedText': '没有选中任何项',
-        'deselectAllText': '全不选',
-        'selectAllText': '全选',
+        'selectedText': PageResx.selectedText,
+        'noneSelectedText': PageResx.noneSelectedText,
+        'deselectAllText': PageResx.deselectAllText,
+        'selectAllText': PageResx.selectAllText,
     });
 }
 function submitForm() {

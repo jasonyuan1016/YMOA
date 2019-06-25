@@ -6,17 +6,23 @@
     ClickChildToAdd();
 })
 
+function ElementA(className, id, name) {
+    return '<a href="javascript:;" class="' + className + '" data-id="' + id + '" >' + name + '</a>';
+}
+function ElementA2(id, name, state) {
+    return '<a href="javascript:;" class="state" data-id="' + id + '" data-state="' + state + '" >' + name+'</a>';
+}
 function TaskState(id, state) {
     var str = [];
-    var update = '<a href="javascript:;" class="update" data-id="' + id + '" >修改</a>';
-    var del = '<a href="javascript:;" class="delete" data-id="' + id + '" >删除</a>';
+    var update = ElementA('update', id, GlobalResx.edit);
+    var del = ElementA("delete", id, GlobalResx.delete);
     str.push(update);
     str.push(del);
-    var reset = '<a href="javascript:;" class="state" data-id="' + id + '" data-state="1" >重置</a>';
-    var start = '<a href="javascript:;" class="state" data-id="' + id + '" data-state="2" >启动</a>';
-    var complete = '<a href="javascript:;" class="state" data-id="' + id + '" data-state="3" >完成</a>';
-    var cancel = '<a href="javascript:;" class="state" data-id="' + id + '" data-state="4" >取消</a>';
-    var close = '<a href="javascript:;" class="state" data-id="' + id + '" data-state="5" >关闭</a>';
+    var reset = ElementA2(id, PageResx.confirm_reset,1);
+    var start = ElementA2(id, PageResx.confirm_start,2);
+    var complete = ElementA2(id, PageResx.confirm_accomplish,3);
+    var cancel = ElementA2(id, PageResx.confirm_cancel,4);
+    var close = ElementA2(id, PageResx.confirm_close,5);
     if (state == 1) {
         str.push(start);
         str.push(close);
@@ -123,7 +129,7 @@ function gridList() {
                     if (rowObject.update == 1) {
                         str = TaskState(cellvalue, rowObject.State);
                         if (rowObject.ParentId == "0") {
-                            str += "&nbsp;&nbsp;" + '<a href="javascript:;" class="childToAdd" data-pid="' + rowObject.ProjectId + '" data-id="' + cellvalue+'" >子任务</a>';
+                            str += "&nbsp;&nbsp;" + '<a href="javascript:;" class="childToAdd" data-pid="' + rowObject.ProjectId + '" data-id="' + cellvalue + '" >' + PageResx.confirm_subtask+'</a>';
                         }
                     }
                     return str;

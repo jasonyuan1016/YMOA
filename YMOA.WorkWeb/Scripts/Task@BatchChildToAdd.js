@@ -29,10 +29,10 @@ function settleNumber() {
 // 重置多选
 function refreshSelect() {
     $('.teams').selectpicker({
-        'selectedText': 'cat',
-        'noneSelectedText': '没有选中任何项',
-        'deselectAllText': '全不选',
-        'selectAllText': '全选',
+        'selectedText': PageResx.selectedText,
+        'noneSelectedText': PageResx.noneSelectedText,
+        'deselectAllText': PageResx.deselectAllText,
+        'selectAllText': PageResx.selectAllText,
     });
 }
 
