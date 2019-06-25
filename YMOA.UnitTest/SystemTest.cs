@@ -46,5 +46,26 @@ namespace YMOA.UnitTest
             Debug.WriteLine(result);
             Assert.AreNotEqual(result, null);
         }
+
+        /// <summary>
+        ///  查询部门主管
+        /// </summary>
+        [TestMethod]
+        public void TestGetCharge()
+        {
+            string result = DALCore.GetInstance().UserCore.GetCharge(2);
+            Assert.AreNotEqual(result, null);
+        }
+
+        /// <summary>
+        ///  测试设置部门主管(每个部门只存在一个主管)
+        /// </summary>
+        [TestMethod]
+        public void TestSetCharge()
+        {
+            bool result = DALCore.GetInstance().UserCore.SetCharge(2, "Jason");
+            Assert.AreEqual(result, true);
+        }
+
     }
 }

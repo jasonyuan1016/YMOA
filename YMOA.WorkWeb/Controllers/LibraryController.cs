@@ -40,7 +40,7 @@ namespace YMOA.WorkWeb.Controllers
                 List<LibraryEntity> list = DALUtility.SystemCore.LibraryGetList<LibraryEntity>(paras).ToList();
                 entity = list[0];
                 // 获取负责人
-                ViewData["DutyPerson"] = "zxy";
+                ViewData["DutyPerson"] = DALUtility.UserCore.GetCharge(ID);
             }
             entity.tag = tag;
             return View(entity);
@@ -60,11 +60,15 @@ namespace YMOA.WorkWeb.Controllers
 
         private ActionResult Save(LibraryEntity entity,string DutyPerson)
         {
-            // 保存负责人
             int result = DALUtility.SystemCore.LibrarySave(entity);
             if (result != 0)
             {
                 return OperationReturn(false, Resource.ResourceManager.GetString("ormsg_codeexist"));
+            }
+            if (entity.tag == 1 && DutyPerson != null && DutyPerson != "")
+            {
+                // 保存负责人
+                DALUtility.UserCore.SetCharge(entity.id,DutyPerson);
             }
             return OperationReturn(true);
         }
