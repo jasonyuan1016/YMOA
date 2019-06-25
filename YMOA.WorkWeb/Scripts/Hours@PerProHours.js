@@ -1,7 +1,7 @@
-﻿var ProjectId = $.request("ID");
+﻿var PerId = $.request("ID");
 
 function btn_back() {
-    location.href = "/Hours/Index";
+    location.href = "/Hours/PerHours";
 }
 
 $(function () {
@@ -19,7 +19,7 @@ function gridList() {
     //$("#EndTime").val(end);
     var $gridList = $("#gridList");
     $gridList.dataGrid({
-        url: "/Hours/GetProjectByPerson?ProName=" + ProjectId,
+        url: "/Hours/GetProjectHoursByPerson?PerName=" + PerId,
         height: $(window).height() - 128,
         colModel: [
             { label: PageResx.col_Name, name: 'TaskId', width: 80, align: 'left' },
@@ -28,7 +28,7 @@ function gridList() {
             {
                 label: PageResx.col_operation, name: 'ProjectId', width: 80, align: 'center',
                 formatter: function (cellvalue, options, rowObject) {
-                    var update = '<a id="task" authorize="yes" data-id="' + cellvalue + '" data-pid="' + rowObject.PersonName + '">进入</a>'
+                    var update = '<a id="task" authorize="yes" data-id="' + cellvalue + '" data-pid="' + rowObject.ProjectId + '">进入</a>'
                     return update;
                 }
             }
@@ -55,6 +55,6 @@ function btn_task() {
     $("#gridList").on("click", "#task", function () {
         var ID = $(this).data("pid");
        //console.log(ID)
-        location.href = "/Hours/TaskHours?proID=" + ProjectId + "&person=" + ID + "&type=2";
+        location.href = "/Hours/TaskHours?proID=" + ID + "&person=" + PerId+"&type=1";
     })
 }

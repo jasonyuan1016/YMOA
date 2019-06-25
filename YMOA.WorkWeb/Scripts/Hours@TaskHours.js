@@ -1,8 +1,16 @@
 ﻿var ProjectId = $.request("proID");
 var PerId = $.request("person");
+var type = $.request("type");
 
 function btn_back() {
-    location.href = "/Hours/ProHours?ID=" + ProjectId;
+    if (type == 1) {
+        location.href = "/Hours/PerProHours?ID=" + PerId;
+    } else if (type == 2) {
+        location.href = "/Hours/ProHours?ID=" + ProjectId;
+    } else {
+        location.href = "/Hours/Index";
+    }
+    
 }
 
 $(function () {

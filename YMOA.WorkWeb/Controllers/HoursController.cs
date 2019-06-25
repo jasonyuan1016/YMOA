@@ -44,7 +44,14 @@ namespace YMOA.WorkWeb.Controllers
         {
             return View();
         }
-
+        /// <summary>
+        /// 返回成员在各个项目工时页
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult PerProHours()
+        {
+            return View();
+        }
 
         /// <summary>
         /// 获取所有项目工时
@@ -84,7 +91,23 @@ namespace YMOA.WorkWeb.Controllers
             var hoursList = DALUtility.HoursCore.GetProjectByPerson<HoursEntity>(paras);
             return Content(hoursList.ToJson());
         }
+        /// <summary>
+        /// 获取成员在项目中工时详情
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetProjectHoursByPerson(DateTime? startTime = null, DateTime? endTime = null)
+        {
+            string perName = Request["PerName"];
 
+            Dictionary<string, object> paras = new Dictionary<string, object>();
+            paras["PerName"] = perName;
+            string key = startTime == null ? "" : "StartTime";
+            paras[key] = startTime;
+            key = startTime == null ? "" : "EndTime";
+            paras[key] = endTime;
+            var hoursList = DALUtility.HoursCore.GetProjectHoursByPerson<HoursEntity>(paras);
+            return Content(hoursList.ToJson());
+        }
         /// <summary>
         /// 获取对应项目中成员的任务工时详情
         /// </summary>

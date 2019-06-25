@@ -542,6 +542,7 @@
     <Content Include="Content\bootstrap-select\js\i18n\defaults-zh_TW.js.map" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\Hours%40PerHours.js" />
+    <Content Include="Scripts\Hours%40PerProHours.js" />
     <Content Include="Scripts\Hours%40ProHours.js" />
     <Content Include="Scripts\Hours%40TaskHours.js" />
     <Content Include="Scripts\Item%40Index.js" />
@@ -564,6 +565,7 @@
     <Content Include="Scripts\resx\zh-cn\global.js" />
     <Content Include="Scripts\resx\zh-cn\Group%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Hours%40PerHours.js" />
+    <Content Include="Scripts\resx\zh-cn\Hours%40PerProHours.js" />
     <Content Include="Scripts\resx\zh-cn\Hours%40TaskHours.js" />
     <Content Include="Scripts\resx\zh-cn\Hours%40ProHours.js" />
     <Content Include="Scripts\resx\zh-cn\Hours%40Index.js" />
@@ -613,6 +615,7 @@
     <Content Include="Views\Hours\ProHours.cshtml" />
     <Content Include="Views\Hours\TaskHours.cshtml" />
     <Content Include="Views\Hours\PerHours.cshtml" />
+    <Content Include="Views\Hours\PerProHours.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

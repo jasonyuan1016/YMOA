@@ -63,6 +63,29 @@ namespace YMOA.DAL
             }
             sql += " GROUP BY PName,RealName,Person";
             return QueryList<T>(sql, paras);
+        } 
+        /// <summary>
+        /// 获取成员在各项目中工时详情
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ProName">项目名称</param>
+        /// <returns></returns>
+        public IEnumerable<T> GetProjectHoursByPerson<T>(Dictionary<string, object> paras)
+        {
+            string sql = "SELECT PID ProjectId, PName TaskId, RealName Person ,Person PersonName ,SUM(Consume) Hour ,MAX(FinishTime) FinishTime FROM v_hour_statistics";
+            if (paras != null)
+            {
+                WhereBuilder builder = new WhereBuilder();
+                builder.AddWhereAndParameter(paras, "PerName", "Person");
+                builder.AddWhereAndParameter(paras, "StartTime", "FinishTime", ">=");
+                builder.AddWhereAndParameter(paras, "EndTime", "FinishTime", "<=");
+                if (builder.Wheres.Count > 0)
+                {
+                    sql += " WHERE " + String.Join(" AND ", builder.Wheres);
+                }
+            }
+            sql += " GROUP BY PName, RealName,Person, PID";
+            return QueryList<T>(sql, paras);
         }
 
         /// <summary>
