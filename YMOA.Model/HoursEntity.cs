@@ -37,7 +37,10 @@ namespace YMOA.Model
         ///  成员
         /// </summary>
         public string Person { get; set; }
-
+        /// <summary>
+        ///  成员名称
+        /// </summary>
+        public string PersonName { get; set; }
         /// <summary>
         ///  完成时间
         /// </summary>

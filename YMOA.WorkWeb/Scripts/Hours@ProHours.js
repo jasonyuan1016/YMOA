@@ -6,6 +6,7 @@ function btn_back() {
 
 $(function () {
     gridList();
+    btn_task();
 })
 function gridList() {
     //var now = new Date();
@@ -23,8 +24,14 @@ function gridList() {
         colModel: [
             { label: PageResx.col_Name, name: 'TaskId', width: 80, align: 'left' },
             { label: PageResx.col_oper, name: 'Person', width: 80, align: 'left' },
-            { label: PageResx.col_Describe, name: 'Hour', width: 80, align: 'left' }
-
+            { label: PageResx.col_Describe, name: 'Hour', width: 80, align: 'left' },
+            {
+                label: PageResx.col_operation, name: 'ProjectId', width: 80, align: 'center',
+                formatter: function (cellvalue, options, rowObject) {
+                    var update = '<a id="task" authorize="yes" data-id="' + cellvalue + '" data-pid="' + rowObject.PersonName + '">进入</a>'
+                    return update;
+                }
+            }
         ],
         pager: "#gridPager",
         //sortname: 'ID',
@@ -43,4 +50,11 @@ function gridList() {
                 }
             }).trigger('reloadGrid');
     });
+}
+function btn_task() {
+    $("#gridList").on("click", "#task", function () {
+        var ID = $(this).data("pid");
+       //console.log(ID)
+        location.href = "/Hours/TaskHours?proID=" + ProjectId + "&person=" + ID;
+    })
 }
