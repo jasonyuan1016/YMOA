@@ -38,5 +38,10 @@ namespace YMOA.Model
         /// </summary>
         public string Person { get; set; }
 
+        /// <summary>
+        ///  完成时间
+        /// </summary>
+        public DateTime Date {get;set;}
+
     }
 }

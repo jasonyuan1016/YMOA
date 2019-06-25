@@ -28,14 +28,14 @@ namespace YMOA.WorkWeb.Controllers
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = UserId;
             // 获取用户可添加项目
-            List<ProjectEntity> products = DALUtility.TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
+            List<ProjectEntity> products = DALUtility.ProjectCore.QryInsertTask<ProjectEntity>(paras).ToList();
             List<UserEntity> users = null;
             if (products != null && products.Count > 0)
             {
                 paras = new Dictionary<string, object>();
                 paras["projectId"] = products[0].ID;
                 paras["taskId"] = "0";
-                var teams = DALUtility.TaskCore.GetTeams<TeamEntity>(paras).ToList();
+                var teams = DALUtility.TeamCore.GetTeams<TeamEntity>(paras).ToList();
                 users = ToUsers(teams);
             }
             return Content(JsonConvert.SerializeObject(new { total = products.Count, products, users }));
@@ -109,12 +109,13 @@ namespace YMOA.WorkWeb.Controllers
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = UserId;
-            List<ProjectEntity> products = DALUtility.TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
+            List<ProjectEntity> products = DALUtility.ProjectCore.QryInsertTask<ProjectEntity>(paras).ToList();
             ViewData["products"] = products;
             TaskEntity taskEntity = new TaskEntity();
             paras = new Dictionary<string, object>();
             if (ID != "")
             {
+                ViewData["Update"] = true;
                 paras = new Dictionary<string, object>();
                 paras["ID"] = ID;
                 taskEntity = DALUtility.TaskCore.QryTask<TaskEntity>(paras);
@@ -148,7 +149,7 @@ namespace YMOA.WorkWeb.Controllers
                 paras["Describe"] = task.Describe;
                 paras["Remarks"] = task.Remarks;
                 paras["Estimate"] = Math.Round(task.Estimate, 1);
-                paras["Consume"] = task.Consume;
+                paras["Consume"] = Math.Round(task.Consume, 1);
                 paras["Sort"] = task.Sort;
                 paras["State"] = task.State;
                 paras["Send"] = null;
@@ -175,7 +176,7 @@ namespace YMOA.WorkWeb.Controllers
             Dictionary<string, object> paras = new Dictionary<string, object>();
             paras["userName"] = user;
             // 获取用户可添加项目
-            List<ProjectEntity> projects = DALUtility.TaskCore.QryInsertTask<ProjectEntity>(paras).ToList();
+            List<ProjectEntity> projects = DALUtility.ProjectCore.QryInsertTask<ProjectEntity>(paras).ToList();
             // 赛选用户可添加任务
             List<TaskEntity> listTask = tasks.Where(a => projects.Exists(t => a.ProjectId.Contains(t.ID))).ToList();
             if (listTask.Count == 0)
@@ -234,9 +235,8 @@ namespace YMOA.WorkWeb.Controllers
                 paras["Describe"] = task.Describe;
                 paras["Remarks"] = task.Remarks;
                 paras["Estimate"] = Math.Round(task.Estimate, 1);
-                paras["Consume"] = task.Consume;
+                paras["Consume"] = Math.Round(task.Consume, 1);
                 paras["Sort"] = task.Sort;
-                paras["State"] = task.State;
                 paras["Send"] = null;
                 paras["UpdateBy"] = UserId;
                 paras["UpdateTime"] = DateTime.Now;
@@ -254,30 +254,20 @@ namespace YMOA.WorkWeb.Controllers
         /// <returns></returns>
         public ActionResult UpdateTaskState(string id, int state)
         {
-            Dictionary<string, object> paras = new Dictionary<string, object>();
-            paras["ID"] = id;
-            TaskEntity task = DALUtility.TaskCore.QryTask<TaskEntity>(paras);
             DateTime date = DateTime.Now;
-            paras = new Dictionary<string, object>();
+            Dictionary<string, object>  paras = new Dictionary<string, object>();
             paras["ID"] = id;
             paras["State"] = state;
             paras["UpdateBy"] = UserId;
             paras["UpdateTime"] = date;
             string action = "";
-            if (state == 1)
-            {
-                paras["Consume"] = 0.0;
-            }
-            else if (state == 2)
+            if (state == 2)
             {
                 action = "Start";
             }
             else if (state == 3)
             {
                 action = "Finish";
-                TimeSpan manHour = date - (DateTime)task.StartTime;
-                // 消耗工时
-                paras["Consume"] = (Decimal)manHour.TotalHours;
             }
             else if (state == 4)
             {
@@ -295,7 +285,8 @@ namespace YMOA.WorkWeb.Controllers
             bool boo = DALUtility.TaskCore.TaskUpdate(paras);
             if (boo)
             {
-                AddManHour(task, state, date);
+                paras = new Dictionary<string, object>();
+                paras["ID"] = id;
             }
             return OperationReturn(boo);
         }
@@ -374,7 +365,7 @@ namespace YMOA.WorkWeb.Controllers
             string strTeams = String.Join("','", teams);
             strTeams = "'" + strTeams + "'";
             // 查询任务团员
-            List<TeamEntity> teamList = DALUtility.TaskCore.GetTeams<TeamEntity>(strTeams).ToList();
+            List<TeamEntity> teamList = DALUtility.TeamCore.GetTeams<TeamEntity>(strTeams).ToList();
             // 查询成员姓名
             var users = ToUsers(teamList);
             // List -> Dictionary
@@ -543,7 +534,7 @@ namespace YMOA.WorkWeb.Controllers
                 para["projectId"] = projectId;
                 para["taskId"] = "0";
             }
-            var teams = DALUtility.TaskCore.GetTeams<TeamEntity>(para).ToList();
+            var teams = DALUtility.TeamCore.GetTeams<TeamEntity>(para).ToList();
             return PagerData(teams.Count, ToUsers(teams));
         }
 
@@ -584,22 +575,6 @@ namespace YMOA.WorkWeb.Controllers
                 return OperationReturn(boo, Resource.ResourceManager.GetString("ormsg_accessoryAdd") + String.Join(",", failure));
             }
             return OperationReturn(boo);
-        }
-
-        private void AddManHour(TaskEntity task, int state, DateTime date)
-        {
-            if (task.State == 3)
-            {
-                // 根据任务编号删除工时
-            }
-            else if (state == 3)
-            {
-                // 获取员工
-                TimeSpan manHour = date - (DateTime)task.StartTime;
-                // 工时
-                Decimal getHours = (Decimal)manHour.TotalHours;
-                // 批量添加工时
-            }
         }
 
         #endregion

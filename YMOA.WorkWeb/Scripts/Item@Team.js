@@ -64,11 +64,16 @@ function submitForm() {
         return false;
     }
     var teams = getFormVal();
-    $.submitForm({
-        url: "/Item/AddTeam",
-        param: { teams },
-        success: function () {
-            $.currentWindow().$("#gridList").trigger("reloadGrid");
-        }
-    })
+    if (teams.length > 0) {
+        $.submitForm({
+            url: "/Item/AddTeam",
+            param: { teams },
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+    else {
+        $.modalAlert("请添加团队人员！", "error");
+    }
 }

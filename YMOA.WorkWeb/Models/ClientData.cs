@@ -12,23 +12,27 @@ namespace YMOA.WorkWeb.Models
         public List<LibraryEntity> departments { get; set; }
         public List<MenuPermission> menuPermissions { get; set; }
         public List<MenuEntity> menus { get; set; }
+
         /// <summary>
         ///  项目状态
         /// </summary>
         public List<LibraryEntity> projectStatus { get; set; }
+
         /// <summary>
         ///  任务状态
         /// </summary>
         public List<LibraryEntity> taskStatus { get; set; }
+
         /// <summary>
         ///  优先级
         /// </summary>
         public List<LibraryEntity> prioritys { get; set; }
 
         /// <summary>
-        ///  用户任务
+        ///  报销状态
         /// </summary>
-        public List<TaskEntity> tasks { get; set; }
+        public List<LibraryEntity> expenses { get; set; }
+
         /// <summary>
         /// 所有用户
         /// </summary>

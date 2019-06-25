@@ -17,25 +17,6 @@ namespace YMOA.IDAL
     public interface ITaskDAL
     {
 
-        #region 项目相关
-
-        /// <summary>
-        ///  查询用户可添加项目
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="paras"></param>
-        /// <returns></returns>
-        IEnumerable<T> QryInsertTask<T>(Dictionary<string, object> paras);
-
-        /// <summary>
-        ///  查询项目
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        IEnumerable<T> GetProject<T>();
-
-        #endregion
-
         #region 任务相关
 
         /// <summary>
@@ -116,24 +97,6 @@ namespace YMOA.IDAL
         /// <param name="id"></param>
         /// <returns></returns>
         bool ExistSubtask(string id);
-
-        #endregion
-
-        #region 成员相关
-
-        /// <summary>
-        ///  查询成员
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<T> GetTeams<T>(Dictionary<string, object> paras);
-
-        /// <summary>
-        ///  多任务查询成员
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="tasks"></param>
-        /// <returns></returns>
-        IEnumerable<T> GetTeams<T>(string tasks);
 
         #endregion
 

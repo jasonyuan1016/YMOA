@@ -19,11 +19,9 @@ function TaskState(id, state) {
     var close = '<a href="javascript:;" class="state" data-id="' + id + '" data-state="5" >关闭</a>';
     if (state == 1) {
         str.push(start);
-        str.push(complete);
         str.push(close);
     }
     else if (state == 2) {
-        str.push(reset);
         str.push(complete);
         str.push(cancel);
         str.push(close);

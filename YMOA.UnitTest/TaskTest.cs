@@ -142,7 +142,7 @@ namespace YMOA.UnitTest
             string strTeams = String.Join("','", teams);
             strTeams = "'" + strTeams + "'";
             // 查询任务团员
-            var teamList = DALCore.GetInstance().TaskCore.GetTeams<TeamEntity>(strTeams);
+            var teamList = DALCore.GetInstance().TeamCore.GetTeams<TeamEntity>(strTeams);
             Assert.AreNotEqual(tasks.Count, 0);
         }
 
@@ -211,6 +211,9 @@ namespace YMOA.UnitTest
             //DataTable teamDT = ToDatatable.ListToDataTable(teams);
         }
 
+        /// <summary>
+        ///  根据账号查询真实姓名
+        /// </summary>
         [TestMethod]
         public void TestQryRealName()
         {

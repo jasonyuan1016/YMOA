@@ -13,7 +13,7 @@
                 <tr>
                     <th class="formTitle">任务名称</th>
                     <td class="formValue">
-                        <input id="txtParentId" name="txtParentId" type="hidden" value="@Model.ParentId"/>
+                        <input id="txtParentId" name="txtParentId" type="hidden" value="@Model.ParentId" />
                         <input id="txtName" name="txtName" type="text" class="form-control required" placeholder="请输入名称" autocomplete="off" value="@Model.Name" />
                     </td>
                     <th class="formTitle">优先级</th>
@@ -40,10 +40,20 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="formTitle">最初预计/时</th>
-                    <td class="formValue">
-                        <input id="txtEstimate" name="txtEstimate" type="text" class="form-control required isFloatGteZero" value="@Model.Estimate" />
-                    </td>
+                    @if (@ViewData["Update"] != null)
+                    {
+                        <th class="formTitle">消耗工时/时</th>
+                        <td class="formValue">
+                            <input id="txtConsume" name="txtConsume" type="text" class="form-control required isFloatGteZero" value="@Model.Consume" />
+                        </td>
+                    }
+                    else
+                    {
+                        <th class="formTitle">最初预计/时</th>
+                        <td class="formValue">
+                            <input id="txtEstimate" name="txtEstimate" type="text" class="form-control required isFloatGteZero" value="@Model.Estimate" />
+                        </td>
+                    }
                     <th class="formTitle">截止日期</th>
                     <td class="formValue">
                         <input id="txtEndTime" name="txtEndTime" type="text" class="form-control input-wdatepicker" autocomplete="off" onfocus="WdatePicker()" data-val="@Model.EndTime" />
