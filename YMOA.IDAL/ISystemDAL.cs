@@ -53,7 +53,7 @@ namespace YMOA.IDAL
         /// <param name="tasks"></param>
         /// <param name="prioritys"></param>
         /// <param name="menuPermissions"></param>
-        void SystemDataInit<T1, T2, T3>(int RoleId, ref List<T1> groups, ref List<T2> departments, ref List<T2> projects, ref List<T2> tasks, ref List<T2> prioritys, ref List<T2> expenses, ref List<T3> menuPermissions);
+        void SystemDataInit<T1, T2, T3>(int RoleId, ref List<T1> groups, ref List<T2> departments, ref List<T2> projects, ref List<T2> tasks, ref List<T2> prioritys, ref List<T2> expenses, ref List<T2> duty, ref List<T3> menuPermissions);
 
         /// <summary>
         /// 新增/修改 公用数据类型

@@ -34,6 +34,11 @@ namespace YMOA.WorkWeb.Models
         public List<LibraryEntity> expenses { get; set; }
 
         /// <summary>
+        ///  职务
+        /// </summary>
+        public List<LibraryEntity> duty { get; set; }
+
+        /// <summary>
         /// 所有用户
         /// </summary>
         public List<UserEntity> users { get; set; }
