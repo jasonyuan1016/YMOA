@@ -30,6 +30,17 @@ function gridList() {
                 }
             },
             {
+                label: PageResx.col_dutyId, name: 'DutyId', width: 80, align: 'left',
+                formatter: function (cellvalue, options, rowObject) {
+                    for (var i = 0; i < top.clients.duty.length; i++) {
+                        if (top.clients.duty[i].id == cellvalue) {
+                            return top.clients.duty[i].name;
+                        }
+                    }
+                    return "";
+                }
+            },
+            {
                 label: PageResx.col_entrydate, name: 'Entrydate', width: 80, align: 'left',
                 formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
             },

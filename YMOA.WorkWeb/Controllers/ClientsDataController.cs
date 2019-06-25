@@ -24,9 +24,10 @@ namespace YMOA.WorkWeb.Controllers
             var taskStatus = new List<LibraryEntity>();
             var prioritys = new List<LibraryEntity>();
             var expenses = new List<LibraryEntity>();
+            var duty = new List<LibraryEntity>();
             var menuPermissions = new List<MenuPermission>();
             var userName = new List<UserEntity>();
-            DALCore.GetInstance().SystemCore.SystemDataInit<group, LibraryEntity, MenuPermission>(RoleId, ref groups, ref departments, ref projectStatus, ref taskStatus, ref prioritys, ref expenses, ref menuPermissions);
+            DALCore.GetInstance().SystemCore.SystemDataInit<group, LibraryEntity, MenuPermission>(RoleId, ref groups, ref departments, ref projectStatus, ref taskStatus, ref prioritys, ref expenses, ref duty, ref menuPermissions);
             var users = DALUtility.UserCore.QryAllUser<UserEntity>();
             foreach(var user in users)
             {
@@ -49,6 +50,7 @@ namespace YMOA.WorkWeb.Controllers
             data.taskStatus = taskStatus;
             data.prioritys = prioritys;
             data.expenses = expenses;
+            data.duty = duty;
             data.users = userName;
             // 保存角色权限
             Session["MemuList"] = menuPermissions;

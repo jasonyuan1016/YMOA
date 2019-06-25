@@ -12,6 +12,7 @@ $.clientsInit = function () {
         projectStatus: [], // 项目状态
         taskStatus: [], // 任务状态
         expenses: [], // 报销状态
+        duty: [], // 职务
         users: []
     };
     var init = function () {
@@ -30,6 +31,7 @@ $.clientsInit = function () {
                 dataJson.taskStatus = data.taskStatus;
                 dataJson.users = data.users;
                 dataJson.expenses = data.expenses;
+                dataJson.duty = data.duty;
             }
         });
     }

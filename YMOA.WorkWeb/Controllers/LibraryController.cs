@@ -42,6 +42,16 @@ namespace YMOA.WorkWeb.Controllers
                 // 获取负责人
                 ViewData["DutyPerson"] = DALUtility.UserCore.GetCharge(ID);
             }
+            if (tag == 1)
+            {
+                // 获取部门用户
+                Dictionary<string, object> paras = new Dictionary<string, object>();
+                if (ID != 0)
+                {
+                    paras["DepartmentId"] = ID;
+                }
+                ViewData["users"] = DALUtility.UserCore.QryRealName<UserEntity>(paras);
+            }
             entity.tag = tag;
             return View(entity);
         }
