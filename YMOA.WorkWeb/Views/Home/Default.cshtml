@@ -52,11 +52,16 @@
             }
             return color;
         };
-
+        
         function showChart(data) {
             let param = [];
             let cents = $("#cent");
-            const len = data.length / 100*1000;
+            $("#footContext").empty();
+            $("#canvasContext").empty();
+            let canvas = $(" <canvas id='leavechart' style='height: 160px; width: 100 %;'></canvas>");
+            $("#canvasContext").append(canvas)
+            cents.empty();
+            const len = 100 / data.length ;
             $.each(data, function (i, v) {
                 let col = getColor();
                 let higcol = getColor();
@@ -80,6 +85,7 @@
         function showFootData(len, hours, name) {
             let htmlCent = $("<div style=text - align: center; float: left;'><span> " + hours + "小时</span ><p style='color: #a1a1a1'>" + name + "</p></div >");
             htmlCent.css({ "width": len + "%", "text - align": "center", "float": "left" });
+            
             $("#footContext").append(htmlCent);
         }
 
@@ -87,7 +93,9 @@
         function GetLeaveChart(param) {
             var doughnutData = param;
             var ctx = document.getElementById("leavechart").getContext("2d");
+            
             window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, { responsive: false });
+            
         }
     </script>
 </head>
@@ -157,12 +165,14 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-pie-chart fa-lg" style="padding-right: 5px;"></i>工时统计 
-                            <select id="seleData" name="sele" >
+                            <select id="seleData" onchange="onLoadHoursData()" name="sele" >
                                
                             </select>
                         </div>
                         <div class="panel-body" style="padding-top: 20px;">
-                            <canvas id="leavechart" style="height: 160px; width: 100%;"></canvas>
+                            <div id="canvasContext">
+                                <canvas id="leavechart" style="height: 160px; width: 100%;"></canvas>
+                            </div>
                             <div id="cent" style="text-align: center; padding-top: 20px;">
                                 
                             </div>
