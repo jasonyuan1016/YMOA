@@ -56,6 +56,5 @@ namespace YMOA.WorkWeb.Controllers
             var hoursList = DALUtility.HoursCore.GetProjectByPerson<HoursEntity>(paras);
             return Content(hoursList.ToJson());
         }
-
     }
 }
