@@ -22,7 +22,7 @@ namespace YMOA.IDAL
         /// </summary>
         UserEntity UserLogin(Dictionary<string, object> paras);
 
-
+        UserEntity GetUserByUserId(string userId);
 
 
         /// <summary>

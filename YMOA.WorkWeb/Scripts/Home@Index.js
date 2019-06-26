@@ -183,12 +183,8 @@ function Reimbursement() {
         id: "Reimbursement",
         title: "报销单",
         url: "/Reimbursement/Index",
-        width: "700px",
-        height: "410px",
-        callBack: function (iframeId) {
-            top.frames[iframeId].submitForm();
-        }
+        width: "500px",
+        height: "350px",
+        btn: null
     });
-    console.log(top.clients);
-    //location.href = "/Reimbursement/Index";
 }

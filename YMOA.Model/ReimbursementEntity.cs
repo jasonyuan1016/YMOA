@@ -48,10 +48,12 @@ namespace YMOA.Model
         /// <summary>
         /// 申请日期
         /// </summary>
-        public DateTime ApplicantTime { get; set; }
+        public DateTime ? ApplicantTime { get; set; }
         /// <summary>
         /// 批准时间
         /// </summary>
-        public DateTime ApprovalTime { get; set; }
+        public DateTime ? ApprovalTime { get; set; }
+
+        public int Level;
     }
 }

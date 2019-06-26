@@ -24,7 +24,7 @@ namespace YMOA.DAL
             else
             {
                 paras["ID"] = Guid.NewGuid().To16String();
-                return StandardInsert("tbReimbursement", paras);
+                return StandardInsert("tbReimbursement", paras,"");
             }
         }
     }
