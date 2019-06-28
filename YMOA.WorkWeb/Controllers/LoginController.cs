@@ -53,7 +53,7 @@ namespace YMOA.WorkWeb.Controllers
                 DateTime dateTime = DateTime.Now;
                 Session["LoginTime"] = dateTime;
                 Session["RoleId"] = currentUser.RoleId;
-
+                Session["DepartmentId"] = currentUser.DepartmentId;
                 var CurrentOnline = System.Web.HttpContext.Current.Application["CurrentOnline"];
                 
                 if (CurrentOnline != null)

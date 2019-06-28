@@ -1,5 +1,6 @@
 ﻿var GlobalResx = {
     add: 'Add',
     edit: 'Edit',
-    delete: 'Delete'
+    delete: 'Delete',
+    reimbursement: 'reimbursement'
 }

@@ -103,5 +103,9 @@ namespace YMOA.DALFactory
         public IHoursDAL HoursCore {
             get { return LoadAssamblyType<IHoursDAL>("HoursDAL"); }
         }
+        public IReimbursementDAL ReimbursementCore
+        {
+            get { return LoadAssamblyType<IReimbursementDAL>("ReimbursementDAL"); }
+        }
     }
 }

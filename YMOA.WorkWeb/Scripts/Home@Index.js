@@ -13,6 +13,7 @@ else {
     document.body.className = 'theme-blue';
 }
 $(function () {
+    Unread();
     if (storage) {
         try {
             var usedSkin = localStorage.getItem('config-skin');
@@ -177,4 +178,24 @@ function GetLoadNav() {
         _html += '</li>';
     });
     $("#sidebar-nav ul").prepend(_html);
+}
+function Reimbursement() {
+    $.modalOpen({
+        id: "Reimbursement",
+        title: "报销单",
+        url: "/Reimbursement/Index",
+        width: "500px",
+        height: "350px",
+        btn: null
+    });
+}
+function Unread() {
+    $.ajax({
+        url: "/Reimbursement/GetUntreatedRB",
+        type: "GET",
+        dataType:"json",
+        success: function (data) {
+            $("#count").html(data.Count);
+        }
+    })
 }
