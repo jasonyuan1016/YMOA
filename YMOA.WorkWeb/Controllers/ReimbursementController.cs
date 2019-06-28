@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,8 +20,48 @@ namespace YMOA.WorkWeb.Controllers
             reimbursement.Level = user.DutyId;
             return View(reimbursement);
         }
+        public ActionResult GetUntreated()
+        {
+            return View();
+        }
+        public ActionResult GetUntreatedRB()
+        {
+            string userId = Session["UserId"].ToString();
+            UserEntity user = DALUtility.UserCore.GetUserByUserId(userId);
+            DynamicParameters dp = new DynamicParameters();
+            dp.Add("Daprtment", user.DepartmentId);
+            if (user.DepartmentId == 4)
+            {
+                dp.Add("State", 2);
+            }
+            else if (user.DutyId > 1)
+            {
+                dp.Add("State", 1);
+            }
+            else
+            {
+                dp.Add("State", 4);
+            }
+            return Content(DALUtility.ReimbursementCore.QryUntreated(dp));
+        }
         public ActionResult Add(ReimbursementEntity reimbursement)
         {
+            return SubmitForm(reimbursement);
+        }
+        public ActionResult Edit(string ID,int state)
+        {
+
+            var reimbursement = DALUtility.ReimbursementCore.QryReimbursement<ReimbursementEntity>(ID);
+            if (reimbursement.Manager == null)
+            {
+                reimbursement.State = state;
+                reimbursement.Manager = Session["UserId"].ToString();
+            }
+            else
+            {
+                reimbursement.State = state;
+                reimbursement.Finace = Session["UserId"].ToString();
+            }
             return SubmitForm(reimbursement);
         }
         public ActionResult SubmitForm(ReimbursementEntity reimbursement)
@@ -33,16 +74,18 @@ namespace YMOA.WorkWeb.Controllers
             paras["ApplicantTime"] = reimbursement.ApplicantTime;
             paras["Purpose"] = reimbursement.Purpose;
             paras["Manager"] = reimbursement.Manager;
-            paras["State"] = reimbursement.State;
             paras["Finace"] = reimbursement.Finace;
-
+            paras["State"] = reimbursement.State;
             if (reimbursement.ID != null)
             {
                 paras["ID"] = reimbursement.ID;
                 paras["ApprovalTime"] = reimbursement.ApprovalTime;
                 return OperationReturn(DALUtility.ReimbursementCore.Save(paras) > 0);
             }
-            return OperationReturn(DALUtility.ReimbursementCore.Save(paras) > 0);
+            else
+            {
+                return OperationReturn(DALUtility.ReimbursementCore.Save(paras) > 0);
+            }
         }
     }
 }

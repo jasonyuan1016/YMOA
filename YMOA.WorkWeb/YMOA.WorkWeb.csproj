@@ -552,6 +552,7 @@
     <Content Include="Scripts\Login%40Index.js" />
     <Content Include="Scripts\Memu%40Index.js" />
     <Content Include="Scripts\Memu%40Edit.js" />
+    <Content Include="Scripts\Reimbursement%40GetUntreated.js" />
     <Content Include="Scripts\Reimbursement%40Index.js" />
     <Content Include="Scripts\resx\en-us\global.js" />
     <Content Include="Scripts\resx\en-us\Group%40Index.js" />
@@ -570,6 +571,7 @@
     <Content Include="Scripts\resx\zh-cn\Library%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Login%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Memu%40Index.js" />
+    <Content Include="Scripts\resx\zh-cn\Reimbursement%40GetUntreated.js" />
     <Content Include="Scripts\resx\zh-cn\Reimbursement%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Task%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\User%40Index.js" />
@@ -611,6 +613,7 @@
     <Content Include="Views\Hours\Index.cshtml" />
     <Content Include="Views\Hours\ProHours.cshtml" />
     <Content Include="Views\Reimbursement\Index.cshtml" />
+    <Content Include="Views\Reimbursement\GetUntreated.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

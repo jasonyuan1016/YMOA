@@ -13,6 +13,7 @@ else {
     document.body.className = 'theme-blue';
 }
 $(function () {
+    Unread();
     if (storage) {
         try {
             var usedSkin = localStorage.getItem('config-skin');
@@ -187,4 +188,14 @@ function Reimbursement() {
         height: "350px",
         btn: null
     });
+}
+function Unread() {
+    $.ajax({
+        url: "/Reimbursement/GetUntreatedRB",
+        type: "GET",
+        dataType:"json",
+        success: function (data) {
+            $("#count").html(data.Count);
+        }
+    })
 }

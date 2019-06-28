@@ -30,6 +30,7 @@ function submitForm() {
     var reimbursement = $("#Reimbursement").dataSerialize();
     reimbursement.Department = $("#txtDepartment").data("id");
     reimbursement.State = reimbursement.Level == 1 ? 1 : 2;
+    reimbursement.Applicant = $("#txtApplicant").data("id");
     $.ajax({
         url: "/Reimbursement/Add",
         data: reimbursement,
