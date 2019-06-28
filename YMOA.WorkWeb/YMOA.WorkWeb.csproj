@@ -621,6 +621,8 @@
     <Content Include="Views\Hours\TaskHours.cshtml" />
     <Content Include="Views\Hours\PerHours.cshtml" />
     <Content Include="Views\Hours\PerProHours.cshtml" />
+    <Content Include="Views\Reimbursement\GetUntreated.cshtml" />
+    <Content Include="Views\Reimbursement\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

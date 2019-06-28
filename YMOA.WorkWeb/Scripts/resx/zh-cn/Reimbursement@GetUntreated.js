@@ -5,6 +5,7 @@
     col_Applicant : '申请人',
     col_ApplicantTime: '申请时间',
     col_Manager: '部门管理',
-    col_Finace:'财务',
+    col_Finace: '财务',
+    col_State:'状态',
     col_oper : '操作'
 }

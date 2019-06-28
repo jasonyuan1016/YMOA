@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Index.cshtml";
 }
-<div id="topPanel" class="topPanel" data-departmentId="@Session["DepartmentId"].ToString()">
+<div id="topPanel" class="topPanel" data-departmentId="@Session["DepartmentId"].ToString()" data-dutyId="@Session["DutyId"].ToString()">
 </div>
 <div class="gridPanel">
     <table id="gridList"></table>

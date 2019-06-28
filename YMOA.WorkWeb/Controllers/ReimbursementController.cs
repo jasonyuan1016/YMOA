@@ -30,6 +30,7 @@ namespace YMOA.WorkWeb.Controllers
             UserEntity user = DALUtility.UserCore.GetUserByUserId(userId);
             DynamicParameters dp = new DynamicParameters();
             dp.Add("Daprtment", user.DepartmentId);
+            dp.Add("Applicant", "");
             if (user.DepartmentId == 4)
             {
                 dp.Add("State", 2);
@@ -40,7 +41,8 @@ namespace YMOA.WorkWeb.Controllers
             }
             else
             {
-                dp.Add("State", 4);
+                dp.Add("Applicant", userId);
+                dp.Add("State", 0);
             }
             return Content(DALUtility.ReimbursementCore.QryUntreated(dp));
         }
@@ -79,7 +81,7 @@ namespace YMOA.WorkWeb.Controllers
             if (reimbursement.ID != null)
             {
                 paras["ID"] = reimbursement.ID;
-                paras["ApprovalTime"] = reimbursement.ApprovalTime;
+                paras["ApprovalTime"] = DateTime.Now.Date;
                 return OperationReturn(DALUtility.ReimbursementCore.Save(paras) > 0);
             }
             else
