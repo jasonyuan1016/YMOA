@@ -29,7 +29,18 @@ function gridList() {
             },
             { label: PageResx.col_Purpose, name: 'Purpose', width: 140, align: 'left' },
             { label: PageResx.col_Money, name: 'Money', width: 140, align: 'left' },
-            { label: PageResx.col_Applicant, name: 'Applicant', width: 140, align: 'left' },
+            {
+                label: PageResx.col_Applicant, name: 'Applicant', width: 140, align: 'left',
+                formatter: function (cellvalue) {
+                    var user = "";
+                    $.each(users, function (i) {
+                        if (users[i].AccountName == cellvalue) {
+                            user = users[i].RealName;
+                        }
+                    });
+                    return user;
+                }
+            },
             {
                 label: PageResx.col_ApplicantTime, name: 'ApplicantTime', width: 140, align: 'left',
                 formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
