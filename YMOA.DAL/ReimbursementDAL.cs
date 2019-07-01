@@ -40,6 +40,15 @@ namespace YMOA.DAL
             }
 
         }
+        public IEnumerable<T> QryRei<T>(Dictionary<string,object>pairs,Pagination pagination)
+        {
+            WhereBuilder builder = new WhereBuilder();
+            builder.FromSql = "tbReimbursement";
+            builder.AddWhereAndParameter(pairs, "ID");
+            builder.AddWhereAndParameter(pairs, "Department");
+            builder.AddWhereAndParameter(pairs, "Applicant");
+            return SortAndPage<T>(builder, pagination);
+        }
         public T QryReimbursement <T>(string ID)
         {
             DynamicParameters dp = new DynamicParameters();

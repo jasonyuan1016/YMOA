@@ -1,9 +1,11 @@
 ﻿using Dapper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using YMOA.Comm;
 using YMOA.Model;
 
 namespace YMOA.WorkWeb.Controllers
@@ -13,12 +15,30 @@ namespace YMOA.WorkWeb.Controllers
         // GET: Reimbursement
         public ActionResult Index()
         {
-            string userId = Session["UserId"].ToString();
-            UserEntity user = DALUtility.UserCore.GetUserByUserId(userId);
             ReimbursementEntity reimbursement = new ReimbursementEntity();
-            reimbursement.Department = user.DepartmentId;
-            reimbursement.Level = user.DutyId;
+            reimbursement.Department = Convert.ToInt32(Session["DepartmentId"].ToString());
+            reimbursement.Level = Convert.ToInt32(Session["DutyId"].ToString());
             return View(reimbursement);
+        }
+        public ActionResult GetAll()
+        {
+            return View();
+        }
+        public ActionResult GetAllRB(Pagination pagination) 
+        {
+            Dictionary<string, object> paras = new Dictionary<string, object>();
+            int departmentId = Convert.ToInt32(Session["DepartmentId"]);
+            int dutyId = Convert.ToInt32(Session["DutyId"]);
+            if (dutyId > 1 && departmentId!=4)
+            {
+                paras["Department"] = departmentId;
+            }
+            else if(dutyId==1&&departmentId!=4)
+            {
+                paras["Applicant"] = Session["UserId"].ToString();
+            }
+            var objRet = DALUtility.ReimbursementCore.QryRei<ReimbursementEntity>(paras, pagination);
+            return Content(JsonConvert.SerializeObject(objRet));
         }
         public ActionResult GetUntreated()
         {
@@ -56,14 +76,13 @@ namespace YMOA.WorkWeb.Controllers
             var reimbursement = DALUtility.ReimbursementCore.QryReimbursement<ReimbursementEntity>(ID);
             if (reimbursement.Manager == null)
             {
-                reimbursement.State = state;
                 reimbursement.Manager = Session["UserId"].ToString();
             }
             else
             {
-                reimbursement.State = state;
                 reimbursement.Finace = Session["UserId"].ToString();
             }
+            reimbursement.State = state;
             return SubmitForm(reimbursement);
         }
         public ActionResult SubmitForm(ReimbursementEntity reimbursement)

@@ -43,5 +43,13 @@ namespace YMOA.IDAL
         /// <param name="ID"></param>
         /// <returns></returns>
         T QryReimbursement<T>(string ID);
+        /// <summary>
+        /// 查询所有
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pairs"></param>
+        /// <param name="pagination"></param>
+        /// <returns></returns>
+        IEnumerable<T> QryRei<T>(Dictionary<string, object> pairs, Pagination pagination);
     }
 }

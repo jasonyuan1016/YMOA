@@ -285,8 +285,8 @@
     <comment>董事长</comment>
   </data>
   <data name="menu_reimbursement" xml:space="preserve">
-    <value>费用报销</value>
-    <comment>费用报销</comment>
+    <value>报销账单</value>
+    <comment>报销账单查看</comment>
   </data>
   <data name="menu_work" xml:space="preserve">
     <value>办公管理</value>
