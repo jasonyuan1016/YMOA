@@ -259,6 +259,15 @@ namespace YMOA.WorkWeb.Resources {
         }
         
         /// <summary>
+        ///   查找类似 费用报销 的本地化字符串。
+        /// </summary>
+        public static string menu_reimbursement {
+            get {
+                return ResourceManager.GetString("menu_reimbursement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 报表管理 的本地化字符串。
         /// </summary>
         public static string menu_report {
@@ -300,6 +309,15 @@ namespace YMOA.WorkWeb.Resources {
         public static string menu_user {
             get {
                 return ResourceManager.GetString("menu_user", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 办公管理 的本地化字符串。
+        /// </summary>
+        public static string menu_work {
+            get {
+                return ResourceManager.GetString("menu_work", resourceCulture);
             }
         }
         
