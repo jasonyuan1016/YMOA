@@ -21,9 +21,21 @@ namespace YMOA.Model
         /// </summary>
         public int id { get; set; }
 
+        /// <summary>
+        /// 添加操作
+        /// </summary>
         public bool add { get; set; }
+        /// <summary>
+        /// 修改操作
+        /// </summary>
         public bool update { get; set; }
+        /// <summary>
+        /// 删除操作
+        /// </summary>
         public bool delete { get; set; }
+        /// <summary>
+        /// 其他操作
+        /// </summary>
         public bool other { get; set; }
     }
 }

@@ -20,12 +20,17 @@ namespace YMOA.WorkWeb.Controllers
     /// </summary>
     public class ItemController : BaseController
     {
-        // GET: Item
         #region  获取项目基本信息
+
+        /// <summary>
+        /// 管理页面
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();
         }
+
         /// <summary>
         /// 获取项目的基本信息
         /// </summary>
@@ -89,14 +94,27 @@ namespace YMOA.WorkWeb.Controllers
             }
             return View(projectInfo);
         }
+
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         public ActionResult Add(ProjectEntity project)
         {
             return SubmitForm(project);
         }
+
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         public ActionResult Edit(ProjectEntity project)
         {
             return SubmitForm(project);
         }
+
         /// <summary>
         /// 提交方法
         /// </summary>
@@ -150,13 +168,20 @@ namespace YMOA.WorkWeb.Controllers
             int rows = DALUtility.ProjectCore.Save(pars);
             return OperationReturn(rows == 0);
         }
+
         #endregion
 
         #region 团队的查看和批量添加
+
+        /// <summary>
+        /// 团队页面
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Team()
         {
             return View();
         }
+
         /// <summary>
         /// 获取当前项目下团队人员
         /// </summary>
@@ -170,6 +195,7 @@ namespace YMOA.WorkWeb.Controllers
             var team = DALUtility.TeamCore.QryTeam<TeamEntity>(paras);
             return Content(JsonConvert.SerializeObject(team));
         }
+
         /// <summary>
         /// 添加团队人员
         /// </summary>
@@ -179,17 +205,28 @@ namespace YMOA.WorkWeb.Controllers
         {
             return OperationReturn(DALUtility.TeamCore.Save(teams) > 0);
         }
+
         #endregion
 
         #region 删除项目、任务及团队
+
+        /// <summary>
+        ///  删除项目、任务及团队
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Delete()
         {
             Dictionary<string, object> param = new Dictionary<string, object>();
             param["ID"] = Request["ID"];
             return OperationReturn(DALUtility.ProjectCore.DeleteProject(param));
         }
+
         #endregion
 
+        /// <summary>
+        /// 任务管理页面
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Task()
         {
             return View();

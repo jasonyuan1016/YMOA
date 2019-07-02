@@ -14,6 +14,9 @@ using YMOA.WorkWeb.Resources;
 
 namespace YMOA.WorkWeb.Controllers
 {
+    /// <summary>
+    /// 任务控制器
+    /// </summary>
     public class TaskController : BaseController
     {
 
@@ -45,6 +48,10 @@ namespace YMOA.WorkWeb.Controllers
 
         #region 任务相关
         
+        /// <summary>
+        ///  任务管理页面
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();

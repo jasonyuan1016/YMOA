@@ -11,14 +11,25 @@ using YMOA.WorkWeb.Resources;
 
 namespace YMOA.WorkWeb.Controllers
 {
+    /// <summary>
+    ///  角色控制器
+    /// </summary>
     public class GroupController : BaseController
     {
+        /// <summary>
+        ///  管理页面
+        /// </summary>
+        /// <returns></returns>
         [PermissionFilter]
         public ActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        ///  列表
+        /// </summary>
+        /// <returns></returns>
         [PermissionFilter("group", "index")]
         public ActionResult GetGridJson()
         {
@@ -27,6 +38,11 @@ namespace YMOA.WorkWeb.Controllers
             return Content(data.ToJson());
         }
 
+        /// <summary>
+        ///  添加/修改页面
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         [PermissionFilter("group", "index")]
         public ActionResult Edit(int ID = 0)
         {
@@ -47,17 +63,33 @@ namespace YMOA.WorkWeb.Controllers
             return View(roleMenuEntity);
         }
 
+        /// <summary>
+        ///  添加
+        /// </summary>
+        /// <param name="roleMenuEntity"></param>
+        /// <returns></returns>
         [PermissionFilter("group", "index", Operationype.Add)]
         public ActionResult Add(RoleMenuEntity roleMenuEntity)
         {
             return Save(roleMenuEntity);
         }
 
+        /// <summary>
+        ///  修改
+        /// </summary>
+        /// <param name="roleMenuEntity"></param>
+        /// <returns></returns>
         [PermissionFilter("group", "index", Operationype.Update)]
         public ActionResult Update(RoleMenuEntity roleMenuEntity)
         {
             return Save(roleMenuEntity);
         }
+
+        /// <summary>
+        ///  添加/修改底层
+        /// </summary>
+        /// <param name="roleMenuEntity"></param>
+        /// <returns></returns>
         private ActionResult Save(RoleMenuEntity roleMenuEntity)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
@@ -88,6 +120,11 @@ namespace YMOA.WorkWeb.Controllers
             return OperationReturn(DALUtility.SystemCore.RoleSave(paras) == 0);
         }
 
+        /// <summary>
+        ///  删除
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         [PermissionFilter("group", "index", Operationype.Delete)]
         public ActionResult Delete(int ID)
         {

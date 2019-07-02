@@ -11,8 +11,15 @@ using YMOA.WorkWeb.Resources;
 
 namespace YMOA.WorkWeb.Controllers
 {
+    /// <summary>
+    /// 返回公共数据
+    /// </summary>
     public class ClientsDataController : BaseController
     {
+        /// <summary>
+        ///  返回公共数据
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [HandlerAjaxOnly]
         public ActionResult GetClientsDataJson()

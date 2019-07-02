@@ -42,7 +42,13 @@ namespace YMOA.DAL
             
         }
 
-
+        /// <summary>
+        ///  查询用户列表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <param name="iCount"></param>
+        /// <returns></returns>
         public IEnumerable<T> QryUsers<T>(Dictionary<string, object> paras, out int iCount)
         {
             iCount = 0;

@@ -16,7 +16,10 @@ namespace YMOA.WorkWeb.Controllers
     /// </summary>
     public class MemuController : BaseController
     {
-        // GET: Menu
+        /// <summary>
+        /// 管理页面
+        /// </summary>
+        /// <returns></returns>
         [PermissionFilter]
         public ActionResult Index()
         {
@@ -66,7 +69,7 @@ namespace YMOA.WorkWeb.Controllers
         }
 
         /// <summary>
-        ///  修改菜单
+        ///  修改
         /// </summary>
         /// <param name="menuEntity"></param>
         /// <returns></returns>
@@ -76,9 +79,8 @@ namespace YMOA.WorkWeb.Controllers
             return SubmitForm(menuEntity);
         }
 
-
         /// <summary>
-        ///  添加菜单
+        ///  添加
         /// </summary>
         /// <param name="menuEntity"></param>
         /// <returns></returns>
@@ -88,6 +90,11 @@ namespace YMOA.WorkWeb.Controllers
             return SubmitForm(menuEntity);
         }
         
+        /// <summary>
+        /// 添加/修改底层
+        /// </summary>
+        /// <param name="menuEntity"></param>
+        /// <returns></returns>
         private ActionResult SubmitForm(MenuEntity menuEntity)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
@@ -118,7 +125,7 @@ namespace YMOA.WorkWeb.Controllers
         }
 
         /// <summary>
-        ///  删除菜单
+        ///  删除
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>

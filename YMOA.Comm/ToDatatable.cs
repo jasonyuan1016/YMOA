@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace YMOA.Comm
 {
+    /// <summary>
+    /// 说明: List 转 Datatable
+    /// </summary>
     public class ToDatatable
     {
         public ToDatatable() { }
@@ -119,11 +122,22 @@ namespace YMOA.Comm
             }
         }
 
+        /// <summary>
+        ///  判断属性是否可为空
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static bool IsNullable(Type t)
         {
             return !t.IsValueType || (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>));
         }
 
+        /// <summary>
+        ///  判断属性是否存在
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="arrStr"></param>
+        /// <returns></returns>
         private static bool IsExist(string str, string[] arrStr)
         {
             return arrStr.Contains(str);

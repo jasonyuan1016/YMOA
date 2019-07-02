@@ -129,10 +129,17 @@ namespace YMOA.Model
 
     }
 
+    /// <summary>
+    /// 任务DTO
+    /// </summary>
     public class TaskEntityDTO : TaskEntity
     {
         public TaskEntityDTO() { }
 
+        /// <summary>
+        /// 初始化TaskEntity转TaskEntityDTO
+        /// </summary>
+        /// <param name="task"></param>
         public TaskEntityDTO(TaskEntity task)
         {
             ID = task.ID;

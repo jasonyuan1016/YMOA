@@ -16,6 +16,9 @@ namespace YMOA.UnitTest
 
         }
 
+        /// <summary>
+        /// 测试账号邮箱是否重复
+        /// </summary>
         [TestMethod]
         public void TestCheckUseridAndEmail()
         {
@@ -28,6 +31,9 @@ namespace YMOA.UnitTest
             Assert.AreNotEqual(result, 0);
         }
 
+        /// <summary>
+        /// 测试根据id删除角色
+        /// </summary>
         [TestMethod]
         public void TestRoleDelete()
         {
@@ -39,6 +45,9 @@ namespace YMOA.UnitTest
             Assert.AreEqual(result,0);
         }
         
+        /// <summary>
+        /// 获取选单
+        /// </summary>
         [TestMethod]
         public void TestMenuGetList()
         {

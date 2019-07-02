@@ -10,6 +10,9 @@ using YMOA.WorkWeb.Resources;
 
 namespace YMOA.WorkWeb.Controllers
 {
+    /// <summary>
+    /// 数据基本类型控制器
+    /// </summary>
     public class LibraryController : BaseController
     {
         [PermissionFilter]
@@ -18,6 +21,11 @@ namespace YMOA.WorkWeb.Controllers
             return View();
         }
 
+        /// <summary>
+        ///  获取列表
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
         [PermissionFilter("library", "index")]
         public ActionResult GetGridJson(int tag = 1)
         {
@@ -28,6 +36,12 @@ namespace YMOA.WorkWeb.Controllers
             return Content(data.ToJson());
         }
 
+        /// <summary>
+        /// 添加修改页面
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         [PermissionFilter("library", "index")]
         public ActionResult Edit(int tag,int ID = 0)
         {
@@ -56,18 +70,36 @@ namespace YMOA.WorkWeb.Controllers
             return View(entity);
         }
 
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="DutyPerson"></param>
+        /// <returns></returns>
         [PermissionFilter("library", "index", Operationype.Add)]
         public ActionResult Add(LibraryEntity entity, string DutyPerson)
         {
             return Save(entity, DutyPerson);
         }
 
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="DutyPerson"></param>
+        /// <returns></returns>
         [PermissionFilter("library", "index", Operationype.Update)]
         public ActionResult Update(LibraryEntity entity, string DutyPerson)
         {
             return Save(entity, DutyPerson);
         }
 
+        /// <summary>
+        /// 添加/修改底层
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="DutyPerson"></param>
+        /// <returns></returns>
         private ActionResult Save(LibraryEntity entity,string DutyPerson)
         {
             int result = DALUtility.SystemCore.LibrarySave(entity);
@@ -84,7 +116,7 @@ namespace YMOA.WorkWeb.Controllers
         }
 
         /// <summary>
-        ///  删除公共数据类型
+        ///  删除
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>

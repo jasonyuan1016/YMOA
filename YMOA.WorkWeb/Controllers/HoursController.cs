@@ -9,7 +9,7 @@ using YMOA.Model;
 namespace YMOA.WorkWeb.Controllers
 {
     /// <summary>
-    /// 工时控制层
+    /// 工时控制器
     /// </summary>
     public class HoursController : BaseController
     {
@@ -21,6 +21,7 @@ namespace YMOA.WorkWeb.Controllers
         {
             return View();
         }
+
         /// <summary>
         /// 返回任务完成工时记录页面
         /// </summary>
@@ -29,6 +30,7 @@ namespace YMOA.WorkWeb.Controllers
         {
             return View();
         }
+
         /// <summary>
         /// 获取所有项目工时
         /// </summary>

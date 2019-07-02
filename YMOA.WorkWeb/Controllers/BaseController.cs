@@ -17,22 +17,35 @@ namespace YMOA.WorkWeb.Controllers
         /// 数据交互接口
         /// </summary>
         internal DALCore DALUtility => DALCore.GetInstance();
+
+        /// <summary>
+        ///  数据返回
+        /// </summary>
+        /// <param name="totalCount"></param>
+        /// <param name="rows"></param>
+        /// <returns></returns>
         protected ContentResult PagerData(int totalCount, object rows)
         {
             return Content(JsonConvert.SerializeObject(new { total = totalCount.ToString(), rows = rows }));
         }
 
+        /// <summary>
+        ///  数据返回
+        /// </summary>
         protected ContentResult OperationReturn(bool _success, string _msg = "")
         {
             return Content(JsonConvert.SerializeObject(new { msg = _msg != "" ? _msg : (_success ? "操作成功" : "操作失败"), success = _success }));
         }
 
+        /// <summary>
+        ///  数据返回
+        /// </summary>
         protected ContentResult AjaxReturn(ResultType resultType, string _msg)
         {
             return Content(new AjaxResult { state = resultType.ToString(), message = _msg }.ToJson());
         }
 
-        // <summary>
+        /// <summary>
         /// 当前登入者账号
         /// </summary>
         protected string UserId
@@ -91,6 +104,12 @@ namespace YMOA.WorkWeb.Controllers
             }
         }
 
+        /// <summary>
+        /// 开始执行
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
         protected override IAsyncResult BeginExecuteCore(AsyncCallback callback, object state)
         {
             string cultureName = string.Empty;

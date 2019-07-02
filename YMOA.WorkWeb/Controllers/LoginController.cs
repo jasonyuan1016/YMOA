@@ -24,11 +24,23 @@ namespace YMOA.WorkWeb.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 验证码
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult GetAuthCode()
         {
             return File(new VerifyCode().GetVerifyCode(), @"image/Gif");
         }
+
+        /// <summary>
+        /// 登录事件
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
         [HttpPost]
         [HandlerAjaxOnly]
         public ActionResult CheckLogin(string username, string password, string code)
@@ -74,6 +86,7 @@ namespace YMOA.WorkWeb.Controllers
                 return AjaxReturn(ResultType.error, "用户名密码错误，请您检查");
             }
         }
+
         /// <summary>
         /// 忘记密码页面
         /// </summary>
@@ -82,6 +95,7 @@ namespace YMOA.WorkWeb.Controllers
         {
             return View();
         }
+
         /// <summary>
         /// 忘记密码操作
         /// </summary>
@@ -101,6 +115,7 @@ namespace YMOA.WorkWeb.Controllers
             //}
             return OperationReturn(true, "邮件已发送！");
         }
+
         /// <summary>
         /// 安全退出
         /// </summary>
@@ -113,7 +128,11 @@ namespace YMOA.WorkWeb.Controllers
             return RedirectToAction("Index", "Login");
         }
 
-
+        /// <summary>
+        ///  修改语系
+        /// </summary>
+        /// <param name="culture"></param>
+        /// <returns></returns>
         public ActionResult SetCulture(string culture)
         {
             culture = CultureHelper.GetImplementedCulture(culture);

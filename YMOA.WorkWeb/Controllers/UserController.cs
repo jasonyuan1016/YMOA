@@ -11,15 +11,27 @@ using YMOA.WorkWeb.Resources;
 
 namespace YMOA.WorkWeb.Controllers
 {
+    /// <summary>
+    /// 用户控制器
+    /// </summary>
     public class UserController : BaseController
     {
-        // GET: User
+        /// <summary>
+        /// 列表页面
+        /// </summary>
+        /// <returns></returns>
         [PermissionFilter]
         public ActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// 列表数据
+        /// </summary>
+        /// <param name="pagination"></param>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
         [PermissionFilter("user","index")]
         public ActionResult GetGridJson(Pagination pagination, string keyword)
         {
@@ -38,6 +50,11 @@ namespace YMOA.WorkWeb.Controllers
             return Content(data.ToJson());
         }
 
+        /// <summary>
+        /// 添加/修改页面
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         [PermissionFilter("user", "index")]
         public ActionResult UserEdit(int ID = 0)
         {
@@ -51,18 +68,33 @@ namespace YMOA.WorkWeb.Controllers
             return View(userInfo);
         }
 
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="userEntity"></param>
+        /// <returns></returns>
         [PermissionFilter("user", "index", Operationype.Add)]
         public ActionResult Add(UserEntity userEntity)
         {
             return SubmitForm(userEntity);
         }
 
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="userEntity"></param>
+        /// <returns></returns>
         [PermissionFilter("user", "index", Operationype.Update)]
         public ActionResult Update(UserEntity userEntity)
         {
             return SubmitForm(userEntity);
         }
 
+        /// <summary>
+        /// 添加/修改底层
+        /// </summary>
+        /// <param name="userEntity"></param>
+        /// <returns></returns>
         private ActionResult SubmitForm(UserEntity userEntity)
         {
             Dictionary<string, object> paras = new Dictionary<string, object>();
@@ -109,7 +141,7 @@ namespace YMOA.WorkWeb.Controllers
         }
 
         /// <summary>
-        ///  修改用户是否启用
+        ///  修改状态
         /// </summary>
         /// <param name="ID"></param>
         /// <param name="IsAble"></param>
@@ -122,12 +154,12 @@ namespace YMOA.WorkWeb.Controllers
             paras["IsAble"] = IsAble;
             return OperationReturn(DALUtility.UserCore.Save(paras) > 0);
         }
+
         /// <summary>
-        ///  用户删除
+        ///  删除
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-
         [PermissionFilter("user", "index", Operationype.Delete)]
         public ActionResult Delete(int ID)
         {
