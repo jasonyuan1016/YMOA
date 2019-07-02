@@ -15,9 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YMOA.DALFactory", "YMOA.DAL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YMOA.UnitTest", "YMOA.UnitTest\YMOA.UnitTest.csproj", "{ADB4F7C7-120C-4A45-93B3-7FBDF76049AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YMOA.WorkWeb", "YMOA.WorkWeb\YMOA.WorkWeb.csproj", "{C8087CE6-464E-40BB-B268-6BA7548338CB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YMOA.MongoDB", "YMOA.MongoDB\YMOA.MongoDB.csproj", "{7B9E5941-BE57-4987-96C4-3EF0BFAAD9C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YMOA.WorkWeb", "YMOA.WorkWeb\YMOA.WorkWeb.csproj", "{C8087CE6-464E-40BB-B268-6BA7548338CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,14 +49,14 @@ Global
 		{ADB4F7C7-120C-4A45-93B3-7FBDF76049AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADB4F7C7-120C-4A45-93B3-7FBDF76049AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADB4F7C7-120C-4A45-93B3-7FBDF76049AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C8087CE6-464E-40BB-B268-6BA7548338CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C8087CE6-464E-40BB-B268-6BA7548338CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8087CE6-464E-40BB-B268-6BA7548338CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C8087CE6-464E-40BB-B268-6BA7548338CB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7B9E5941-BE57-4987-96C4-3EF0BFAAD9C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7B9E5941-BE57-4987-96C4-3EF0BFAAD9C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B9E5941-BE57-4987-96C4-3EF0BFAAD9C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B9E5941-BE57-4987-96C4-3EF0BFAAD9C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8087CE6-464E-40BB-B268-6BA7548338CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8087CE6-464E-40BB-B268-6BA7548338CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8087CE6-464E-40BB-B268-6BA7548338CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8087CE6-464E-40BB-B268-6BA7548338CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
