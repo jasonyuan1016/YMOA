@@ -11,80 +11,91 @@
     <script src="~/Content/js/charts/Chart.js"></script>
     <script>
         $(function () {
-            GetSalaryChart();
             GetLeaveChart();
+            onLoadProData();
+            
         });
-        function GetSalaryChart() {
-            var randomScalingFactor = function () { return Math.round(Math.random() * 100) };
-            var lineChartData = {
-                labels: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "8月", "10月", "11月", "12月"],
-                datasets: [
-                    {
-                        label: "My First dataset",
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
-                        pointStrokeColor: "#fff",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-                    },
-                    {
-                        label: "My Second dataset",
-                        fillColor: "rgba(151,187,205,0.2)",
-                        strokeColor: "rgba(151,187,205,1)",
-                        pointColor: "rgba(151,187,205,1)",
-                        pointStrokeColor: "#fff",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(151,187,205,1)",
-                        data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-                    }
-                ]
-            }
-            var ctx = document.getElementById("salarychart").getContext("2d");
-            window.myLine = new Chart(ctx).Line(lineChartData, {
-                responsive: false,
-                bezierCurve: false
+        //获取项目信息
+        function onLoadProData() {
+            $.ajax({
+                url: "/Hours/GetAllProject",
+                dataType: 'json'
+            }).then((data) => {
+                console.log(data);
+                let sele = $("#seleData");
+                $.each(data, function (i, v) {
+                    let op = $("<option value=" + v.TaskId + ">" + v.ProjectId + "</option>");
+                    sele.append(op);
+                });
+                sele.val("597d6f967b075ee9");
+                onLoadHoursData();
             });
+        };
+        //加载对应项目下的成员信息
+        function onLoadHoursData() {
+            let sele = $("#seleData");
+            console.log(sele.val())
+            $.ajax({
+                url: "/Hours/GetProjectByPerson?ProName=" + sele.val(),  
+                dataType: 'json'
+            }).then((data) => {
+                console.log(data);
+                showChart(data);
+            });
+        };
+        //随机生成颜色
+        function getColor() {
+            var colorArray = new Array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f");
+            var color = "#";
+            for (var i = 0; i < 6; i++) {
+                color += colorArray[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        };
+        
+        function showChart(data) {
+            let param = [];
+            let cents = $("#cent");
+            $("#footContext").empty();
+            $("#canvasContext").empty();
+            let canvas = $(" <canvas id='leavechart' style='height: 160px; width: 100 %;'></canvas>");
+            $("#canvasContext").append(canvas)
+            cents.empty();
+            const len = 100 / data.length ;
+            $.each(data, function (i, v) {
+                let col = getColor();
+                let higcol = getColor();
+                let obj = {
+                    value: v.Hour,
+                    color: col,
+                    highlight: higcol,
+                    label: v.Person
+                };
+                param.push(obj);
+                let cent = $("<span style='margin - left: 10px; '>" + v.Person + "</span>");
+                let s = $("<i  style='color:"+col+"; font - size: 20px; padding - right: 5px; vertical - align: middle; margin - top: -3px;'></i>")
+                s.addClass("fa fa-square");
+                cent.append(s);
+                cents.append(cent);
+                showFootData(len, v.Hour, v.Person);
+            });
+            GetLeaveChart(param);
         }
-        function GetLeaveChart() {
-            var randomScalingFactor = function () { return Math.round(Math.random() * 100) };
-            var a_value = randomScalingFactor();
-            var b_value = randomScalingFactor();
-            var c_value = randomScalingFactor();
-            var d_value = randomScalingFactor();
-            var doughnutData = [
-	            {
-	                value: a_value,
-	                color: "#F7464A",
-	                highlight: "#FF5A5E",
-	                label: "事假"
-	            },
-	            {
-	                value: b_value,
-	                color: "#46BFBD",
-	                highlight: "#5AD3D1",
-	                label: "病假"
-	            },
-	            {
-	                value: c_value,
-	                color: "#FDB45C",
-	                highlight: "#FFC870",
-	                label: "公休假"
-	            },
-	            {
-	                value: d_value,
-	                color: "#949FB1",
-	                highlight: "#A8B3C5",
-	                label: "调休假"
-	            }
-            ];
+
+        function showFootData(len, hours, name) {
+            let htmlCent = $("<div style=text - align: center; float: left;'><span> " + hours + "小时</span ><p style='color: #a1a1a1'>" + name + "</p></div >");
+            htmlCent.css({ "width": len + "%", "text - align": "center", "float": "left" });
+            
+            $("#footContext").append(htmlCent);
+        }
+
+        //EChart图表显示
+        function GetLeaveChart(param) {
+            var doughnutData = param;
             var ctx = document.getElementById("leavechart").getContext("2d");
+            
             window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, { responsive: false });
-            $("#a_value").html(a_value + "小时");
-            $("#b_value").html(b_value + "小时");
-            $("#c_value").html(c_value + "小时");
-            $("#d_value").html(d_value + "小时");
+            
         }
     </script>
 </head>
@@ -94,9 +105,9 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="fa fa-line-chart fa-lg" style="padding-right: 5px;"></i>关键数据实时指标
-                <div style="float: right; position: relative; top: -4px; right: 0px;">
-                    <iframe name="weather_inc" src="http://i.tianqi.com/index.php?c=code&id=1" width="330" height="35" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
+                    <div style="float: right; position: relative; top: -4px; right: 0px;">
+                        <iframe name="weather_inc" src="http://i.tianqi.com/index.php?c=code&id=1" width="330" height="35" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div class="dashboard-stats">
@@ -148,116 +159,32 @@
             </div>
         </div>
         <div class="rows" style="margin-bottom: 1%; overflow: hidden;">
-            <div style="float: left; width: 69%;">
+
+            <div style="float: left; width: 30%;">
                 <div style="height: 350px; border: 1px solid #e6e6e6; background-color: #fff;">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-area-chart fa-lg" style="padding-right: 5px;"></i>考勤统计
-                        <div style="float: right">
-                            <span style="font-weight: 500;"><i class="fa fa-square" style="color: #dcdcdc; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>迟到</span>
-                            <span style="margin-left: 10px; font-weight: 500;"><i class="fa fa-square" style="color: #97bbcd; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>缺卡</span>
+                            <i class="fa fa-pie-chart fa-lg" style="padding-right: 5px;"></i>工时统计 
+                            <select id="seleData" onchange="onLoadHoursData()" name="sele" >
+                               
+                            </select>
                         </div>
-                        </div>
-                        <div class="panel-body" style="padding-bottom: 0px;">
-                            <canvas id="salarychart" style="height: 285px; width: 100%; padding-right: 10px;"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div style="float: right; width: 30%;">
-                <div style="height: 350px; border: 1px solid #e6e6e6; background-color: #fff;">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><i class="fa fa-pie-chart fa-lg" style="padding-right: 5px;"></i>请假统计</div>
                         <div class="panel-body" style="padding-top: 20px;">
-                            <canvas id="leavechart" style="height: 160px; width: 100%;"></canvas>
-                            <div style="text-align: center; padding-top: 20px;">
-                                <span><i class="fa fa-square" style="color: #F7464A; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>事假</span>
-                                <span style="margin-left: 10px;"><i class="fa fa-square" style="color: #46BFBD; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>病假</span>
-                                <span style="margin-left: 10px;"><i class="fa fa-square" style="color: #FDB45C; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>公休假</span>
-                                <span style="margin-left: 10px;"><i class="fa fa-square" style="color: #949FB1; font-size: 20px; padding-right: 5px; vertical-align: middle; margin-top: -3px;"></i>调休假</span>
+                            <div id="canvasContext">
+                                <canvas id="leavechart" style="height: 160px; width: 100%;"></canvas>
                             </div>
-                            <div style="margin-top: 20px; padding-top: 18px; height: 60px; border-top: 1px solid #e6e6e6;">
-                                <div style="width: 25%; text-align: center; float: left;">
-                                    <span id="a_value">16.5小时</span>
-                                    <p style="color: #a1a1a1">事假</p>
-                                </div>
-                                <div style="width: 25%; text-align: center; float: left;">
-                                    <span id="b_value">7.5小时</span>
-                                    <p style="color: #a1a1a1">病假</p>
-                                </div>
-                                <div style="width: 25%; text-align: center; float: left;">
-                                    <span id="c_value">13小时</span>
-                                    <p style="color: #a1a1a1">公休假</p>
-                                </div>
-                                <div style="width: 25%; text-align: center; float: left;">
-                                    <span id="d_value">19小时</span>
-                                    <p style="color: #a1a1a1">调休假</p>
-                                </div>
+                            <div id="cent" style="text-align: center; padding-top: 20px;">
+                                
+                            </div>
+                            <div id="footContext" style="margin-top: 20px; padding-top: 18px; height: 60px; border-top: 1px solid #e6e6e6;">
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="rows" style="overflow: hidden;">
-            <div style="float: left; width: 34%; margin-right: 1%;">
-                <div style="height: 265px; border: 1px solid #e6e6e6; background-color: #fff;">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><i class="fa fa-thumbs-o-up fa-lg" style="padding-right: 5px;"></i>最新签约</div>
-                        <div class="panel-body">
-                            <ul>
-                                <li><a href="#">南京森鹿皮件服饰有限公司</a><span class="time">2016-07-21</span></li>
-                                <li><a href="#">曲靖市绿能燃气运输有限公司</a><span class="time">2016-07-20</span></li>
-                                <li><a href="#">青海航天信息有限公司</a><span class="time">2016-07-19</span></li>
-                                <li><a href="#">吉林省蔬菜花卉科学研究院</a><span class="time">2016-07-17</span></li>
-                                <li><a href="#">青海省广播电视信息网络股份有限公司</a><span class="time">2016-07-17</span></li>
-                                <li><a href="#">国营长空精密机械制造公司</a><span class="time">2016-07-13</span></li>
-                                <li><a href="#">广东友元国土信息工程有限公司</a><span class="time">2016-07-12</span></li>
-                                <li><a href="#">广东友元国土信息工程有限公司</a><span class="time">2016-07-12</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div style="float: left; width: 34%; margin-right: 1%;">
-                <div style="height: 265px; border: 1px solid #e6e6e6; background-color: #fff;">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><i class="fa fa-rss fa-lg" style="padding-right: 5px;"></i>通知公告</div>
-                        <div class="panel-body">
-                            <ul>
-                                <li><a href="#">【通知】新版员工守则，即日执行</a><span class="time">2016-07-21</span></li>
-                                <li><a href="#">【公告】OA办公使用指南</a><span class="time">2016-07-21</span></li>
-                                <li><a href="#">【公告】劳动节集体出游指南</a><span class="time">2016-07-21</span></li>
-                                <li><a href="#">【通知】2016年G20财长和央行行</a><span class="time">2016-07-21</span></li>
-                                <li><a href="#">【通知】2016年G20财长和央行行</a><span class="time">2016-07-21</span></li>
-                                <li><a href="#">【通知】品牌价值的最佳选择</a><span class="time">2016-07-21</span></li>
-                                <li><a href="#">【公告】采购商城全新升级自营业正品</a><span class="time">2016-07-21</span></li>
-                                <li><a href="#">【公告】采购商城全新升级自营业正品</a><span class="time">2016-07-21</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div style="float: right; width: 30%;">
-                <div style="height: 265px; border: 1px solid #e6e6e6; background-color: #fff;">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><i class="fa fa-send fa-lg" style="padding-right: 5px;"></i>企业文化</div>
-                        <div class="panel-body">
-                            <ul>
-                                <li><a href="#">创新企业党建思想政治工作</a><span class="time">2016-07-02</span></li>
-                                <li><a href="#">现代国有企业道德体系初构</a><span class="time">2016-06-18</span></li>
-                                <li><a href="#">国有企业文化问题根源及文化重塑任务分析</a><span class="time">2016-06-26</span></li>
-                                <li><a href="#">国有企业文化建设必须突出员工文化</a><span class="time">2016-04-20</span></li>
-                                <li><a href="#">加强企业公民建设 推进企业和谐发展</a><span class="time">2016-03-08</span></li>
-                                <li><a href="#">不断提升大庆精神 实现企业持续发展</a><span class="time">2016-02-22</span></li>
-                                <li><a href="#">科学发展作指导 人水和谐路更宽</a><span class="time">2016-02-15</span></li>
-                                <li><a href="#">科学发展作指导 人水和谐路更宽</a><span class="time">2016-02-15</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
     <style>
         #copyrightcontent {
@@ -350,7 +277,8 @@
                 .panel-default > .panel-body ul {
                     overflow: hidden;
                     padding: 0;
-                    margin:0px;margin-top: -5px;
+                    margin: 0px;
+                    margin-top: -5px;
                 }
 
                     .panel-default > .panel-body ul li {

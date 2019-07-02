@@ -63,6 +63,7 @@
     <Compile Include="MenuEntity.cs" />
     <Compile Include="ProjectEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReimbursementEntity.cs" />
     <Compile Include="RoleEntity.cs" />
     <Compile Include="RoleMenuEntity.cs" />
     <Compile Include="TaskEntity.cs" />

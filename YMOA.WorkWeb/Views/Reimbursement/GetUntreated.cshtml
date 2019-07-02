@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<div id="topPanel" class="topPanel" data-departmentId="@Session["DepartmentId"].ToString()" data-dutyId="@Session["DutyId"].ToString()">
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>
+@section scripts {
+    @Scripts.Render("~/Content/js/datepicker/WdatePicker.js", "~/Content/bootstrap-select/js/bootstrap-select.min.js", "~/Content/bootstrap-select/js/i18n/defaults-zh_CN.min.js")
+}

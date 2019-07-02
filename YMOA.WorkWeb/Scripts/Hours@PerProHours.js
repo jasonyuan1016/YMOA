@@ -1,7 +1,7 @@
-﻿var ProjectId = $.request("ID");
+﻿var PerId = $.request("ID");
 
 function btn_back() {
-    location.href = "/Hours/Index";
+    location.href = "/Hours/PerHours";
 }
 
 $(function () {
@@ -9,9 +9,17 @@ $(function () {
     btn_task();
 })
 function gridList() {
+    //var now = new Date();
+    //var startday = ("0" + (now.getDate() - 7)).slice(-2);
+    //var endday = ("0" + now.getDate()).slice(-2);
+    //var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    //var start = now.getFullYear() + "-" + (month) + "-" + (startday);
+    //var end = now.getFullYear() + "-" + (month) + "-" + (endday);
+    //$("#StartTime").val(start);
+    //$("#EndTime").val(end);
     var $gridList = $("#gridList");
     $gridList.dataGrid({
-        url: "/Hours/GetProjectByPerson?ProName=" + ProjectId,
+        url: "/Hours/GetProjectHoursByPerson?PerName=" + PerId,
         height: $(window).height() - 128,
         colModel: [
             { label: PageResx.col_Name, name: 'TaskId', width: 80, align: 'left' },
@@ -20,7 +28,7 @@ function gridList() {
             {
                 label: PageResx.col_operation, name: 'ProjectId', width: 80, align: 'center',
                 formatter: function (cellvalue, options, rowObject) {
-                    var update = '<a id="task" authorize="yes" data-id="' + cellvalue + '" data-pid="' + rowObject.PersonName + '">进入</a>'
+                    var update = '<a id="task" authorize="yes" data-id="' + cellvalue + '" data-pid="' + rowObject.ProjectId + '">进入</a>'
                     return update;
                 }
             }
@@ -47,6 +55,6 @@ function btn_task() {
     $("#gridList").on("click", "#task", function () {
         var ID = $(this).data("pid");
        //console.log(ID)
-        location.href = "/Hours/TaskHours?proID=" + ProjectId + "&person=" + ID + "&type=2";
+        location.href = "/Hours/TaskHours?proID=" + ID + "&person=" + PerId+"&type=1";
     })
 }

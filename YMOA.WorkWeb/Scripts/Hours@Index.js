@@ -1,6 +1,15 @@
-﻿$(function () {
+﻿function btn_Pro() {
+    location.href = "/Hours/Index";
+}
+function btn_Per() {
+    console.log("a");
+    location.href = "/Hours/PerHours";
+}
+$(function () {
     gridList();
     btn_task();
+   
+
 })
 function gridList() {
     var $gridList = $("#gridList");
@@ -32,4 +41,5 @@ function btn_task() {
         console.log(ID )
         location.href = "/Hours/ProHours?ID=" + ID;
     })
-}
+};
+

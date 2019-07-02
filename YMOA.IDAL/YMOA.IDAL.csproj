@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="IHoursDAL.cs" />
     <Compile Include="IProjectDAL.cs" />
+    <Compile Include="IReimbursementDAL.cs" />
     <Compile Include="ISystemDAL.cs" />
     <Compile Include="ITaskDAL.cs" />
     <Compile Include="ITeamDAL.cs" />

@@ -129,6 +129,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\MemuController.cs" />
+    <Compile Include="Controllers\ReimbursementController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\CommonData.cs" />
@@ -541,7 +542,10 @@
     <Content Include="Content\bootstrap-select\js\i18n\defaults-zh_CN.js.map" />
     <Content Include="Content\bootstrap-select\js\i18n\defaults-zh_TW.js.map" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Scripts\Hours%40PerHours.js" />
+    <Content Include="Scripts\Hours%40PerProHours.js" />
     <Content Include="Scripts\Hours%40ProHours.js" />
+    <Content Include="Scripts\Hours%40TaskHours.js" />
     <Content Include="Scripts\Item%40Index.js" />
     <Content Include="Scripts\Item%40ProjectEdit.js" />
     <Content Include="Scripts\Item%40Task.js" />
@@ -551,6 +555,8 @@
     <Content Include="Scripts\Login%40Index.js" />
     <Content Include="Scripts\Memu%40Index.js" />
     <Content Include="Scripts\Memu%40Edit.js" />
+    <Content Include="Scripts\Reimbursement%40GetUntreated.js" />
+    <Content Include="Scripts\Reimbursement%40Index.js" />
     <Content Include="Scripts\resx\en-us\global.js" />
     <Content Include="Scripts\resx\en-us\Group%40Index.js" />
     <Content Include="Scripts\resx\en-us\Hours%40Index.js" />
@@ -561,6 +567,9 @@
     <Content Include="Scripts\Hours%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\global.js" />
     <Content Include="Scripts\resx\zh-cn\Group%40Index.js" />
+    <Content Include="Scripts\resx\zh-cn\Hours%40PerHours.js" />
+    <Content Include="Scripts\resx\zh-cn\Hours%40PerProHours.js" />
+    <Content Include="Scripts\resx\zh-cn\Hours%40TaskHours.js" />
     <Content Include="Scripts\resx\zh-cn\Hours%40ProHours.js" />
     <Content Include="Scripts\resx\zh-cn\Hours%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Item%40Index.js" />
@@ -570,6 +579,8 @@
     <Content Include="Scripts\resx\zh-cn\Library%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Login%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Memu%40Index.js" />
+    <Content Include="Scripts\resx\zh-cn\Reimbursement%40GetUntreated.js" />
+    <Content Include="Scripts\resx\zh-cn\Reimbursement%40Index.js" />
     <Content Include="Scripts\resx\zh-cn\Task%40BatchAdd.js" />
     <Content Include="Scripts\resx\zh-cn\Task%40BatchChildToAdd.js" />
     <Content Include="Scripts\resx\zh-cn\Task%40Edit.js" />
@@ -612,6 +623,11 @@
     <Content Include="Views\Item\Task.cshtml" />
     <Content Include="Views\Hours\Index.cshtml" />
     <Content Include="Views\Hours\ProHours.cshtml" />
+    <Content Include="Views\Hours\TaskHours.cshtml" />
+    <Content Include="Views\Hours\PerHours.cshtml" />
+    <Content Include="Views\Hours\PerProHours.cshtml" />
+    <Content Include="Views\Reimbursement\GetUntreated.cshtml" />
+    <Content Include="Views\Reimbursement\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
