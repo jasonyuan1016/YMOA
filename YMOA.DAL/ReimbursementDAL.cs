@@ -34,6 +34,14 @@ namespace YMOA.DAL
                 return JsonConvert.SerializeObject(new { rows = objRet, Count = Count });
             }
         }
+
+        /// <summary>
+        /// 查询所有
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pairs"></param>
+        /// <param name="pagination"></param>
+        /// <returns></returns>
         public IEnumerable<T> QryRei<T>(Dictionary<string,object>pairs,Pagination pagination)
         {
             WhereBuilder builder = new WhereBuilder();
@@ -43,6 +51,13 @@ namespace YMOA.DAL
             builder.AddWhereAndParameter(pairs, "Applicant");
             return SortAndPage<T>(builder, pagination);
         }
+
+        /// <summary>
+        /// 通过ID查询报销单
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         public T QryReimbursement <T>(string ID)
         {
             DynamicParameters dp = new DynamicParameters();
@@ -72,6 +87,12 @@ namespace YMOA.DAL
                 return StandardInsert("tbReimbursement", paras,"");
             }
         }
+
+        /// <summary>
+        /// 删除当前报销单
+        /// </summary>
+        /// <param name="ID">报销ID</param>
+        /// <returns></returns>
         public int Delete(string ID)
         {
             string strSql = "delete from tbReimbursement where ID ='"+ID+"'";

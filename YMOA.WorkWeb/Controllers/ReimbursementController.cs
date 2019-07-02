@@ -18,7 +18,7 @@ namespace YMOA.WorkWeb.Controllers
     public class ReimbursementController : BaseController
     {
         #region  添加/修改报销单
-        // GET: Reimbursement
+
         /// <summary>
         /// modal页面
         /// </summary>
@@ -41,6 +41,7 @@ namespace YMOA.WorkWeb.Controllers
             }
             
         }
+
         /// <summary>
         /// 添加报销单
         /// </summary>
@@ -50,6 +51,7 @@ namespace YMOA.WorkWeb.Controllers
         {
             return SubmitForm(reimbursement);
         }
+
         /// <summary>
         /// 修改报销单（主要用于审批功能）
         /// </summary>
@@ -71,6 +73,7 @@ namespace YMOA.WorkWeb.Controllers
             reimbursement.State = state;
             return SubmitForm(reimbursement);
         }
+
         /// <summary>
         /// 保存/修改方法
         /// </summary>
@@ -99,8 +102,11 @@ namespace YMOA.WorkWeb.Controllers
                 return OperationReturn(DALUtility.ReimbursementCore.Save(paras) > 0);
             }
         }
+
         #endregion
+
         #region 查看当前用户能看的所有报销单
+
         /// <summary>
         /// 查看页面
         /// </summary>
@@ -109,6 +115,7 @@ namespace YMOA.WorkWeb.Controllers
         {
             return View();
         }
+
         /// <summary>
         /// 查看方法
         /// </summary>
@@ -130,12 +137,24 @@ namespace YMOA.WorkWeb.Controllers
             var objRet = DALUtility.ReimbursementCore.QryRei<ReimbursementEntity>(paras, pagination);
             return Content(JsonConvert.SerializeObject(objRet));
         }
+
         #endregion
+
         #region 未处理报销单
+
+        /// <summary>
+        /// 未处理报销单页面
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GetUntreated()
         {
             return View();
         }
+
+        /// <summary>
+        /// 未处理报销单列表
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GetUntreatedRB()
         {
             string userId = Session["UserId"].ToString();
@@ -158,8 +177,16 @@ namespace YMOA.WorkWeb.Controllers
             }
             return Content(DALUtility.ReimbursementCore.QryUntreated(dp));
         }
+
         #endregion
+
         #region 删除报销单（主要用于撤回功能）
+
+        /// <summary>
+        ///  删除报销单（主要用于撤回功能）
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         public ActionResult Delete(string ID)
         {
             return OperationReturn(DALUtility.ReimbursementCore.Delete(ID) > 0);

@@ -115,7 +115,5 @@ namespace YMOA.DAL
             return QueryList<T>(sql, paras);
         }
 
-
-
     }
 }

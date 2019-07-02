@@ -199,7 +199,5 @@ namespace YMOA.DAL
             return Execute("P_User_SetCharge", new { DepartmentId = departmentId, AccountName = accountName }, CommandType.StoredProcedure) > 0;
         }
 
-
-
     }
 }
