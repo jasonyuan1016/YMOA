@@ -34,31 +34,15 @@ namespace YMOA.DAL
                 return JsonConvert.SerializeObject(new { rows = objRet, Count = Count });
             }
         }
-
-        /// <summary>
-        /// 按条件查询所有的报销单
-        /// </summary>
-        /// <typeparam name="T">传入类型，返回类型</typeparam>
-        /// <param name="dp">条件</param>
-        /// <param name="pagination">分页信息</param>
-        /// <returns></returns>
-        public IEnumerable<T> QryAll<T>(DynamicParameters dp,Pagination pagination)
+        public IEnumerable<T> QryRei<T>(Dictionary<string,object>pairs,Pagination pagination)
         {
-            using(IDbConnection conn = GetConnection())
-            {
-                dp.Add("Count", null, DbType.Int32, ParameterDirection.Output);
-                var objRet = conn.Query<T>("P_Select_AllReimbursement", dp, null, true, null, CommandType.StoredProcedure);
-                pagination.records = dp.Get<int>("Count");
-                return objRet;
-            }
+            WhereBuilder builder = new WhereBuilder();
+            builder.FromSql = "tbReimbursement";
+            builder.AddWhereAndParameter(pairs, "ID");
+            builder.AddWhereAndParameter(pairs, "Department");
+            builder.AddWhereAndParameter(pairs, "Applicant");
+            return SortAndPage<T>(builder, pagination);
         }
-
-        /// <summary>
-        /// 通过ID查询报销单
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ID"></param>
-        /// <returns></returns>
         public T QryReimbursement <T>(string ID)
         {
             DynamicParameters dp = new DynamicParameters();
@@ -87,6 +71,11 @@ namespace YMOA.DAL
                 paras["ID"] = Guid.NewGuid().To16String();
                 return StandardInsert("tbReimbursement", paras,"");
             }
+        }
+        public int Delete(string ID)
+        {
+            string strSql = "delete from tbReimbursement where ID ='"+ID+"'";
+            return Execute(strSql);
         }
     }
 }

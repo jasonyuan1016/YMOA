@@ -30,20 +30,25 @@ namespace YMOA.IDAL
         string QryUntreated(DynamicParameters dp);
 
         /// <summary>
-        /// 按条件查询所有的报销单
-        /// </summary>
-        /// <typeparam name="T">传入类型，返回类型</typeparam>
-        /// <param name="dp">条件</param>
-        /// <param name="pagination">分页信息</param>
-        /// <returns></returns>
-        IEnumerable<T> QryAll<T>(DynamicParameters dp, Pagination pagination);
-
-        /// <summary>
         /// 通过ID查询报销单
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="ID"></param>
         /// <returns></returns>
         T QryReimbursement<T>(string ID);
+        /// <summary>
+        /// 查询所有
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pairs"></param>
+        /// <param name="pagination"></param>
+        /// <returns></returns>
+        IEnumerable<T> QryRei<T>(Dictionary<string, object> pairs, Pagination pagination);
+        /// <summary>
+        /// 删除当前报销单
+        /// </summary>
+        /// <param name="ID">报销ID</param>
+        /// <returns></returns>
+        int Delete(string ID);
     }
 }

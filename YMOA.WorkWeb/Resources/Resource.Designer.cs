@@ -259,7 +259,7 @@ namespace YMOA.WorkWeb.Resources {
         }
         
         /// <summary>
-        ///   查找类似 费用报销 的本地化字符串。
+        ///   查找类似 报销账单 的本地化字符串。
         /// </summary>
         public static string menu_reimbursement {
             get {
