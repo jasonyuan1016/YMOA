@@ -2,6 +2,7 @@
 var dutyId = $("#topPanel").data('dutyid');
 var flag = true;
 var booFlag = true;
+//初始化
 $(function () {
     flag = (departmentId == 4) ? true : false;
     if (departmentId != 4 && dutyId == 1) {
@@ -19,7 +20,10 @@ $(function () {
     };
     disagree();
     agree();
+    del();
+    Reiterate()
 });
+//员工模板
 function empGridList() {
     var $gridList = $("#gridList");
     var department = top.clients.departments;
@@ -83,6 +87,20 @@ function empGridList() {
                     })
                     return state;
                 }
+            },
+            {
+                label: PageResx.col_oper, name: 'ID', width: 140, align: 'left',
+                formatter: function (cellvalue, options, rowObject) {
+                    var oper = "";
+                    if (rowObject.State == 1 || rowObject.State == 4) {
+                        oper = '<a id="withdraw" data-id="' + cellvalue + '">撤回</a>';
+                        oper += '&nbsp;&nbsp;&nbsp;&nbsp' + '<a id="Reiterate" data-id="' + cellvalue + '">重申</a>';
+                        return oper;
+                    } else {
+                        oper = '不可操作';
+                        return oper;
+                    }
+                }
             }
         ],
         pager: "#gridPager",
@@ -93,6 +111,7 @@ function empGridList() {
         viewrecords: true
     });
 }
+//管理人员模板
 function managerGridList() {
     var $gridList = $("#gridList");
     var department = top.clients.departments;
@@ -160,7 +179,8 @@ function managerGridList() {
         rowList: [10, 20, 30, 40, 50],
         viewrecords: true
     });
-}
+} 
+//财务模板
 function financeGridList() {
     var $gridList = $("#gridList");
     var department = top.clients.departments;
@@ -241,6 +261,7 @@ function financeGridList() {
         viewrecords: true
     });
 }
+//不批准方法
 function disagree() {
     $("#gridList").on("click", "#disagree", function () {
         var state = $("#disagree").data("state");
@@ -266,12 +287,12 @@ function disagree() {
         });
     });
 }
+//同意方法
 function agree() {
     $("#gridList").on("click", "#agree", function () {
         var state = $("#agree").data("state");
         var id = $("#agree").data("id");
         state += 1;
-        console.log(state + "," + id);
         $.modalConfirm("注：您确定要【同意】该项报销吗？", function (r) {
             if (r) {
                 $.submitForm({
@@ -282,6 +303,37 @@ function agree() {
                     }
                 })
             }
+        });
+    });
+}
+//撤回方法
+function del() {
+    $("#gridList").on("click", "#withdraw", function () {
+        var id = $(this).data("id");
+        $.modalConfirm("注：您确定要【撤回】该项报销吗？", function (r) {
+            if (r) {
+                $.submitForm({
+                    url: "/Reimbursement/Delete",
+                    param: { ID: id },
+                    success: function () {
+                        $.currentWindow().$("#gridList").trigger("reloadGrid");
+                    }
+                })
+            }
+        })
+    });
+}
+//重新申请
+function Reiterate() {
+    $("#gridList").on("click", "#Reiterate", function () {
+        var ID = $(this).data("id");
+        $.modalOpen({
+            id: "Reimbursement",
+            title: "报销单",
+            url: "/Reimbursement/Index?ID="+ID,
+            width: "500px",
+            height: "350px",
+            btn: null
         });
     });
 }

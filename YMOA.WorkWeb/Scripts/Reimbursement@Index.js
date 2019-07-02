@@ -32,7 +32,7 @@ function submitForm() {
     reimbursement.State = reimbursement.Level == 1 ? 1 : 2;
     reimbursement.Applicant = $("#txtApplicant").data("id");
     $.ajax({
-        url: "/Reimbursement/Add",
+        url: "/Reimbursement/" + (!!reimbursement.ID == true ? "SubmitForm" : "Add"),
         data: reimbursement,
         type: "POST",
         dataType: "json",

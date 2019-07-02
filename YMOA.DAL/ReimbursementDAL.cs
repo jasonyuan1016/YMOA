@@ -29,17 +29,6 @@ namespace YMOA.DAL
                 return JsonConvert.SerializeObject(new { rows = objRet, Count = Count });
             }
         }
-        public IEnumerable<T> QryAll<T>(DynamicParameters dp,Pagination pagination)
-        {
-            using(IDbConnection conn = GetConnection())
-            {
-                dp.Add("Count", null, DbType.Int32, ParameterDirection.Output);
-                var objRet = conn.Query<T>("P_Select_AllReimbursement", dp, null, true, null, CommandType.StoredProcedure);
-                pagination.records = dp.Get<int>("Count");
-                return objRet;
-            }
-
-        }
         public IEnumerable<T> QryRei<T>(Dictionary<string,object>pairs,Pagination pagination)
         {
             WhereBuilder builder = new WhereBuilder();
@@ -71,6 +60,11 @@ namespace YMOA.DAL
                 paras["ID"] = Guid.NewGuid().To16String();
                 return StandardInsert("tbReimbursement", paras,"");
             }
+        }
+        public int Delete(string ID)
+        {
+            string strSql = "delete from tbReimbursement where ID ='"+ID+"'";
+            return Execute(strSql);
         }
     }
 }
