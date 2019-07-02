@@ -55,7 +55,6 @@ function submitForm() {
     var team = [];
     $.each(teams, function (index, ele) {
         var _p = { "Person": ele };
-        console.log(_p);
         team.push(_p);
     });
     var victors = $("#sltVictors").selectpicker('val');

@@ -2,7 +2,6 @@
     location.href = "/Hours/Index";
 }
 function btn_Per() {
-    console.log("a");
     location.href = "/Hours/PerHours";
 }
 $(function () {
@@ -38,7 +37,6 @@ function gridList() {
 function btn_task() {
     $("#gridList").on("click", "#task", function () {
         var ID = $(this).data("pid");
-        console.log(ID )
         location.href = "/Hours/ProHours?ID=" + ID;
     })
 };

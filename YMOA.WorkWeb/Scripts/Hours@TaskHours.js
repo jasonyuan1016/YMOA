@@ -15,7 +15,6 @@ function btn_back() {
 
 $(function () {
     gridList();
-    //console.log(PerId)
 })
 function gridList() {
     //var now = new Date();

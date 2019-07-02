@@ -21,7 +21,7 @@
                 url: "/Hours/GetAllProject",
                 dataType: 'json'
             }).then((data) => {
-                console.log(data);
+                // console.log(data);
                 let sele = $("#seleData");
                 $.each(data, function (i, v) {
                     let op = $("<option value=" + v.TaskId + ">" + v.ProjectId + "</option>");
@@ -34,12 +34,12 @@
         //加载对应项目下的成员信息
         function onLoadHoursData() {
             let sele = $("#seleData");
-            console.log(sele.val())
+            // console.log(sele.val())
             $.ajax({
                 url: "/Hours/GetProjectByPerson?ProName=" + sele.val(),  
                 dataType: 'json'
             }).then((data) => {
-                console.log(data);
+                // console.log(data);
                 showChart(data);
             });
         };

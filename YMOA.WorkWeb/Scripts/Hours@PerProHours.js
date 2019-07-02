@@ -54,7 +54,6 @@ function gridList() {
 function btn_task() {
     $("#gridList").on("click", "#task", function () {
         var ID = $(this).data("pid");
-       //console.log(ID)
         location.href = "/Hours/TaskHours?proID=" + ID + "&person=" + PerId+"&type=1";
     })
 }
