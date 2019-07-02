@@ -18,7 +18,10 @@ namespace YMOA.WorkWeb.Controllers
     /// </summary>
     public class LoginController : BaseController
     {
-        // GET: Login
+        /// <summary>
+        /// 登录页
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();

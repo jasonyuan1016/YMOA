@@ -12,6 +12,10 @@ namespace YMOA.UnitTest
     [TestClass]
     public class PagerTest
     {
+
+        /// <summary>
+        /// 测试查询用户列表
+        /// </summary>
         [TestMethod]
         public void TestMethod1()
         {
@@ -32,6 +36,10 @@ namespace YMOA.UnitTest
             };
             Assert.AreNotEqual(pagination.records, 0);
         }
+
+        /// <summary>
+        /// 测试查询项目基本信息并分页
+        /// </summary>
         [TestMethod]
         public void TestMethod2()
         {
@@ -53,6 +61,10 @@ namespace YMOA.UnitTest
 
             Assert.AreNotEqual(pagination.records, 0);
         }
+
+        /// <summary>
+        /// 测试添加/修改项目
+        /// </summary>
         [TestMethod]
         public void TestMethod3()
         {

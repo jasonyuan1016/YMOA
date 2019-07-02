@@ -28,6 +28,7 @@ namespace YMOA.DAL
             string sql = "select tbProduct.ID TaskId, tbProduct.Name as ProjectId ,sum(Consume) as Hour from tbTask join tbTeam on tbTask.ID = tbTeam.TaskId join tbProduct on tbTask.ProjectId = tbProduct.ID group by tbProduct.Name ,tbProduct.ID";
             return QueryList<T>(sql);
         }
+
         /// <summary>
         /// 获取所有成员工时
         /// </summary>
@@ -63,7 +64,8 @@ namespace YMOA.DAL
             }
             sql += " GROUP BY PName,RealName,Person";
             return QueryList<T>(sql, paras);
-        } 
+        }
+
         /// <summary>
         /// 获取成员在各项目中工时详情
         /// </summary>

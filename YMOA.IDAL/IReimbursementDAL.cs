@@ -28,6 +28,7 @@ namespace YMOA.IDAL
         /// <param name="dp">参数</param>
         /// <returns></returns>
         string QryUntreated(DynamicParameters dp);
+
         /// <summary>
         /// 按条件查询所有的报销单
         /// </summary>
@@ -36,6 +37,7 @@ namespace YMOA.IDAL
         /// <param name="pagination">分页信息</param>
         /// <returns></returns>
         IEnumerable<T> QryAll<T>(DynamicParameters dp, Pagination pagination);
+
         /// <summary>
         /// 通过ID查询报销单
         /// </summary>

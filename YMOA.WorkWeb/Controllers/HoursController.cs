@@ -38,6 +38,7 @@ namespace YMOA.WorkWeb.Controllers
         public ActionResult TaskHours() {
             return View();
         }
+
         /// <summary>
         /// 返回成员工时页
         /// </summary>
@@ -46,6 +47,7 @@ namespace YMOA.WorkWeb.Controllers
         {
             return View();
         }
+
         /// <summary>
         /// 返回成员在各个项目工时页
         /// </summary>
@@ -66,6 +68,7 @@ namespace YMOA.WorkWeb.Controllers
             var hoursList = DALUtility.HoursCore.GetAllProject<HoursEntity>();
             return Content(hoursList.ToJson());
         }
+
         /// <summary>
         /// 获取所有成员工时
         /// </summary>
@@ -76,6 +79,7 @@ namespace YMOA.WorkWeb.Controllers
             var hoursList = DALUtility.HoursCore.GetAllPerson<HoursEntity>();
             return Content(hoursList.ToJson());
         }
+
         /// <summary>
         /// 获取项目中子成员工时详情
         /// </summary>
@@ -93,6 +97,7 @@ namespace YMOA.WorkWeb.Controllers
             var hoursList = DALUtility.HoursCore.GetProjectByPerson<HoursEntity>(paras);
             return Content(hoursList.ToJson());
         }
+
         /// <summary>
         /// 获取成员在项目中工时详情
         /// </summary>
@@ -110,6 +115,7 @@ namespace YMOA.WorkWeb.Controllers
             var hoursList = DALUtility.HoursCore.GetProjectHoursByPerson<HoursEntity>(paras);
             return Content(hoursList.ToJson());
         }
+
         /// <summary>
         /// 获取对应项目中成员的任务工时详情
         /// </summary>

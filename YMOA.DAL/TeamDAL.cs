@@ -17,11 +17,22 @@ namespace YMOA.DAL
     /// </summary>
     public class TeamDAL : BaseDal, ITeamDAL
     {
+        /// <summary>
+        /// 查询成员
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <returns></returns>
         public IEnumerable<T> QryTeam<T>(Dictionary<string, object> paras)
         {
             return QueryList<T>("P_Select_Team", paras, CommandType.StoredProcedure);
         }
 
+        /// <summary>
+        /// 批量添加成员
+        /// </summary>
+        /// <param name="listModel"></param>
+        /// <returns></returns>
         public int Save(List<TeamEntity> listModel)
         {
             int ret = 0;

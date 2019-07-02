@@ -15,16 +15,17 @@ namespace YMOA.IDAL
         /// 首次登陆强制修改密码
         /// </summary>
         bool InitUserPwd(UserEntity user);
-
-
+        
         /// <summary>
         /// 用户登录
         /// </summary>
         UserEntity UserLogin(Dictionary<string, object> paras);
-
+        
+        /// <summary>
+        /// 根据用户id获取用户
+        /// </summary>
         UserEntity GetUserByUserId(string userId);
-
-
+        
         /// <summary>
         /// 查询用户列表
         /// </summary>
@@ -42,6 +43,7 @@ namespace YMOA.IDAL
         /// <param name="paras">查询条件参数</param>
         /// <returns></returns>
         IEnumerable<T> QryUsers<T>(Pagination pagination, Dictionary<string, object> paras);
+
         IEnumerable<T> QryAllUser<T>();
         /// <summary>
         /// 查询用户资料
@@ -64,6 +66,7 @@ namespace YMOA.IDAL
         /// <param name="paras"></param>
         /// <returns></returns>
         int Save(Dictionary<string, object> paras);
+
         /// <summary>
         /// 仅删除用户(可批量删除)
         /// </summary>

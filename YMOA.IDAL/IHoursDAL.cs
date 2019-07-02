@@ -21,6 +21,7 @@ namespace YMOA.IDAL
         /// <param name="paras"></param>
         /// <returns></returns>
         IEnumerable<T> GetAllProject<T>();
+
         /// <summary>
         /// 获取所有成员工时
         /// </summary>
@@ -37,6 +38,7 @@ namespace YMOA.IDAL
         /// <param name="ProName">项目名称</param>
         /// <returns></returns>
         IEnumerable<T> GetProjectByPerson<T>(Dictionary<string, object> paras); 
+
         /// <summary>
         /// 获取项目中子任务工时详情
         /// </summary>
@@ -44,6 +46,7 @@ namespace YMOA.IDAL
         /// <param name="ProName">项目名称</param>
         /// <returns></returns>
         IEnumerable<T> GetProjectHoursByPerson<T>(Dictionary<string, object> paras);
+
         /// <summary>
         /// 获取对应项目中成员的任务工时详情
         /// </summary>

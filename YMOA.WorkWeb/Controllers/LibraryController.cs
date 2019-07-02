@@ -15,6 +15,10 @@ namespace YMOA.WorkWeb.Controllers
     /// </summary>
     public class LibraryController : BaseController
     {
+        /// <summary>
+        /// 管理页面
+        /// </summary>
+        /// <returns></returns>
         [PermissionFilter]
         public ActionResult Index()
         {

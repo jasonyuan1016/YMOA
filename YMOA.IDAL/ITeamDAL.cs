@@ -14,7 +14,19 @@ namespace YMOA.IDAL
     /// </summary>
     public interface ITeamDAL
     {
+        /// <summary>
+        /// 查询成员
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="paras"></param>
+        /// <returns></returns>
         IEnumerable<T> QryTeam<T>(Dictionary<string, object> paras);
+
+        /// <summary>
+        /// 批量添加成员
+        /// </summary>
+        /// <param name="listModels"></param>
+        /// <returns></returns>
         int Save(List<TeamEntity>listModels);
         
         /// <summary>

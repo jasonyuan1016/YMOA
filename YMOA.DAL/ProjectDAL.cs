@@ -26,6 +26,12 @@ namespace YMOA.DAL
             return Execute("P_Delete_ProjectANDTaskANDTeam", paras, CommandType.StoredProcedure) > 0;
         }
 
+        /// <summary>
+        /// 查询单个项目详细信息
+        /// </summary>
+        /// <typeparam name="T">传入类型，返回类型</typeparam>
+        /// <param name="dp">查询条件</param>
+        /// <returns></returns>
         public T QryProjectInfo<T>(DynamicParameters dp)
         {
             using (IDbConnection conn = GetConnection())
@@ -35,7 +41,14 @@ namespace YMOA.DAL
                 return objRet;
             }
         }
-
+        
+        /// <summary>
+        /// 查询项目基本信息
+        /// </summary>
+        /// <typeparam name="T">传入类型，返回类型</typeparam>
+        /// <param name="dp">查询条件</param>
+        /// <param name="pagination">分页条件</param>
+        /// <returns></returns>
         public IEnumerable<T> QryProjects<T>(DynamicParameters dp, Pagination pagination)
         {
             using (IDbConnection conn = GetConnection())
@@ -46,7 +59,12 @@ namespace YMOA.DAL
                 return objRet;
             }
         }
-
+        
+        /// <summary>
+        /// 修改/保存项目基本信息
+        /// </summary>
+        /// <param name="paras">修改/保存内容</param>
+        /// <returns></returns>
         public int Save(Dictionary<string, object> paras)
         {
             if (paras.ContainsKey("Team"))
